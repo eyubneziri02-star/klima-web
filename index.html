@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="mk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Незири Кардешлер Хвац Технолоџи - Решенија за климатизација</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* HEADER */
+        .header {
+            background: linear-gradient(135deg, #0a2540 0%, #153a5f 100%);
+            color: white;
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .logo a {
+            color: white;
+            text-decoration: none;
+            font-size: 1.5rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .nav-list {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+            flex: 1;
+            margin-left: 3rem;
+        }
+
+        .nav-link {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .nav-link:hover {
+            opacity: 0.8;
+        }
+
+        .header-cta {
+            background: #2ecc71;
+            color: white;
+            padding: 0.7rem 1.5rem;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .header-cta:hover {
+            background: #27ae60;
+        }
+
+        /* HERO */
+        .hero {
+            background: linear-gradient(135deg, #0a2540 0%, #153a5f 100%);
+            color: white;
+            padding: 4rem 2rem;
+            text-align: center;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .hero-headline {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            font-weight: bold;
+        }
+
+        .hero-subheadline {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            opacity: 0.95;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        /* BUTTONS */
+        .btn {
+            display: inline-block;
+            padding: 0.9rem 2rem;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-primary {
+            background: #0a2540;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #051b32;
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: white;
+            border: 2px solid white;
+        }
+
+        .btn-secondary:hover {
+            background: white;
+            color: #0a2540;
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: #2ecc71;
+            border: 2px solid #2ecc71;
+        }
+
+        .btn-outline:hover {
+            background: #2ecc71;
+            color: white;
+        }
+
+        /* SERVICES */
+        .services {
+            padding: 4rem 2rem;
+            background: white;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            text-align: center;
+            margin-bottom: 1rem;
+            color: #0a2540;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 3rem;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .service-card {
+            background: #f4f6f8;
+            padding: 2rem;
+            border-radius: 10px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .service-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            border: 2px solid #2ecc71;
+        }
+
+        .service-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .service-title {
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            color: #0a2540;
+        }
+
+        .service-description {
+            color: #666;
+            margin-bottom: 1.5rem;
+        }
+
+        .service-link {
+            color: #2ecc71;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .service-link:hover {
+            color: #27ae60;
+        }
+
+        /* PRODUCTS */
+        .products {
+            padding: 4rem 2rem;
+            background: #f4f6f8;
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .product-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .product-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .product-image {
+            width: 100%;
+            height: 200px;
+            overflow: hidden;
+            background: #e0e0e0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            color: #999;
+        }
+
+        .product-image img {
+            width: 100%;
+            height: auto;
+            object-fit: contain;
+        }
+
+        .product-content {
+            padding: 1.5rem;
+        }
+
+        .product-title {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            color: #0a2540;
+        }
+
+        .product-description {
+            color: #666;
+            margin-bottom: 1.5rem;
+            font-size: 0.95rem;
+        }
+
+        /* ABOUT/FEATURES */
+        .why-choose-us {
+            padding: 4rem 2rem;
+            background: white;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .feature-card {
+            text-align: center;
+            padding: 2rem;
+            border-radius: 10px;
+            background: #f4f6f8;
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover {
+            background: #0a2540;
+            color: white;
+            transform: translateY(-10px);
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .feature-title {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            color: #0a2540;
+        }
+
+        .feature-card:hover .feature-title {
+            color: white;
+        }
+
+        .feature-description {
+            color: #666;
+            font-size: 0.95rem;
+        }
+
+        .feature-card:hover .feature-description {
+            color: #f0f0f0;
+        }
+
+        /* CONTACT */
+        .contact-cta {
+            padding: 4rem 2rem;
+            background: linear-gradient(135deg, #0a2540 0%, #153a5f 100%);
+            color: white;
+            text-align: center;
+        }
+
+        .contact-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .contact-title {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .contact-description {
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+            opacity: 0.95;
+        }
+
+        .contact-methods {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .contact-method {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 1.5rem;
+            border-radius: 10px;
+        }
+
+        .contact-method-icon {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .contact-method-content h4 {
+            margin-bottom: 0.5rem;
+        }
+
+        .contact-method-content a {
+            color: #2ecc71;
+            text-decoration: none;
+        }
+
+        .contact-method-content a:hover {
+            opacity: 0.8;
+        }
+
+        /* FOOTER */
+        .footer {
+            background: #0a2540;
+            color: #ccc;
+            padding: 3rem 2rem 1rem;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto 2rem;
+        }
+
+        .footer-title {
+            color: #2ecc71;
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+            font-weight: bold;
+        }
+
+        .footer-links,
+        .footer-contact,
+        .footer-hours {
+            list-style: none;
+        }
+
+        .footer-links a,
+        .footer-contact a {
+            color: #ccc;
+            text-decoration: none;
+        }
+
+        .footer-links a:hover,
+        .footer-contact a:hover {
+            color: #2ecc71;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid #444;
+            padding-top: 2rem;
+            text-align: center;
+            color: #999;
+        }
+
+        .copyright a {
+            color: #2ecc71;
+        }
+
+        /* MOBILE */
+        @media (max-width: 768px) {
+            .hero-headline {
+                font-size: 2rem;
+            }
+
+            .nav-list {
+                display: none;
+            }
+
+            .header-cta {
+                display: none;
+            }
+
+            .hero-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .btn {
+                width: 100%;
+                max-width: 300px;
+            }
+
+            .section-title {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- HEADER -->
+    <header class="header">
+        <div class="header-container">
+            <div class="logo">
+                <a href="#home">
+                    <span class="logo-text">NKH TECH</span>
+                </a>
+            </div>
+            <nav class="nav-menu">
+                <ul class="nav-list">
+                    <li><a href="#home" class="nav-link">Почетна</a></li>
+                    <li><a href="#products" class="nav-link">Производи</a></li>
+                    <li><a href="#services" class="nav-link">Услуги</a></li>
+                    <li><a href="#about" class="nav-link">За нас</a></li>
+                    <li><a href="#contact" class="nav-link">Контакт</a></li>
+                </ul>
+            </nav>
+            <a href="#contact" class="header-cta">Бесплатна Понуда</a>
+        </div>
+    </header>
+
+    <!-- HERO -->
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <h1 class="hero-headline">Квалитетна опрема. Чиста монтажа. Сигурна работа</h1>
+            <p class="hero-subheadline">Фокусирани на долготрајни решенија и задоволни клиенти.</p>
+            <div class="hero-buttons">
+                <a href="#products" class="btn btn-primary">Видете ги производите</a>
+                <a href="#contact" class="btn btn-secondary">Контактирајте нас</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- SERVICES -->
+    <section id="services" class="services">
+        <div class="container">
+            <h2 class="section-title">Наши Услуги</h2>
+            <p class="section-subtitle">Нудиме продажба и професионална монтажа на клими, апарати за домаќинства, соларни и грејни системи.</p>
+            <div class="services-grid">
+                <article class="service-card">
+                    <div class="service-icon">❄️</div>
+                    <h3 class="service-title">Системи за Климатизација</h3>
+                    <p class="service-description">Напредни решенија за ладење со максимална удобност и енергетска ефикасност.</p>
+                    <a href="#contact" class="service-link">Дознајте повеќе →</a>
+                </article>
+
+                <article class="service-card">
+                    <div class="service-icon">🔥</div>
+                    <h3 class="service-title">Системи за Греење</h3>
+                    <p class="service-description">Ефикасни решенија за греење во студените сезони со модерни технологии.</p>
+                    <a href="#contact" class="service-link">Дознајте повеќе →</a>
+                </article>
+
+                <article class="service-card">
+                    <div class="service-icon">☀️</div>
+                    <h3 class="service-title">Соларни Системи</h3>
+                    <p class="service-description">Искористете ја соларната енергија на Северна Македонија. Намалете ги сметките за струја.</p>
+                    <a href="#contact" class="service-link">Дознајте повеќе →</a>
+                </article>
+
+                <article class="service-card">
+                    <div class="service-icon">🏠</div>
+                    <h3 class="service-title">Апарати за Домаќинства</h3>
+                    <p class="service-description">Премиум избор на модерни домашни апарати од водечки брендови.</p>
+                    <a href="#contact" class="service-link">Дознајте повеќе →</a>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <!-- PRODUCTS -->
+    <section id="products" class="products">
+        <div class="container">
+            <h2 class="section-title">Избрани Производи</h2>
+            <p class="section-subtitle">Разгледајте го нашето богато портфолио од решенија за климатизација и енергија</p>
+            <div class="products-grid">
+                <article class="product-card">
+                    <div class="product-image">❄️</div>
+                    <div class="product-content">
+                        <h3 class="product-title">Премиум Сплит АС Единица 18.000 BTU</h3>
+                        <p class="product-description">Енергетски ефикасен климатизер со паметна контрола на температурата.</p>
+                        <a href="#contact" class="btn btn-outline">Побарајте Цена</a>
+                    </div>
+                </article>
+
+                <article class="product-card">
+                    <div class="product-image">🔥</div>
+                    <div class="product-content">
+                        <h3 class="product-title">Топлинска Пумпа 12kW</h3>
+                        <p class="product-description">Двофункционално решение за греење и ладење. Перфектна ефикасност.</p>
+                        <a href="#contact" class="btn btn-outline">Побарајте Цена</a>
+                    </div>
+                </article>
+
+                <article class="product-card">
+                    <div class="product-image">☀️</div>
+                    <div class="product-content">
+                        <h3 class="product-title">Соларна Система 5kW</h3>
+                        <p class="product-description">Комплетна соларна инсталација со 10 премиум панели и интегриран инвертер.</p>
+                        <a href="#contact" class="btn btn-outline">Побарајте Цена</a>
+                    </div>
+                </article>
+
+                <article class="product-card">
+                    <div class="product-image">🔋</div>
+                    <div class="product-content">
+                        <h3 class="product-title">Енергетска Батерија 10kWh</h3>
+                        <p class="product-description">Чувајте соларна енергија за нощта. Напредна литиум-јонска технологија.</p>
+                        <a href="#contact" class="btn btn-outline">Побарајте Цена</a>
+                    </div>
+                </article>
+
+                <article class="product-card">
+                    <div class="product-image">❄️</div>
+                    <div class="product-content">
+                        <h3 class="product-title">Паметен Фрижидер 500L</h3>
+                        <p class="product-description">Модерен паметен фрижидер со контрола на температура преку мобилна апликација.</p>
+                        <a href="#contact" class="btn btn-outline">Побарајте Цена</a>
+                    </div>
+                </article>
+
+                <article class="product-card">
+                    <div class="product-image">
+                        <img src="https://media-ik.croma.com/prod/https://media.tatacroma.com/Croma%20Assets/Large%20Appliances/Washers%20and%20Dryers/Images/301211_0_b7s0m4.png" alt="Машина за Перeње 8kg">
+                    </div>
+                    <div class="product-content">
+                        <h3 class="product-title">Машина за Перeње 8kg</h3>
+                        <p class="product-description">Автоматска машина за перање со еко режим и тивко работење.</p>
+                        <a href="#contact" class="btn btn-outline">Побарајте Цена</a>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section id="about" class="why-choose-us">
+        <div class="container">
+            <h2 class="section-title">Зошто да изберете Nkh Tech?</h2>
+            <p class="section-subtitle">Ваш веродостоен партнер за решенија за климатизација и енергија</p>
+            <div class="features-grid">
+
+                <article class="feature-card">
+                    <div class="feature-icon">👨‍🔧</div>
+                    <h3 class="feature-title">Сертифицирани Техничари</h3>
+                    <p class="feature-description">Сите инсталации извршени од сертифицирани и лиценцирани професионалци.</p>
+                </article>
+
+                <article class="feature-card">
+                    <div class="feature-icon">♻️</div>
+                    <h3 class="feature-title">Енергетска Ефикасност</h3>
+                    <p class="feature-description">Сите наши решенија се насочени кон енергетска ефикасност и одржливост.</p>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact" class="contact-cta">
+        <div class="container">
+            <div class="contact-content">
+                <h2 class="contact-title">Спремни ли сте да го надградите вашиот дом?</h2>
+                <p class="contact-description">Дозволите нашим експертима да вам помогнат да го пронајдете совршеното решение. Контактирајте нас денес за бесплатна консултација.</p>
+
+                <div class="contact-methods">
+                    <div class="contact-method">
+                        <div class="contact-method-icon">📞</div>
+                        <div class="contact-method-content">
+                            <h4>Телефон</h4>
+                            <p><a href="tel:+38975652037+38978899369">+389 75 652 037 | +389 78 899 369</a></p>
+                        </div>
+                    </div>
+
+                    <div class="contact-method">
+                        <div class="contact-method-icon">📧</div>
+                        <div class="contact-method-content">
+                            <h4>Е-пошта</h4>
+                            <p><a href="mailto:nezirikardesler@gmail.com">nezirikardesler@gmail.com</a></p>
+                        </div>
+                    </div>
+
+                    <div class="contact-method">
+                        <div class="contact-method-icon">📍</div>
+                        <div class="contact-method-content">
+                            <h4>Адреса</h4>
+                            <p>Радовиш, Северна Македонија</p>
+                        </div>
+                    </div>
+                </div>
+
+                <a href="mailto:nezirikardesler@gmail.com" class="btn btn-primary">Добијте Бесплатна Понуда Денес</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4 class="footer-title">NKH TECH</h4>
+            </div>
+
+            <div class="footer-section">
+                <h4 class="footer-title">Брзи Врски</h4>
+                <ul class="footer-links">
+                    <li><a href="#home">Почетна</a></li>
+                    <li><a href="#products">Производи</a></li>
+                    <li><a href="#services">Услуги</a></li>
+                    <li><a href="#about">За нас</a></li>
+                    <li><a href="#contact">Контакт</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h4 class="footer-title">Информации за Контакт</h4>
+                <ul class="footer-contact">
+                    <li><strong>Телефон:</strong> <a href="tel:+38975652037+38978899369">+389 75 652 037 | +389 78 899 369</a></li>
+                    <li><strong>Е-пошта:</strong> <a href="mailto:nezirikardesler@gmail.com">nezirikardesler@gmail.com</a></li>
+                    <li><strong>Адреса:</strong><br>Радовиш, Северна Македонија</li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h4 class="footer-title">Работно Време</h4>
+                <ul class="footer-hours">
+                    <li>Понеделник - Сабота: 08:00 - 16:00</li>
+                    <li>Недела: Затворено</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p class="copyright">&copy; 2026 Незири Кардешлер Хвац Технолоџи. Сите права се резервирани. | <a href="privacy.html">Политика за Приватност</a> | <a href="terms.html">Услови на Користење</a></p> | <a href="security.html">Безбедност</a></p>
+        </div>
+    </footer>
+</body>
+</html>
