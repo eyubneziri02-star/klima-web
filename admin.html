@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="mk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Админ Панел - NKH Tech</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f4f6f8; color: #333; }
+
+        /* LOGIN */
+        .login-wrapper {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .login-box {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 400px;
+        }
+        .login-box h1 {
+            color: #0a2540;
+            margin-bottom: 0.5rem;
+            font-size: 1.5rem;
+        }
+        .login-box p {
+            color: #666;
+            margin-bottom: 1.5rem;
+            font-size: 0.9rem;
+        }
+        .form-group {
+            margin-bottom: 1rem;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 0.3rem;
+            font-weight: 600;
+            color: #0a2540;
+            font-size: 0.9rem;
+        }
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%;
+            padding: 0.7rem;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+            font-family: inherit;
+            transition: border-color 0.3s;
+        }
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+            outline: none;
+            border-color: #2ecc71;
+        }
+        .form-group textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+        .btn {
+            display: inline-block;
+            padding: 0.7rem 1.5rem;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .btn-primary { background: #0a2540; color: white; }
+        .btn-primary:hover { background: #051b32; }
+        .btn-success { background: #2ecc71; color: white; }
+        .btn-success:hover { background: #27ae60; }
+        .btn-danger { background: #e74c3c; color: white; font-size: 0.85rem; padding: 0.4rem 0.8rem; }
+        .btn-danger:hover { background: #c0392b; }
+        .btn-edit { background: #3498db; color: white; font-size: 0.85rem; padding: 0.4rem 0.8rem; }
+        .btn-edit:hover { background: #2980b9; }
+        .btn-full { width: 100%; }
+        .error-msg {
+            color: #e74c3c;
+            font-size: 0.85rem;
+            margin-top: 0.5rem;
+            display: none;
+        }
+
+        /* ADMIN PANEL */
+        .admin-wrapper { display: none; }
+        .admin-header {
+            background: linear-gradient(135deg, #0a2540 0%, #153a5f 100%);
+            color: white;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .admin-header h2 { font-size: 1.2rem; }
+        .admin-header .user-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            font-size: 0.9rem;
+        }
+        .admin-body {
+            max-width: 1000px;
+            margin: 2rem auto;
+            padding: 0 20px;
+        }
+        .admin-section {
+            background: white;
+            border-radius: 10px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+        }
+        .admin-section h3 {
+            color: #0a2540;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #2ecc71;
+        }
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        /* PRODUCTS TABLE */
+        .products-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .products-table th, .products-table td {
+            padding: 0.8rem;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+        .products-table th {
+            background: #f4f6f8;
+            color: #0a2540;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+        }
+        .products-table td { font-size: 0.9rem; }
+        .actions { display: flex; gap: 0.5rem; }
+        .category-badge {
+            display: inline-block;
+            padding: 0.2rem 0.6rem;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            background: #e8f5e9;
+            color: #27ae60;
+        }
+        .success-msg {
+            background: #d4edda;
+            color: #155724;
+            padding: 0.8rem;
+            border-radius: 5px;
+            margin-bottom: 1rem;
+            display: none;
+        }
+        .empty-state {
+            text-align: center;
+            padding: 2rem;
+            color: #999;
+        }
+
+        @media (max-width: 768px) {
+            .form-row { grid-template-columns: 1fr; }
+            .admin-header { flex-direction: column; gap: 0.5rem; }
+            .products-table { font-size: 0.8rem; }
+            .products-table th:nth-child(3),
+            .products-table td:nth-child(3) { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- LOGIN SCREEN -->
+    <div class="login-wrapper" id="loginScreen">
+        <div class="login-box">
+            <h1>NKH Tech Админ</h1>
+            <p>Внесете ги вашите податоци за да пристапите.</p>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="email">Е-пошта</label>
+                    <input type="email" id="email" required placeholder="admin@example.com">
+                </div>
+                <div class="form-group">
+                    <label for="password">Лозинка</label>
+                    <input type="password" id="password" required placeholder="Внесете лозинка">
+                </div>
+                <p class="error-msg" id="loginError"></p>
+                <button type="submit" class="btn btn-primary btn-full">Најави се</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- ADMIN PANEL -->
+    <div class="admin-wrapper" id="adminPanel">
+        <header class="admin-header">
+            <h2>NKH Tech - Админ Панел</h2>
+            <div class="user-info">
+                <span id="userEmail"></span>
+                <button class="btn btn-danger" id="logoutBtn">Одјави се</button>
+            </div>
+        </header>
+
+        <div class="admin-body">
+            <!-- ADD PRODUCT -->
+            <div class="admin-section">
+                <h3 id="formTitle">Додади Нов Производ</h3>
+                <div class="success-msg" id="successMsg">Производот е успешно зачуван!</div>
+                <form id="productForm">
+                    <input type="hidden" id="editId">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="prodName">Име на производ</label>
+                            <input type="text" id="prodName" required placeholder="пр. Сплит АС Единица 18.000 BTU">
+                        </div>
+                        <div class="form-group">
+                            <label for="prodCategory">Категорија</label>
+                            <select id="prodCategory" required>
+                                <option value="">-- Изберете --</option>
+                                <option value="klima">Климатизација</option>
+                                <option value="greenje">Греење</option>
+                                <option value="solar">Соларни Системи</option>
+                                <option value="aparat">Домашни Апарати</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="prodDescription">Опис</label>
+                        <textarea id="prodDescription" required placeholder="Краток опис на производот..."></textarea>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="prodIcon">Икона (емоџи)</label>
+                            <input type="text" id="prodIcon" placeholder="пр. &#10052;&#65039; &#128293; &#9728;&#65039;">
+                        </div>
+                        <div class="form-group">
+                            <label for="prodImage">URL на слика (опционално)</label>
+                            <input type="url" id="prodImage" placeholder="https://example.com/image.png">
+                        </div>
+                    </div>
+                    <div style="display: flex; gap: 0.5rem; margin-top: 0.5rem;">
+                        <button type="submit" class="btn btn-success">Зачувај</button>
+                        <button type="button" class="btn btn-primary" id="cancelEdit" style="display:none;">Откажи</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- PRODUCTS LIST -->
+            <div class="admin-section">
+                <h3>Постоечки Производи</h3>
+                <div id="productsList">
+                    <p class="empty-state">Се вчитува...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.5.0/firebase-app.js";
+        import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.5.0/firebase-auth.js";
+        import { getFirestore, collection, addDoc, getDocs, doc, updateDoc, deleteDoc, orderBy, query, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.5.0/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyDGJyG-sig-lyMNQRfSaFs0asF4GsoEBlk",
+            authDomain: "ensar-web.firebaseapp.com",
+            projectId: "ensar-web",
+            storageBucket: "ensar-web.firebasestorage.app",
+            messagingSenderId: "735933241875",
+            appId: "1:735933241875:web:e2e28cc1cc42ccbe8a7de6",
+            measurementId: "G-NPMCDEB7T2"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        const categoryLabels = {
+            klima: "Климатизација",
+            greenje: "Греење",
+            solar: "Соларни Системи",
+            aparat: "Домашни Апарати"
+        };
+
+        // --- AUTH ---
+        const loginScreen = document.getElementById('loginScreen');
+        const adminPanel = document.getElementById('adminPanel');
+        const loginForm = document.getElementById('loginForm');
+        const loginError = document.getElementById('loginError');
+        const userEmail = document.getElementById('userEmail');
+        const logoutBtn = document.getElementById('logoutBtn');
+
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                loginScreen.style.display = 'none';
+                adminPanel.style.display = 'block';
+                userEmail.textContent = user.email;
+                loadProducts();
+            } else {
+                loginScreen.style.display = 'flex';
+                adminPanel.style.display = 'none';
+            }
+        });
+
+        loginForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            loginError.style.display = 'none';
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            try {
+                await signInWithEmailAndPassword(auth, email, password);
+            } catch (err) {
+                loginError.textContent = 'Погрешна е-пошта или лозинка.';
+                loginError.style.display = 'block';
+            }
+        });
+
+        logoutBtn.addEventListener('click', () => signOut(auth));
+
+        // --- PRODUCTS CRUD ---
+        const productForm = document.getElementById('productForm');
+        const formTitle = document.getElementById('formTitle');
+        const editId = document.getElementById('editId');
+        const cancelEdit = document.getElementById('cancelEdit');
+        const successMsg = document.getElementById('successMsg');
+
+        productForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const data = {
+                name: document.getElementById('prodName').value.trim(),
+                category: document.getElementById('prodCategory').value,
+                description: document.getElementById('prodDescription').value.trim(),
+                icon: document.getElementById('prodIcon').value.trim(),
+                imageUrl: document.getElementById('prodImage').value.trim(),
+                updatedAt: serverTimestamp()
+            };
+
+            try {
+                if (editId.value) {
+                    await updateDoc(doc(db, 'products', editId.value), data);
+                    successMsg.textContent = 'Производот е ажуриран!';
+                } else {
+                    data.createdAt = serverTimestamp();
+                    await addDoc(collection(db, 'products'), data);
+                    successMsg.textContent = 'Производот е успешно додаден!';
+                }
+                successMsg.style.display = 'block';
+                setTimeout(() => successMsg.style.display = 'none', 3000);
+                resetForm();
+                loadProducts();
+            } catch (err) {
+                alert('Грешка: ' + err.message);
+            }
+        });
+
+        cancelEdit.addEventListener('click', resetForm);
+
+        function resetForm() {
+            productForm.reset();
+            editId.value = '';
+            formTitle.textContent = 'Додади Нов Производ';
+            cancelEdit.style.display = 'none';
+        }
+
+        // Make functions available globally for onclick handlers
+        window.editProduct = function(id, product) {
+            editId.value = id;
+            document.getElementById('prodName').value = product.name;
+            document.getElementById('prodCategory').value = product.category;
+            document.getElementById('prodDescription').value = product.description;
+            document.getElementById('prodIcon').value = product.icon || '';
+            document.getElementById('prodImage').value = product.imageUrl || '';
+            formTitle.textContent = 'Уреди Производ';
+            cancelEdit.style.display = 'inline-block';
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        };
+
+        window.deleteProduct = async function(id) {
+            if (!confirm('Дали сте сигурни дека сакате да го избришете овој производ?')) return;
+            try {
+                await deleteDoc(doc(db, 'products', id));
+                loadProducts();
+            } catch (err) {
+                alert('Грешка: ' + err.message);
+            }
+        };
+
+        async function loadProducts() {
+            const container = document.getElementById('productsList');
+            try {
+                const q = query(collection(db, 'products'), orderBy('createdAt', 'desc'));
+                const snapshot = await getDocs(q);
+
+                if (snapshot.empty) {
+                    container.innerHTML = '<p class="empty-state">Нема производи. Додадете го првиот!</p>';
+                    return;
+                }
+
+                let html = `<table class="products-table">
+                    <thead><tr>
+                        <th>Име</th>
+                        <th>Категорија</th>
+                        <th>Опис</th>
+                        <th>Акции</th>
+                    </tr></thead><tbody>`;
+
+                snapshot.forEach((docSnap) => {
+                    const p = docSnap.data();
+                    const shortDesc = p.description && p.description.length > 60
+                        ? p.description.substring(0, 60) + '...'
+                        : (p.description || '');
+                    html += `<tr>
+                        <td><strong>${escapeHtml(p.name)}</strong></td>
+                        <td><span class="category-badge">${categoryLabels[p.category] || p.category}</span></td>
+                        <td>${escapeHtml(shortDesc)}</td>
+                        <td class="actions">
+                            <button class="btn btn-edit" onclick='editProduct("${docSnap.id}", ${JSON.stringify(p).replace(/'/g, "&#39;")})'>Уреди</button>
+                            <button class="btn btn-danger" onclick='deleteProduct("${docSnap.id}")'>Избриши</button>
+                        </td>
+                    </tr>`;
+                });
+
+                html += '</tbody></table>';
+                container.innerHTML = html;
+            } catch (err) {
+                container.innerHTML = `<p class="empty-state">Грешка при вчитување: ${err.message}</p>`;
+            }
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+    </script>
+</body>
+</html>
