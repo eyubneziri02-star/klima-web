@@ -6,7 +6,11 @@
     <title>Админ Панел - NKH Tech</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f4f6f8; color: #333; }
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            background: #f4f6f8; 
+            color: #333; 
+        }
 
         /* LOGIN */
         .login-wrapper {
@@ -104,7 +108,7 @@
             font-size: 0.9rem;
         }
         .admin-body {
-            max-width: 1000px;
+            max-width: 1200px;
             margin: 2rem auto;
             padding: 0 20px;
         }
@@ -126,26 +130,32 @@
             grid-template-columns: 1fr 1fr;
             gap: 1rem;
         }
+        .form-row-3 {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 1rem;
+        }
 
-        /* PRODUCTS TABLE */
-        .products-table {
+        /* TABLES */
+        .table {
             width: 100%;
             border-collapse: collapse;
+            overflow-x: auto;
         }
-        .products-table th, .products-table td {
+        .table th, .table td {
             padding: 0.8rem;
             text-align: left;
             border-bottom: 1px solid #eee;
         }
-        .products-table th {
+        .table th {
             background: #f4f6f8;
             color: #0a2540;
             font-size: 0.85rem;
             text-transform: uppercase;
         }
-        .products-table td { font-size: 0.9rem; }
+        .table td { font-size: 0.9rem; }
         .actions { display: flex; gap: 0.5rem; }
-        .category-badge {
+        .badge {
             display: inline-block;
             padding: 0.2rem 0.6rem;
             border-radius: 12px;
@@ -168,12 +178,173 @@
             color: #999;
         }
 
+        /* TABS */
+        .tabs {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            border-bottom: 2px solid #eee;
+            overflow-x: auto;
+        }
+        .tab-btn {
+            padding: 0.8rem 1.5rem;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            color: #666;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s;
+            white-space: nowrap;
+        }
+        .tab-btn.active {
+            color: #2ecc71;
+            border-bottom-color: #2ecc71;
+        }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+
+        /* IMAGE PREVIEW */
+        .image-preview {
+            width: 100px;
+            height: 100px;
+            border-radius: 5px;
+            object-fit: cover;
+            margin-top: 0.5rem;
+        }
+
+        /* AD PREVIEW */
+        .ad-preview {
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            padding: 1rem;
+            margin-top: 1rem;
+            text-align: center;
+        }
+        .ad-preview img {
+            max-width: 100%;
+            max-height: 200px;
+            border-radius: 5px;
+            margin-bottom: 0.5rem;
+        }
+
         @media (max-width: 768px) {
-            .form-row { grid-template-columns: 1fr; }
+            .form-row, .form-row-3 { grid-template-columns: 1fr; }
             .admin-header { flex-direction: column; gap: 0.5rem; }
-            .products-table { font-size: 0.8rem; }
-            .products-table th:nth-child(3),
-            .products-table td:nth-child(3) { display: none; }
+            .table { font-size: 0.8rem; }
+            .tabs { overflow-x: auto; }
+        }
+
+                /* ⭐ İNDİRİM VE TAKSIT BÖLÜMÜ */
+                        .installment-option {
+            display: grid;
+            grid-template-columns: 1fr 1fr auto;
+            gap: 0.8rem;
+            padding: 1rem;
+            border: 2px solid #2ecc71;
+            border-radius: 8px;
+            background: #f0fdf4;
+            align-items: flex-end;
+            margin-bottom: 0.8rem;
+        }
+
+        .installment-option-input {
+            display: flex;
+            flex-direction: column;
+            gap: 0.3rem;
+        }
+
+        .installment-option-input label {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: #0a2540;
+        }
+
+        .installment-option-input input {
+            padding: 0.6rem;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            font-size: 0.9rem;
+        }
+
+        .installment-option-input input:focus {
+            outline: none;
+            border-color: #2ecc71;
+        }
+
+        .installment-option .remove-btn {
+            padding: 0.6rem 1rem;
+            background: #e74c3c;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .installment-option .remove-btn:hover {
+            background: #c0392b;
+        }
+
+        /* ⭐ RESİM UPLOAD */
+        .image-upload-area {
+            border: 2px dashed #2ecc71;
+            border-radius: 8px;
+            padding: 2rem;
+            text-align: center;
+            cursor: pointer;
+            background: #f0fdf4;
+            transition: all 0.3s;
+        }
+
+        .image-upload-area:hover {
+            background: #dcfce7;
+            border-color: #22c55e;
+        }
+
+        .image-upload-area.drag-over {
+            background: #dcfce7;
+            border-color: #16a34a;
+            transform: scale(1.02);
+        }
+
+        .image-preview-item {
+            position: relative;
+            width: 100px;
+            height: 100px;
+            border-radius: 8px;
+            overflow: hidden;
+            background: #f0f0f0;
+        }
+
+        .image-preview-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .image-preview-item .remove-btn {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background: #e74c3c;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        @media (max-width: 768px) {
+            .installment-grid-admin {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
@@ -187,7 +358,7 @@
             <form id="loginForm">
                 <div class="form-group">
                     <label for="email">Е-пошта</label>
-                    <input type="email" id="email" required placeholder="admin@example.com">
+                    <input type="email" id="email" required placeholder="admin@nkh.com">
                 </div>
                 <div class="form-group">
                     <label for="password">Лозинка</label>
@@ -210,235 +381,1313 @@
         </header>
 
         <div class="admin-body">
-            <!-- ADD PRODUCT -->
-            <div class="admin-section">
-                <h3 id="formTitle">Додади Нов Производ</h3>
-                <div class="success-msg" id="successMsg">Производот е успешно зачуван!</div>
-                <form id="productForm">
-                    <input type="hidden" id="editId">
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="prodName">Име на производ</label>
-                            <input type="text" id="prodName" required placeholder="пр. Сплит АС Единица 18.000 BTU">
-                        </div>
-                        <div class="form-group">
-                            <label for="prodCategory">Категорија</label>
-                            <select id="prodCategory" required>
-                                <option value="">-- Изберете --</option>
-                                <option value="klima">Климатизација</option>
-                                <option value="greenje">Греење</option>
-                                <option value="solar">Соларни Системи</option>
-                                <option value="aparat">Домашни Апарати</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="prodDescription">Опис</label>
-                        <textarea id="prodDescription" required placeholder="Краток опис на производот..."></textarea>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="prodIcon">Икона (емоџи)</label>
-                            <input type="text" id="prodIcon" placeholder="пр. &#10052;&#65039; &#128293; &#9728;&#65039;">
-                        </div>
-                        <div class="form-group">
-                            <label for="prodImage">URL на слика (опционално)</label>
-                            <input type="url" id="prodImage" placeholder="https://example.com/image.png">
-                        </div>
-                    </div>
-                    <div style="display: flex; gap: 0.5rem; margin-top: 0.5rem;">
-                        <button type="submit" class="btn btn-success">Зачувај</button>
-                        <button type="button" class="btn btn-primary" id="cancelEdit" style="display:none;">Откажи</button>
-                    </div>
-                </form>
+            <!-- TABS -->
+            <div class="tabs">
+                <button class="tab-btn active" onclick="showTab('products')">Производи</button>
+                <button class="tab-btn" onclick="showTab('categories')">Категории</button>
+                <button class="tab-btn" onclick="showTab('subcategories')">Подкатегории</button>
+                <button class="tab-btn" onclick="showTab('brands')">Марки</button>
+                <button class="tab-btn" onclick="showTab('ads')">Реклами</button>
+                <button class="tab-btn" onclick="showTab('orders')">Нарачки</button>
             </div>
 
-            <!-- PRODUCTS LIST -->
-            <div class="admin-section">
-                <h3>Постоечки Производи</h3>
-                <div id="productsList">
-                    <p class="empty-state">Се вчитува...</p>
+            <!-- PRODUCTS TAB -->
+            <div id="products" class="tab-content active">
+                <!-- ADD PRODUCT -->
+                <div class="admin-section">
+                    <h3 id="productFormTitle">Додади Нов Производ</h3>
+                    <div class="success-msg" id="productSuccessMsg">Производот е успешно зачуван!</div>
+                    <form id="productForm">
+                        <input type="hidden" id="productEditId">
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="prodName">Име на производ</label>
+                                <input type="text" id="prodName" required placeholder="пр. Сплит АС Единица 18.000 BTU">
+                            </div>
+                            <div class="form-group">
+                                <label for="prodBrand">Марка</label>
+                                <select id="prodBrand" required>
+                                    <option value="">-- Изберете марка --</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="prodCategory">Главна Категорија</label>
+                                <select id="prodCategory" required onchange="loadSubcategoriesForForm()">
+                                    <option value="">-- Изберете категорија --</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="prodSubcategory">Подкатегорија (опционално)</label>
+                                <select id="prodSubcategory">
+                                    <option value="">-- Нема подкатегорија --</option>
+                                </select>
+                            </div>
+                        </div>
+
+                                                <div class="form-group">
+                            <label for="prodPrice">Цена</label>
+                            <input type="number" id="prodPrice" required placeholder="пр. 35000" step="0.01">
+                        </div>
+
+                        <!-- ⭐ İNDİRİM BÖLÜMÜ -->
+                        <div class="form-group">
+                            <label for="prodDiscount">Инdirim %</label>
+                            <div style="display: flex; gap: 0.5rem; align-items: center;">
+                                <input type="number" id="prodDiscount" min="0" max="100" value="0" step="1" placeholder="0-100">
+                                <span style="font-size: 1.5rem; font-weight: bold;" id="discountPreview">-0%</span>
+                            </div>
+                        </div>
+
+                        <!-- ⭐ TAKSIT BÖLÜMÜ -->
+                        <div class="form-group">
+                            <label>📅 Taksit Seçenekleri</label>
+                            <div id="installmentsContainer"></div>
+                            <button type="button" class="btn btn-primary" style="margin-top: 1rem;" onclick="addInstallmentOption()">+ Taksit Seçeneği Ekle</button>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="prodDescription">Опис</label>
+                            
+                            <textarea id="prodDescription" required placeholder="Детален опис на производот..."></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="prodCharacteristics">Карактеристики (една по линија)</label>
+                            <textarea id="prodCharacteristics" placeholder="Енергетска ефикасност A++&#10;Паметна Wi-Fi контрола&#10;Тивок режим работе"></textarea>
+                        </div>
+
+                                                <!-- ⭐ RESİM UPLOAD BÖLÜMÜ -->
+                        <div class="form-group">
+                            <label for="prodImageUpload">Слики (Drag & Drop или кликни)</label>
+                            <div class="image-upload-area" id="prodImageUpload">
+                                <p style="margin: 0; font-size: 0.9rem;">📁 Повлечи слики овде или кликни за избор</p>
+                                <input type="file" id="prodImageInput" multiple accept="image/png,image/jpeg,image/webp" style="display: none;">
+                            </div>
+                            <div id="prodImagePreviewContainer" style="display: flex; flex-wrap: wrap; gap: 1rem; margin-top: 1rem;"></div>
+                        </div>
+
+                        <!-- ⭐ URL РЕСİМИ -->
+                        <div class="form-group">
+                            <label for="prodImages">URL адреси на слики (една по линија)</label>
+                            <textarea id="prodImages" placeholder="https://example.com/image1.png&#10;https://example.com/image2.png&#10;https://example.com/image3.png"></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="prodPopular">
+                                <input type="checkbox" id="prodPopular">
+                                Препорачани производи
+                            </label>
+                        </div>
+
+                        <!-- ⭐ İNDİRİMLİ ÜRÜNLER CHECKBOX -->
+<div class="form-group">
+    <label for="prodShowDiscount">
+        <input type="checkbox" id="prodShowDiscount">
+        ✅ Додај во "Производи на попуст"
+    </label>
+    <small style="display: block; color: #666; margin-top: 0.3rem;">
+        💡 Ако имa попуст, оваа опција ќе биде отчекана автоматски
+    </small>
+</div>
+
+<!-- СТАРО: ИЗБРАНИ ПРОИЗВОДИ (опционално, можеш да ја избришеш или задржиш) -->
+<div class="form-group">
+    <label for="prodSelected">
+        <input type="checkbox" id="prodSelected">
+        Избрани Производи - прикажи (старо)
+    </label>
+</div>
+
+                        <div style="display: flex; gap: 0.5rem; margin-top: 1rem;">
+                            <button type="submit" class="btn btn-success">Зачувај Производ</button>
+                            <button type="button" class="btn btn-primary" id="productCancelBtn" style="display:none;">Откажи</button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- PRODUCTS LIST -->
+                <div class="admin-section">
+                    <h3>Постоечки Производи</h3>
+                    <div id="productsList">
+                        <p class="empty-state">Се вчитува...</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CATEGORIES TAB -->
+            <div id="categories" class="tab-content">
+                <!-- ADD CATEGORY -->
+                <div class="admin-section">
+                    <h3 id="categoryFormTitle">Додади Нова Главна Категорија</h3>
+                    <div class="success-msg" id="categorySuccessMsg">Категоријата е успешно зачувана!</div>
+                    <form id="categoryForm">
+                        <input type="hidden" id="categoryEditId">
+                        
+                        <div class="form-group">
+                            <label for="catName">Име на категорија</label>
+                            <input type="text" id="catName" required placeholder="пр. Климатизација">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="catDescription">Опис</label>
+                            <textarea id="catDescription" placeholder="Опис на категоријата..."></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="catIcon">Икона (емоџи)</label>
+                            <input type="text" id="catIcon" placeholder="пр. ❄️ 🔥 ☀️">
+                        </div>
+
+                        <div style="display: flex; gap: 0.5rem; margin-top: 1rem;">
+                            <button type="submit" class="btn btn-success">Зачувај Категорија</button>
+                            <button type="button" class="btn btn-primary" id="categoryCancelBtn" style="display:none;">Откажи</button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- CATEGORIES LIST -->
+                <div class="admin-section">
+                    <h3>Постоечки Главни Категории</h3>
+                    <div id="categoriesList">
+                        <p class="empty-state">Се вчитува...</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SUBCATEGORIES TAB -->
+            <div id="subcategories" class="tab-content">
+                <!-- ADD SUBCATEGORY -->
+                <div class="admin-section">
+                    <h3 id="subcategoryFormTitle">Додади Нова Подкатегорија</h3>
+                    <div class="success-msg" id="subcategorySuccessMsg">Подкатегоријата е успешно зачувана!</div>
+                    <form id="subcategoryForm">
+                        <input type="hidden" id="subcategoryEditId">
+                        
+                        <div class="form-group">
+                            <label for="subcatParent">Главна Категорија</label>
+                            <select id="subcatParent" required>
+                                <option value="">-- Изберете главна категорија --</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="subcatName">Име на подкатегорија</label>
+                            <input type="text" id="subcatName" required placeholder="пр. Фрижидери">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="subcatDescription">Опис</label>
+                            <textarea id="subcatDescription" placeholder="Опис на подкатегоријата..."></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="subcatIcon">Икона (емоџи)</label>
+                            <input type="text" id="subcatIcon" placeholder="пр. ❄️">
+                        </div>
+
+                        <div style="display: flex; gap: 0.5rem; margin-top: 1rem;">
+                            <button type="submit" class="btn btn-success">Зачувај Подкатегорија</button>
+                            <button type="button" class="btn btn-primary" id="subcategoryCancelBtn" style="display:none;">Откажи</button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- SUBCATEGORIES LIST -->
+                <div class="admin-section">
+                    <h3>Постоечки Подкатегории</h3>
+                    <div id="subcategoriesList">
+                        <p class="empty-state">Се вчитува...</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- BRANDS TAB -->
+            <div id="brands" class="tab-content">
+                <!-- ADD BRAND -->
+                <div class="admin-section">
+                    <h3 id="brandFormTitle">Додади Нова Марка</h3>
+                    <div class="success-msg" id="brandSuccessMsg">Марката е успешно зачувана!</div>
+                    <form id="brandForm">
+                        <input type="hidden" id="brandEditId">
+                        
+                        <div class="form-group">
+                            <label for="brandName">Име на марка</label>
+                            <input type="text" id="brandName" required placeholder="пр. Daikin">
+                        </div>
+
+                        <div class="form-group">
+    <label>Подигни лого (PNG/JPG)</label>
+    <div class="image-upload-area" id="brandLogoUpload">
+        <p style="margin: 0; font-size: 0.9rem;">📁 Повлечи лого овде или кликни</p>
+        <input type="file" id="brandLogoInput" accept="image/png,image/jpeg,image/webp" style="display: none;">
+    </div>
+    <img id="brandLogoPreview" style="max-width: 150px; max-height: 100px; margin-top: 10px; display: none; border-radius: 5px;">
+</div>
+
+                        <div class="form-group">
+                            <label for="brandLogo">URL на лого</label>
+                            <input type="url" id="brandLogo" placeholder="https://example.com/logo.png">
+                        </div>
+
+                        <div style="display: flex; gap: 0.5rem; margin-top: 1rem;">
+                            <button type="submit" class="btn btn-success">Зачувај Марка</button>
+                            <button type="button" class="btn btn-primary" id="brandCancelBtn" style="display:none;">Откажи</button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- BRANDS LIST -->
+                <div class="admin-section">
+                    <h3>Постоечки Марки</h3>
+                    <div id="brandsList">
+                        <p class="empty-state">Се вчитува...</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ADS TAB -->
+<div id="ads" class="tab-content">
+    <!-- ADD AD -->
+    <div class="admin-section">
+        <h3 id="adFormTitle">Додади Нова Реклама</h3>
+        <div class="success-msg" id="adSuccessMsg">Рекламата е успешно зачувана!</div>
+        <form id="adForm">
+            <input type="hidden" id="adEditId">
+            
+            <div class="form-group">
+                <label for="adTitle">Наслов на реклама</label>
+                <input type="text" id="adTitle" required placeholder="пр. Летна Промоција">
+            </div>
+
+            <div class="form-group">
+                <label for="adCategory">Категорија (опционално)</label>
+                <select id="adCategory">
+                    <option value="">-- Без категорија --</option>
+                </select>
+            </div>
+
+            <!-- DESKTOP IMAGE -->
+            <div class="form-group">
+                <label>📱 Desktop слика (1200x400px)</label>
+                <div class="image-upload-area" id="adDesktopImageUpload">
+                    <p style="margin: 0; font-size: 0.9rem;">📁 Повлечи слика овде или кликни</p>
+                    <input type="file" id="adDesktopImageInput" accept="image/png,image/jpeg,image/webp" style="display: none;">
+                </div>
+                <img id="adDesktopImg" style="max-width: 100%; max-height: 200px; margin-top: 10px; display: none; border-radius: 5px;">
+            </div>
+
+            <!-- MOBILE IMAGE -->
+            <div class="form-group">
+                <label>📱 Mobile слика (500x250px)</label>
+                <div class="image-upload-area" id="adMobileImageUpload">
+                    <p style="margin: 0; font-size: 0.9rem;">📁 Повлечи слика овде или кликни</p>
+                    <input type="file" id="adMobileImageInput" accept="image/png,image/jpeg,image/webp" style="display: none;">
+                </div>
+                <img id="adMobileImg" style="max-width: 100%; max-height: 200px; margin-top: 10px; display: none; border-radius: 5px;">
+            </div>
+
+            <div class="form-group">
+                <label for="adLink">Link (опционално)</label>
+                <input type="url" id="adLink" placeholder="https://example.com">
+            </div>
+
+            <div class="form-group">
+                <label for="adActive">
+                    <input type="checkbox" id="adActive" checked>
+                    Активна реклама
+                </label>
+            </div>
+
+            <div style="display: flex; gap: 0.5rem; margin-top: 1rem;">
+                <button type="submit" class="btn btn-success">Зачувај Реклама</button>
+                <button type="button" class="btn btn-primary" id="adCancelBtn" style="display:none;">Откажи</button>
+            </div>
+        </form>
+    </div>
+
+    <!-- ADS LIST -->
+    <div class="admin-section">
+        <h3>Постоечки Реклами</h3>
+        <div id="adsList">
+            <p class="empty-state">Се вчитува...</p>
+        </div>
+    </div>
+</div>
+
+            <!-- ORDERS TAB -->
+            <div id="orders" class="tab-content">
+                <div class="admin-section">
+                    <h3>Све Нарачки</h3>
+                    <div id="ordersList">
+                        <p class="empty-state">Се вчитува...</p>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.5.0/firebase-app.js";
-        import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.5.0/firebase-auth.js";
-        import { getFirestore, collection, addDoc, getDocs, doc, updateDoc, deleteDoc, orderBy, query, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.5.0/firebase-firestore.js";
+<!-- FIREBASE SDK -->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
+  import {
+    getAuth,
+    signInWithEmailAndPassword,
+    signOut,
+    onAuthStateChanged
+  } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-auth.js";
+  import {
+    getFirestore,
+    collection,
+    addDoc,
+    getDocs,
+    doc,
+    updateDoc,
+    deleteDoc,
+    query,
+    where,
+    orderBy
+  } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-firestore.js";
 
-        const firebaseConfig = {
-            apiKey: "AIzaSyDGJyG-sig-lyMNQRfSaFs0asF4GsoEBlk",
-            authDomain: "ensar-web.firebaseapp.com",
-            projectId: "ensar-web",
-            storageBucket: "ensar-web.firebasestorage.app",
-            messagingSenderId: "735933241875",
-            appId: "1:735933241875:web:e2e28cc1cc42ccbe8a7de6",
-            measurementId: "G-NPMCDEB7T2"
+  const firebaseConfig = {
+    apiKey: "AIzaSyDdIvgz3v-yztaA_C9HA0xfmITSOGmFWfE",
+    authDomain: "nkhtech-eu.firebaseapp.com",
+    projectId: "nkhtech-eu",
+    storageBucket: "nkhtech-eu.firebasestorage.app",
+    messagingSenderId: "913047068265",
+    appId: "1:913047068265:web:e80845e3b0e2662a0e8cf8"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db = getFirestore(app);
+
+  window.firebaseAuth = auth;
+  window.firebaseDb = db;
+  window.fbSignIn = signInWithEmailAndPassword;
+  window.fbSignOut = signOut;
+  window.fbOnAuthStateChanged = onAuthStateChanged;
+  window.fbCollection = collection;
+  window.fbAddDoc = addDoc;
+  window.fbGetDocs = getDocs;
+  window.fbDoc = doc;
+  window.fbUpdateDoc = updateDoc;
+  window.fbDeleteDoc = deleteDoc;
+  window.fbQuery = query;
+  window.fbWhere = where;
+  window.fbOrderBy = orderBy;
+
+  window.dispatchEvent(new Event('firebaseReady'));
+</script>
+
+    <script>
+    // ==================== CLOUDINARY CONFIG ====================
+    const CLOUDINARY_CLOUD_NAME = 'na5zq3ph';
+    const CLOUDINARY_UPLOAD_PRESET = 'sgzjsk3g';
+
+    async function uploadToCloudinary(file) {
+        const formData = new FormData();
+        formData.append('file', file);
+        formData.append('upload_preset', CLOUDINARY_UPLOAD_PRESET);
+
+        const res = await fetch(`https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/image/upload`, {
+            method: 'POST',
+            body: formData
+        });
+        const data = await res.json();
+        if (data.secure_url) {
+            return data.secure_url;
+        } else {
+            throw new Error(data.error ? data.error.message : 'Upload failed');
+        }
+    }
+
+    let currentUser = null;
+
+    // ==================== AUTH ====================
+    const loginForm = document.getElementById('loginForm');
+    const loginScreen = document.getElementById('loginScreen');
+    const adminPanel = document.getElementById('adminPanel');
+    const logoutBtn = document.getElementById('logoutBtn');
+    const userEmail = document.getElementById('userEmail');
+
+    loginForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+
+        try {
+            const userCredential = await window.fbSignIn(window.firebaseAuth, email, password);
+            currentUser = { email: userCredential.user.email };
+            showAdminPanel();
+        } catch (err) {
+            document.getElementById('loginError').textContent = 'Погрешна е-пошта или лозинка';
+            document.getElementById('loginError').style.display = 'block';
+        }
+    });
+
+    logoutBtn.addEventListener('click', async () => {
+        await window.fbSignOut(window.firebaseAuth);
+        loginForm.reset();
+        loginScreen.style.display = 'flex';
+        adminPanel.style.display = 'none';
+    });
+
+    function showAdminPanel() {
+        loginScreen.style.display = 'none';
+        adminPanel.style.display = 'block';
+        userEmail.textContent = currentUser.email;
+        loadAllData();
+    }
+
+    // ==================== TAB SWITCHING ====================
+    function showTab(tabName) {
+        document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+        document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+        document.getElementById(tabName).classList.add('active');
+        event.target.classList.add('active');
+    }
+
+    function showSuccessMsg(elementId, message) {
+        const el = document.getElementById(elementId);
+        el.textContent = message;
+        el.style.display = 'block';
+        setTimeout(() => el.style.display = 'none', 3000);
+    }
+
+    // ==================== CATEGORIES ====================
+    const categoryForm = document.getElementById('categoryForm');
+    const categoryEditId = document.getElementById('categoryEditId');
+    const categoryCancelBtn = document.getElementById('categoryCancelBtn');
+    let categoriesCache = [];
+
+    categoryForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const data = {
+            name: document.getElementById('catName').value.trim(),
+            description: document.getElementById('catDescription').value.trim(),
+            icon: document.getElementById('catIcon').value.trim()
+        };
+        try {
+            if (categoryEditId.value) {
+                await window.fbUpdateDoc(window.fbDoc(window.firebaseDb, 'categories', categoryEditId.value), data);
+            } else {
+                await window.fbAddDoc(window.fbCollection(window.firebaseDb, 'categories'), data);
+            }
+            showSuccessMsg('categorySuccessMsg', 'Категоријата е успешно зачувана!');
+            resetCategoryForm();
+            await loadCategories();
+            loadCategoriesForProductForm();
+            loadParentCategoriesForSubcategoryForm();
+            loadCategoriesForAdForm();
+        } catch (err) {
+            alert('Грешка: ' + err.message);
+        }
+    });
+
+    categoryCancelBtn.addEventListener('click', resetCategoryForm);
+
+    function resetCategoryForm() {
+        categoryForm.reset();
+        categoryEditId.value = '';
+        document.getElementById('categoryFormTitle').textContent = 'Додади Нова Главна Категорија';
+        categoryCancelBtn.style.display = 'none';
+    }
+
+    window.editCategory = (id) => {
+        const category = categoriesCache.find(c => c.id === id);
+        if (!category) return;
+        document.getElementById('catName').value = category.name;
+        document.getElementById('catDescription').value = category.description || '';
+        document.getElementById('catIcon').value = category.icon || '';
+        categoryEditId.value = id;
+        document.getElementById('categoryFormTitle').textContent = 'Уреди Главна Категорија';
+        categoryCancelBtn.style.display = 'inline-block';
+    };
+
+    window.deleteCategory = async (id) => {
+        if (!confirm('Дали сте сигурни?')) return;
+        try {
+            await window.fbDeleteDoc(window.fbDoc(window.firebaseDb, 'categories', id));
+            await loadCategories();
+            loadCategoriesForProductForm();
+            loadParentCategoriesForSubcategoryForm();
+            loadCategoriesForAdForm();
+        } catch (err) {
+            alert('Грешка: ' + err.message);
+        }
+    };
+
+    async function loadCategories() {
+        try {
+            const snapshot = await window.fbGetDocs(window.fbCollection(window.firebaseDb, 'categories'));
+            categoriesCache = [];
+            snapshot.forEach(docSnap => categoriesCache.push({ id: docSnap.id, ...docSnap.data() }));
+
+            let html = `<table class="table"><thead><tr><th>Назив</th><th>Икона</th><th>Акции</th></tr></thead><tbody>`;
+            if (categoriesCache.length === 0) {
+                html = '<p class="empty-state">Нема категории</p>';
+            } else {
+                categoriesCache.forEach(cat => {
+                    html += `<tr>
+                        <td><strong>${cat.name}</strong></td>
+                        <td>${cat.icon || '-'}</td>
+                        <td class="actions">
+                            <button class="btn btn-edit" onclick="editCategory('${cat.id}')">Уреди</button>
+                            <button class="btn btn-danger" onclick="deleteCategory('${cat.id}')">Избриши</button>
+                        </td>
+                    </tr>`;
+                });
+                html += '</tbody></table>';
+            }
+            document.getElementById('categoriesList').innerHTML = html;
+        } catch (err) {
+            document.getElementById('categoriesList').innerHTML = `<p class="empty-state">Грешка: ${err.message}</p>`;
+        }
+    }
+
+    function loadCategoriesForProductForm() {
+        let html = '<option value="">-- Изберете категорија --</option>';
+        categoriesCache.forEach(category => {
+            html += `<option value="${category.id}">${category.name}</option>`;
+        });
+        document.getElementById('prodCategory').innerHTML = html;
+    }
+
+    function loadParentCategoriesForSubcategoryForm() {
+        let html = '<option value="">-- Изберете главна категорија --</option>';
+        categoriesCache.forEach(category => {
+            html += `<option value="${category.id}">${category.name}</option>`;
+        });
+        document.getElementById('subcatParent').innerHTML = html;
+    }
+
+    function loadCategoriesForAdForm() {
+        let html = '<option value="">-- Без категорија --</option>';
+        categoriesCache.forEach(category => {
+            html += `<option value="${category.id}">${category.name}</option>`;
+        });
+        document.getElementById('adCategory').innerHTML = html;
+    }
+
+    // ==================== SUBCATEGORIES ====================
+    const subcategoryForm = document.getElementById('subcategoryForm');
+    const subcategoryEditId = document.getElementById('subcategoryEditId');
+    const subcategoryCancelBtn = document.getElementById('subcategoryCancelBtn');
+    let subcategoriesCache = [];
+
+    subcategoryForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const data = {
+            name: document.getElementById('subcatName').value.trim(),
+            parentId: document.getElementById('subcatParent').value,
+            description: document.getElementById('subcatDescription').value.trim(),
+            icon: document.getElementById('subcatIcon').value.trim()
+        };
+        try {
+            if (subcategoryEditId.value) {
+                await window.fbUpdateDoc(window.fbDoc(window.firebaseDb, 'subcategories', subcategoryEditId.value), data);
+            } else {
+                await window.fbAddDoc(window.fbCollection(window.firebaseDb, 'subcategories'), data);
+            }
+            showSuccessMsg('subcategorySuccessMsg', 'Подкатегоријата е успешно зачувана!');
+            resetSubcategoryForm();
+            await loadSubcategories();
+            loadSubcategoriesForForm();
+        } catch (err) {
+            alert('Грешка: ' + err.message);
+        }
+    });
+
+    subcategoryCancelBtn.addEventListener('click', resetSubcategoryForm);
+
+    function resetSubcategoryForm() {
+        subcategoryForm.reset();
+        subcategoryEditId.value = '';
+        document.getElementById('subcategoryFormTitle').textContent = 'Додади Нова Подкатегорија';
+        subcategoryCancelBtn.style.display = 'none';
+    }
+
+    window.editSubcategory = (id) => {
+        const subcat = subcategoriesCache.find(c => c.id === id);
+        if (!subcat) return;
+        document.getElementById('subcatParent').value = subcat.parentId;
+        document.getElementById('subcatName').value = subcat.name;
+        document.getElementById('subcatDescription').value = subcat.description || '';
+        document.getElementById('subcatIcon').value = subcat.icon || '';
+        subcategoryEditId.value = id;
+        document.getElementById('subcategoryFormTitle').textContent = 'Уреди Подкатегорија';
+        subcategoryCancelBtn.style.display = 'inline-block';
+    };
+
+    window.deleteSubcategory = async (id) => {
+        if (!confirm('Дали сте сигурни?')) return;
+        try {
+            await window.fbDeleteDoc(window.fbDoc(window.firebaseDb, 'subcategories', id));
+            await loadSubcategories();
+            loadSubcategoriesForForm();
+        } catch (err) {
+            alert('Грешка: ' + err.message);
+        }
+    };
+
+    async function loadSubcategories() {
+        try {
+            const snapshot = await window.fbGetDocs(window.fbCollection(window.firebaseDb, 'subcategories'));
+            subcategoriesCache = [];
+            snapshot.forEach(docSnap => subcategoriesCache.push({ id: docSnap.id, ...docSnap.data() }));
+
+            let html = `<table class="table"><thead><tr><th>Назив</th><th>Главна Категорија</th><th>Икона</th><th>Акции</th></tr></thead><tbody>`;
+            if (subcategoriesCache.length === 0) {
+                html = '<p class="empty-state">Нема подкатегории</p>';
+            } else {
+                subcategoriesCache.forEach(subcat => {
+                    const parent = categoriesCache.find(c => c.id === subcat.parentId);
+                    const parentName = parent ? parent.name : 'Непознато';
+                    html += `<tr>
+                        <td><strong>${subcat.name}</strong></td>
+                        <td>${parentName}</td>
+                        <td>${subcat.icon || '-'}</td>
+                        <td class="actions">
+                            <button class="btn btn-edit" onclick="editSubcategory('${subcat.id}')">Уреди</button>
+                            <button class="btn btn-danger" onclick="deleteSubcategory('${subcat.id}')">Избриши</button>
+                        </td>
+                    </tr>`;
+                });
+                html += '</tbody></table>';
+            }
+            document.getElementById('subcategoriesList').innerHTML = html;
+        } catch (err) {
+            document.getElementById('subcategoriesList').innerHTML = `<p class="empty-state">Грешка: ${err.message}</p>`;
+        }
+    }
+
+    function loadSubcategoriesForForm() {
+        const categoryId = document.getElementById('prodCategory').value;
+        const subcategorySelect = document.getElementById('prodSubcategory');
+        subcategorySelect.innerHTML = '<option value="">-- Нема подкатегорија --</option>';
+        if (!categoryId) return;
+        const filtered = subcategoriesCache.filter(s => s.parentId === categoryId);
+        filtered.forEach(subcat => {
+            const option = document.createElement('option');
+            option.value = subcat.id;
+            option.textContent = subcat.name;
+            subcategorySelect.appendChild(option);
+        });
+    }
+
+    // ==================== BRANDS ====================
+    const brandForm = document.getElementById('brandForm');
+    const brandEditId = document.getElementById('brandEditId');
+    const brandCancelBtn = document.getElementById('brandCancelBtn');
+    let brandsCache = [];
+
+    brandForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const data = {
+            name: document.getElementById('brandName').value.trim(),
+            logo: document.getElementById('brandLogo').value.trim()
+        };
+        try {
+            if (brandEditId.value) {
+                await window.fbUpdateDoc(window.fbDoc(window.firebaseDb, 'brands', brandEditId.value), data);
+            } else {
+                await window.fbAddDoc(window.fbCollection(window.firebaseDb, 'brands'), data);
+            }
+            showSuccessMsg('brandSuccessMsg', 'Марката е успешно зачувана!');
+            resetBrandForm();
+            await loadBrands();
+            loadBrandsForProductForm();
+        } catch (err) {
+            alert('Грешка: ' + err.message);
+        }
+    });
+
+const brandLogoUpload = document.getElementById('brandLogoUpload');
+const brandLogoInput = document.getElementById('brandLogoInput');
+brandLogoUpload.addEventListener('click', () => brandLogoInput.click());
+brandLogoUpload.addEventListener('dragover', (e) => { e.preventDefault(); brandLogoUpload.classList.add('drag-over'); });
+brandLogoUpload.addEventListener('dragleave', () => brandLogoUpload.classList.remove('drag-over'));
+brandLogoUpload.addEventListener('drop', (e) => {
+    e.preventDefault();
+    brandLogoUpload.classList.remove('drag-over');
+    handleBrandLogoUpload(e.dataTransfer.files);
+});
+brandLogoInput.addEventListener('change', (e) => handleBrandLogoUpload(e.target.files));
+
+async function handleBrandLogoUpload(files) {
+    const file = files[0];
+    if (!file) return;
+    if (!['image/png', 'image/jpeg', 'image/webp'].includes(file.type)) {
+        alert('Само PNG, JPG, WebP се дозволени!');
+        return;
+    }
+    if (file.size > 5 * 1024 * 1024) {
+        alert('Датотеката е преголема! Max 5MB');
+        return;
+    }
+    try {
+        const url = await uploadToCloudinary(file);
+        document.getElementById('brandLogo').value = url;
+        document.getElementById('brandLogoPreview').src = url;
+        document.getElementById('brandLogoPreview').style.display = 'block';
+    } catch (err) {
+        alert('Грешка: ' + err.message);
+    }
+}
+
+    brandCancelBtn.addEventListener('click', resetBrandForm);
+
+    function resetBrandForm() {
+        brandForm.reset();
+        brandEditId.value = '';
+        document.getElementById('brandFormTitle').textContent = 'Додади Нова Марка';
+        brandCancelBtn.style.display = 'none';
+    }
+
+    window.editBrand = (id) => {
+        const brand = brandsCache.find(b => b.id === id);
+        if (!brand) return;
+        document.getElementById('brandName').value = brand.name;
+        document.getElementById('brandLogo').value = brand.logo || '';
+        brandEditId.value = id;
+        document.getElementById('brandFormTitle').textContent = 'Уреди Марка';
+        brandCancelBtn.style.display = 'inline-block';
+    };
+
+    window.deleteBrand = async (id) => {
+        if (!confirm('Дали сте сигурни?')) return;
+        try {
+            await window.fbDeleteDoc(window.fbDoc(window.firebaseDb, 'brands', id));
+            await loadBrands();
+            loadBrandsForProductForm();
+        } catch (err) {
+            alert('Грешка: ' + err.message);
+        }
+    };
+
+    async function loadBrands() {
+        try {
+            const snapshot = await window.fbGetDocs(window.fbCollection(window.firebaseDb, 'brands'));
+            brandsCache = [];
+            snapshot.forEach(docSnap => brandsCache.push({ id: docSnap.id, ...docSnap.data() }));
+
+            let html = `<table class="table"><thead><tr><th>Назив</th><th>Лого</th><th>Акции</th></tr></thead><tbody>`;
+            if (brandsCache.length === 0) {
+                html = '<p class="empty-state">Нема марки</p>';
+            } else {
+                brandsCache.forEach(brand => {
+                    html += `<tr>
+                        <td><strong>${brand.name}</strong></td>
+                        <td>${brand.logo ? `<img src="${brand.logo}" style="height:30px;">` : '-'}</td>
+                        <td class="actions">
+                            <button class="btn btn-edit" onclick="editBrand('${brand.id}')">Уреди</button>
+                            <button class="btn btn-danger" onclick="deleteBrand('${brand.id}')">Избриши</button>
+                        </td>
+                    </tr>`;
+                });
+                html += '</tbody></table>';
+            }
+            document.getElementById('brandsList').innerHTML = html;
+        } catch (err) {
+            document.getElementById('brandsList').innerHTML = `<p class="empty-state">Грешка: ${err.message}</p>`;
+        }
+    }
+
+    function loadBrandsForProductForm() {
+        let html = '<option value="">-- Изберете марка --</option>';
+        brandsCache.forEach(brand => {
+            html += `<option value="${brand.id}">${brand.name}</option>`;
+        });
+        document.getElementById('prodBrand').innerHTML = html;
+    }
+
+    // ==================== PRODUCTS ====================
+    const productForm = document.getElementById('productForm');
+    const productEditId = document.getElementById('productEditId');
+    const productCancelBtn = document.getElementById('productCancelBtn');
+    let productsCache = [];
+    let uploadedImages = [];
+    let installmentOptions = [
+        { months: 3, monthlyPrice: 0 },
+        { months: 6, monthlyPrice: 0 },
+        { months: 12, monthlyPrice: 0 }
+    ];
+
+    function renderInstallmentOptions() {
+        const container = document.getElementById('installmentsContainer');
+        container.innerHTML = '';
+        installmentOptions.forEach((option, index) => {
+            const div = document.createElement('div');
+            div.className = 'installment-option';
+            div.innerHTML = `
+                <div class="installment-option-input">
+                    <label>Ay Sayısı</label>
+                    <input type="number" value="${option.months}" min="1" max="60" onchange="updateInstallmentMonths(${index}, this.value)">
+                </div>
+                <div class="installment-option-input">
+                    <label>Aylık Ödeme</label>
+                    <input type="number" value="${option.monthlyPrice}" min="0" step="0.01" onchange="updateInstallmentPrice(${index}, this.value)">
+                </div>
+                <button type="button" class="remove-btn" onclick="removeInstallmentOption(${index})">Sil</button>
+            `;
+            container.appendChild(div);
+        });
+    }
+
+    window.updateInstallmentMonths = (index, value) => { installmentOptions[index].months = parseInt(value) || 1; };
+    window.updateInstallmentPrice = (index, value) => { installmentOptions[index].monthlyPrice = parseFloat(value) || 0; };
+    window.addInstallmentOption = () => { installmentOptions.push({ months: 24, monthlyPrice: 0 }); renderInstallmentOptions(); };
+    window.removeInstallmentOption = (index) => {
+        if (installmentOptions.length <= 1) { alert('En az bir taksit seçeneği olmalı!'); return; }
+        installmentOptions.splice(index, 1);
+        renderInstallmentOptions();
+    };
+    renderInstallmentOptions();
+
+    const imageUploadArea = document.getElementById('prodImageUpload');
+    const imageInput = document.getElementById('prodImageInput');
+    imageUploadArea.addEventListener('click', () => imageInput.click());
+    imageUploadArea.addEventListener('dragover', (e) => { e.preventDefault(); imageUploadArea.classList.add('drag-over'); });
+    imageUploadArea.addEventListener('dragleave', () => imageUploadArea.classList.remove('drag-over'));
+    imageUploadArea.addEventListener('drop', (e) => {
+        e.preventDefault();
+        imageUploadArea.classList.remove('drag-over');
+        handleImageUpload(e.dataTransfer.files);
+    });
+    imageInput.addEventListener('change', (e) => handleImageUpload(e.target.files));
+
+    async function handleImageUpload(files) {
+        for (let file of files) {
+            if (!['image/png', 'image/jpeg', 'image/webp'].includes(file.type)) {
+                alert('Само PNG, JPG, WebP се дозволени!');
+                continue;
+            }
+            if (file.size > 5 * 1024 * 1024) {
+                alert('Датотеката е преголема! Max 5MB');
+                continue;
+            }
+            try {
+                const url = await uploadToCloudinary(file);
+                uploadedImages.push(url);
+                addImagePreview(url);
+            } catch (err) {
+                alert('Грешка при подигање: ' + err.message);
+            }
+        }
+    }
+
+    function addImagePreview(imageUrl) {
+        const container = document.getElementById('prodImagePreviewContainer');
+        const item = document.createElement('div');
+        item.className = 'image-preview-item';
+        item.innerHTML = `<img src="${imageUrl}" alt="Preview">
+            <button type="button" class="remove-btn" onclick="removeImagePreview('${imageUrl}', this)">✕</button>`;
+        container.appendChild(item);
+    }
+
+    window.removeImagePreview = (imageUrl, btn) => {
+        uploadedImages = uploadedImages.filter(img => img !== imageUrl);
+        btn.closest('.image-preview-item').remove();
+    };
+
+    document.getElementById('prodDiscount').addEventListener('input', function() {
+        document.getElementById('discountPreview').textContent = `-${this.value || 0}%`;
+    });
+
+    document.getElementById('prodDiscount').addEventListener('change', function() {
+        const checkbox = document.getElementById('prodShowDiscount');
+        if (parseInt(this.value) > 0) {
+            checkbox.checked = true;
+            checkbox.disabled = true;
+            checkbox.style.opacity = '0.6';
+        } else {
+            checkbox.disabled = false;
+            checkbox.checked = false;
+            checkbox.style.opacity = '1';
+        }
+    });
+
+    productForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const characteristics = document.getElementById('prodCharacteristics').value.split('\n').map(c => c.trim()).filter(c => c);
+        const urlImages = document.getElementById('prodImages').value.split('\n').map(img => img.trim()).filter(img => img);
+        const images = [...uploadedImages, ...urlImages];
+
+        const categoryId = document.getElementById('prodCategory').value;
+        const brandId = document.getElementById('prodBrand').value;
+        const category = categoriesCache.find(c => c.id === categoryId);
+        const brand = brandsCache.find(b => b.id === brandId);
+
+        const data = {
+            name: document.getElementById('prodName').value.trim(),
+            brandId: brandId,
+            brandName: brand ? brand.name : '',
+            categoryId: categoryId,
+            categoryName: category ? category.name : '',
+            subcategoryId: document.getElementById('prodSubcategory').value || null,
+            price: parseFloat(document.getElementById('prodPrice').value),
+            discount: parseInt(document.getElementById('prodDiscount').value) || 0,
+            description: document.getElementById('prodDescription').value.trim(),
+            characteristics: characteristics,
+            images: images,
+            isPopular: document.getElementById('prodPopular').checked,
+            isSelected: document.getElementById('prodSelected').checked,
+            showInDiscounted: document.getElementById('prodShowDiscount').checked,
+            installments: installmentOptions
         };
 
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-        const db = getFirestore(app);
+        try {
+            if (productEditId.value) {
+                await window.fbUpdateDoc(window.fbDoc(window.firebaseDb, 'products', productEditId.value), data);
+            } else {
+                await window.fbAddDoc(window.fbCollection(window.firebaseDb, 'products'), data);
+            }
+            showSuccessMsg('productSuccessMsg', 'Производот е успешно зачуван!');
+            resetProductForm();
+            await loadProducts();
+        } catch (err) {
+            alert('Грешка: ' + err.message);
+        }
+    });
 
-        const categoryLabels = {
-            klima: "Климатизација",
-            greenje: "Греење",
-            solar: "Соларни Системи",
-            aparat: "Домашни Апарати"
+    productCancelBtn.addEventListener('click', resetProductForm);
+
+    function resetProductForm() {
+        productForm.reset();
+        productEditId.value = '';
+        document.getElementById('productFormTitle').textContent = 'Додади Нов Производ';
+        productCancelBtn.style.display = 'none';
+        document.getElementById('prodSubcategory').innerHTML = '<option value="">-- Нема подкатегорија --</option>';
+        uploadedImages = [];
+        document.getElementById('prodImagePreviewContainer').innerHTML = '';
+        document.getElementById('discountPreview').textContent = '-0%';
+        document.getElementById('prodShowDiscount').disabled = false;
+        document.getElementById('prodShowDiscount').checked = false;
+        document.getElementById('prodShowDiscount').style.opacity = '1';
+        installmentOptions = [
+            { months: 3, monthlyPrice: 0 },
+            { months: 6, monthlyPrice: 0 },
+            { months: 12, monthlyPrice: 0 }
+        ];
+        renderInstallmentOptions();
+    }
+
+    window.editProduct = (id) => {
+        const product = productsCache.find(p => p.id === id);
+        if (!product) return;
+
+        document.getElementById('prodName').value = product.name;
+        document.getElementById('prodBrand').value = product.brandId;
+        document.getElementById('prodCategory').value = product.categoryId;
+        document.getElementById('prodPrice').value = product.price;
+        document.getElementById('prodDiscount').value = product.discount || 0;
+        document.getElementById('discountPreview').textContent = `-${product.discount || 0}%`;
+        document.getElementById('prodDescription').value = product.description;
+        document.getElementById('prodCharacteristics').value = (product.characteristics || []).join('\n');
+        document.getElementById('prodPopular').checked = product.isPopular;
+        document.getElementById('prodSelected').checked = product.isSelected;
+        document.getElementById('prodShowDiscount').checked = product.showInDiscounted || false;
+
+        uploadedImages = product.images || [];
+        const previewContainer = document.getElementById('prodImagePreviewContainer');
+        previewContainer.innerHTML = '';
+        uploadedImages.forEach(img => addImagePreview(img));
+
+        if (product.installments && product.installments.length > 0) {
+            installmentOptions = product.installments.map(inst => ({ months: inst.months, monthlyPrice: inst.monthlyPrice || 0 }));
+            renderInstallmentOptions();
+        }
+
+        loadSubcategoriesForForm();
+        document.getElementById('prodSubcategory').value = product.subcategoryId || '';
+
+        productEditId.value = id;
+        document.getElementById('productFormTitle').textContent = 'Уреди Производ';
+        productCancelBtn.style.display = 'inline-block';
+    };
+
+    window.deleteProduct = async (id) => {
+        if (!confirm('Дали сте сигурни?')) return;
+        try {
+            await window.fbDeleteDoc(window.fbDoc(window.firebaseDb, 'products', id));
+            await loadProducts();
+        } catch (err) {
+            alert('Грешка: ' + err.message);
+        }
+    };
+
+    async function loadProducts() {
+        try {
+            const snapshot = await window.fbGetDocs(window.fbCollection(window.firebaseDb, 'products'));
+            productsCache = [];
+            snapshot.forEach(docSnap => productsCache.push({ id: docSnap.id, ...docSnap.data() }));
+
+            let html = `<table class="table"><thead><tr><th>Назив</th><th>Марка</th><th>Категорија</th><th>Цена</th><th>Акции</th></tr></thead><tbody>`;
+            if (productsCache.length === 0) {
+                html = '<p class="empty-state">Нема производи</p>';
+            } else {
+                productsCache.forEach(product => {
+                    html += `<tr>
+                        <td><strong>${product.name}</strong></td>
+                        <td>${product.brandName || '-'}</td>
+                        <td><span class="badge">${product.categoryName || '-'}</span></td>
+                        <td>${product.price} ден</td>
+                        <td class="actions">
+                            <button class="btn btn-edit" onclick="editProduct('${product.id}')">Уреди</button>
+                            <button class="btn btn-danger" onclick="deleteProduct('${product.id}')">Избриши</button>
+                        </td>
+                    </tr>`;
+                });
+                html += '</tbody></table>';
+            }
+            document.getElementById('productsList').innerHTML = html;
+        } catch (err) {
+            document.getElementById('productsList').innerHTML = `<p class="empty-state">Грешка: ${err.message}</p>`;
+        }
+    }
+
+    // ==================== ADS ====================
+    const adForm = document.getElementById('adForm');
+    const adEditId = document.getElementById('adEditId');
+    const adCancelBtn = document.getElementById('adCancelBtn');
+    let adsCache = [];
+    let desktopImageUrl = '';
+    let mobileImageUrl = '';
+
+    const adDesktopUpload = document.getElementById('adDesktopImageUpload');
+    const adDesktopInput = document.getElementById('adDesktopImageInput');
+    adDesktopUpload.addEventListener('click', () => adDesktopInput.click());
+    adDesktopUpload.addEventListener('dragover', (e) => { e.preventDefault(); adDesktopUpload.classList.add('drag-over'); });
+    adDesktopUpload.addEventListener('dragleave', () => adDesktopUpload.classList.remove('drag-over'));
+    adDesktopUpload.addEventListener('drop', (e) => {
+        e.preventDefault();
+        adDesktopUpload.classList.remove('drag-over');
+        handleAdImageUpload(e.dataTransfer.files, 'desktop');
+    });
+    adDesktopInput.addEventListener('change', (e) => handleAdImageUpload(e.target.files, 'desktop'));
+
+    const adMobileUpload = document.getElementById('adMobileImageUpload');
+    const adMobileInput = document.getElementById('adMobileImageInput');
+    adMobileUpload.addEventListener('click', () => adMobileInput.click());
+    adMobileUpload.addEventListener('dragover', (e) => { e.preventDefault(); adMobileUpload.classList.add('drag-over'); });
+    adMobileUpload.addEventListener('dragleave', () => adMobileUpload.classList.remove('drag-over'));
+    adMobileUpload.addEventListener('drop', (e) => {
+        e.preventDefault();
+        adMobileUpload.classList.remove('drag-over');
+        handleAdImageUpload(e.dataTransfer.files, 'mobile');
+    });
+    adMobileInput.addEventListener('change', (e) => handleAdImageUpload(e.target.files, 'mobile'));
+
+    async function handleAdImageUpload(files, type) {
+        const file = files[0];
+        if (!file) return;
+        if (!['image/png', 'image/jpeg', 'image/webp'].includes(file.type)) {
+            alert('Само PNG, JPG, WebP се дозволени!');
+            return;
+        }
+        if (file.size > 5 * 1024 * 1024) {
+            alert('Датотеката е преголема! Max 5MB');
+            return;
+        }
+        try {
+            const url = await uploadToCloudinary(file);
+            if (type === 'desktop') {
+                desktopImageUrl = url;
+                document.getElementById('adDesktopImg').src = url;
+                document.getElementById('adDesktopImg').style.display = 'block';
+            } else {
+                mobileImageUrl = url;
+                document.getElementById('adMobileImg').src = url;
+                document.getElementById('adMobileImg').style.display = 'block';
+            }
+        } catch (err) {
+            alert('Грешка: ' + err.message);
+        }
+    }
+
+    adForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        if (!desktopImageUrl && !adEditId.value) {
+            alert('Desktop слика е задолжителна!');
+            return;
+        }
+        const categoryId = document.getElementById('adCategory').value || null;
+        const category = categoriesCache.find(c => c.id === categoryId);
+
+        const data = {
+            title: document.getElementById('adTitle').value.trim(),
+            desktopImageUrl: desktopImageUrl,
+            mobileImageUrl: mobileImageUrl,
+            linkUrl: document.getElementById('adLink').value.trim(),
+            categoryId: categoryId,
+            categoryName: category ? category.name : null,
+            isActive: document.getElementById('adActive').checked
         };
 
-        // --- AUTH ---
-        const loginScreen = document.getElementById('loginScreen');
-        const adminPanel = document.getElementById('adminPanel');
-        const loginForm = document.getElementById('loginForm');
-        const loginError = document.getElementById('loginError');
-        const userEmail = document.getElementById('userEmail');
-        const logoutBtn = document.getElementById('logoutBtn');
+        if (!data.title) {
+            alert('Насловот е задолжителен!');
+            return;
+        }
 
-        onAuthStateChanged(auth, (user) => {
+        try {
+            if (adEditId.value) {
+                await window.fbUpdateDoc(window.fbDoc(window.firebaseDb, 'ads', adEditId.value), data);
+            } else {
+                await window.fbAddDoc(window.fbCollection(window.firebaseDb, 'ads'), data);
+            }
+            showSuccessMsg('adSuccessMsg', 'Рекламата е успешно зачувана!');
+            resetAdForm();
+            await loadAds();
+        } catch (err) {
+            alert('Грешка: ' + err.message);
+        }
+    });
+
+    adCancelBtn.addEventListener('click', resetAdForm);
+
+    function resetAdForm() {
+        adForm.reset();
+        adEditId.value = '';
+        document.getElementById('adFormTitle').textContent = 'Додади Нова Реклама';
+        adCancelBtn.style.display = 'none';
+        desktopImageUrl = '';
+        mobileImageUrl = '';
+        document.getElementById('adDesktopImg').style.display = 'none';
+        document.getElementById('adMobileImg').style.display = 'none';
+    }
+
+    window.editAd = (id) => {
+        const ad = adsCache.find(a => a.id === id);
+        if (!ad) return;
+        document.getElementById('adTitle').value = ad.title;
+        document.getElementById('adLink').value = ad.linkUrl || '';
+        document.getElementById('adActive').checked = ad.isActive;
+        document.getElementById('adCategory').value = ad.categoryId || '';
+
+        desktopImageUrl = ad.desktopImageUrl;
+        mobileImageUrl = ad.mobileImageUrl;
+
+        if (ad.desktopImageUrl) {
+            document.getElementById('adDesktopImg').src = ad.desktopImageUrl;
+            document.getElementById('adDesktopImg').style.display = 'block';
+        }
+        if (ad.mobileImageUrl) {
+            document.getElementById('adMobileImg').src = ad.mobileImageUrl;
+            document.getElementById('adMobileImg').style.display = 'block';
+        }
+
+        adEditId.value = id;
+        document.getElementById('adFormTitle').textContent = 'Уреди Реклама';
+        adCancelBtn.style.display = 'inline-block';
+    };
+
+    window.deleteAd = async (id) => {
+        if (!confirm('Дали сте сигурни?')) return;
+        try {
+            await window.fbDeleteDoc(window.fbDoc(window.firebaseDb, 'ads', id));
+            await loadAds();
+        } catch (err) {
+            alert('Грешка: ' + err.message);
+        }
+    };
+
+    async function loadAds() {
+        try {
+            const snapshot = await window.fbGetDocs(window.fbCollection(window.firebaseDb, 'ads'));
+            adsCache = [];
+            snapshot.forEach(docSnap => adsCache.push({ id: docSnap.id, ...docSnap.data() }));
+
+            let html = `<table class="table"><thead><tr><th>Наслов</th><th>Категорија</th><th>Desktop</th><th>Mobile</th><th>Статус</th><th>Акции</th></tr></thead><tbody>`;
+            if (adsCache.length === 0) {
+                html = '<p class="empty-state">Нема реклами</p>';
+            } else {
+                adsCache.forEach(ad => {
+                    const status = ad.isActive ? '✅ Активна' : '❌ Неактивна';
+                    html += `<tr>
+                        <td><strong>${ad.title}</strong></td>
+                        <td>${ad.categoryName || 'Сите'}</td>
+                        <td>${ad.desktopImageUrl ? '✅' : '❌'}</td>
+                        <td>${ad.mobileImageUrl ? '✅' : '❌'}</td>
+                        <td>${status}</td>
+                        <td class="actions">
+                            <button class="btn btn-edit" onclick="editAd('${ad.id}')">Уреди</button>
+                            <button class="btn btn-danger" onclick="deleteAd('${ad.id}')">Избриши</button>
+                        </td>
+                    </tr>`;
+                });
+                html += '</tbody></table>';
+            }
+            document.getElementById('adsList').innerHTML = html;
+        } catch (err) {
+            document.getElementById('adsList').innerHTML = `<p class="empty-state">Грешка: ${err.message}</p>`;
+        }
+    }
+
+    // ==================== ORDERS ====================
+    async function loadOrders() {
+        try {
+            const snapshot = await window.fbGetDocs(window.fbCollection(window.firebaseDb, 'orders'));
+            let orders = [];
+            snapshot.forEach(docSnap => orders.push({ id: docSnap.id, ...docSnap.data() }));
+
+            let html = `<table class="table"><thead><tr><th>ID</th><th>Корисник</th><th>Телефон</th><th>Вкупна Цена</th><th>Статус</th></tr></thead><tbody>`;
+            if (orders.length === 0) {
+                html = '<p class="empty-state">Нема нарачки</p>';
+            } else {
+                orders.forEach(order => {
+                    html += `<tr>
+                        <td>#${order.id.slice(0, 6)}</td>
+                        <td>${order.customerName || '-'}</td>
+                        <td>${order.customerPhone || '-'}</td>
+                        <td>${order.totalPrice || 0} ден</td>
+                        <td>${order.status || 'pending'}</td>
+                    </tr>`;
+                });
+                html += '</tbody></table>';
+            }
+            document.getElementById('ordersList').innerHTML = html;
+        } catch (err) {
+            document.getElementById('ordersList').innerHTML = `<p class="empty-state">Грешка: ${err.message}</p>`;
+        }
+    }
+
+    // ==================== LOAD ALL DATA ====================
+    async function loadAllData() {
+        await loadCategories();
+        await loadSubcategories();
+        await loadBrands();
+        await loadProducts();
+        await loadAds();
+        loadCategoriesForProductForm();
+        loadBrandsForProductForm();
+        loadParentCategoriesForSubcategoryForm();
+        loadCategoriesForAdForm();
+        await loadOrders();
+    }
+
+    // ==================== INIT ====================
+    window.addEventListener('firebaseReady', () => {
+        window.fbOnAuthStateChanged(window.firebaseAuth, (user) => {
             if (user) {
-                loginScreen.style.display = 'none';
-                adminPanel.style.display = 'block';
-                userEmail.textContent = user.email;
-                loadProducts();
+                currentUser = { email: user.email };
+                showAdminPanel();
             } else {
                 loginScreen.style.display = 'flex';
                 adminPanel.style.display = 'none';
             }
         });
+    });
 
-        loginForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            loginError.style.display = 'none';
-            const email = document.getElementById('email').value;
-            const password = document.getElementById('password').value;
-            try {
-                await signInWithEmailAndPassword(auth, email, password);
-            } catch (err) {
-                loginError.textContent = 'Погрешна е-пошта или лозинка.';
-                loginError.style.display = 'block';
-            }
-        });
-
-        logoutBtn.addEventListener('click', () => signOut(auth));
-
-        // --- PRODUCTS CRUD ---
-        const productForm = document.getElementById('productForm');
-        const formTitle = document.getElementById('formTitle');
-        const editId = document.getElementById('editId');
-        const cancelEdit = document.getElementById('cancelEdit');
-        const successMsg = document.getElementById('successMsg');
-
-        productForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const data = {
-                name: document.getElementById('prodName').value.trim(),
-                category: document.getElementById('prodCategory').value,
-                description: document.getElementById('prodDescription').value.trim(),
-                icon: document.getElementById('prodIcon').value.trim(),
-                imageUrl: document.getElementById('prodImage').value.trim(),
-                updatedAt: serverTimestamp()
-            };
-
-            try {
-                if (editId.value) {
-                    await updateDoc(doc(db, 'products', editId.value), data);
-                    successMsg.textContent = 'Производот е ажуриран!';
-                } else {
-                    data.createdAt = serverTimestamp();
-                    await addDoc(collection(db, 'products'), data);
-                    successMsg.textContent = 'Производот е успешно додаден!';
-                }
-                successMsg.style.display = 'block';
-                setTimeout(() => successMsg.style.display = 'none', 3000);
-                resetForm();
-                loadProducts();
-            } catch (err) {
-                alert('Грешка: ' + err.message);
-            }
-        });
-
-        cancelEdit.addEventListener('click', resetForm);
-
-        function resetForm() {
-            productForm.reset();
-            editId.value = '';
-            formTitle.textContent = 'Додади Нов Производ';
-            cancelEdit.style.display = 'none';
+    document.addEventListener('DOMContentLoaded', () => {
+        const prodCategorySelect = document.getElementById('prodCategory');
+        if (prodCategorySelect) {
+            prodCategorySelect.addEventListener('change', loadSubcategoriesForForm);
         }
-
-        // Make functions available globally for onclick handlers
-        window.editProduct = function(id, product) {
-            editId.value = id;
-            document.getElementById('prodName').value = product.name;
-            document.getElementById('prodCategory').value = product.category;
-            document.getElementById('prodDescription').value = product.description;
-            document.getElementById('prodIcon').value = product.icon || '';
-            document.getElementById('prodImage').value = product.imageUrl || '';
-            formTitle.textContent = 'Уреди Производ';
-            cancelEdit.style.display = 'inline-block';
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        };
-
-        window.deleteProduct = async function(id) {
-            if (!confirm('Дали сте сигурни дека сакате да го избришете овој производ?')) return;
-            try {
-                await deleteDoc(doc(db, 'products', id));
-                loadProducts();
-            } catch (err) {
-                alert('Грешка: ' + err.message);
-            }
-        };
-
-        async function loadProducts() {
-            const container = document.getElementById('productsList');
-            try {
-                const q = query(collection(db, 'products'), orderBy('createdAt', 'desc'));
-                const snapshot = await getDocs(q);
-
-                if (snapshot.empty) {
-                    container.innerHTML = '<p class="empty-state">Нема производи. Додадете го првиот!</p>';
-                    return;
-                }
-
-                let html = `<table class="products-table">
-                    <thead><tr>
-                        <th>Име</th>
-                        <th>Категорија</th>
-                        <th>Опис</th>
-                        <th>Акции</th>
-                    </tr></thead><tbody>`;
-
-                snapshot.forEach((docSnap) => {
-                    const p = docSnap.data();
-                    const shortDesc = p.description && p.description.length > 60
-                        ? p.description.substring(0, 60) + '...'
-                        : (p.description || '');
-                    html += `<tr>
-                        <td><strong>${escapeHtml(p.name)}</strong></td>
-                        <td><span class="category-badge">${categoryLabels[p.category] || p.category}</span></td>
-                        <td>${escapeHtml(shortDesc)}</td>
-                        <td class="actions">
-                            <button class="btn btn-edit" onclick='editProduct("${docSnap.id}", ${JSON.stringify(p).replace(/'/g, "&#39;")})'>Уреди</button>
-                            <button class="btn btn-danger" onclick='deleteProduct("${docSnap.id}")'>Избриши</button>
-                        </td>
-                    </tr>`;
-                });
-
-                html += '</tbody></table>';
-                container.innerHTML = html;
-            } catch (err) {
-                container.innerHTML = `<p class="empty-state">Грешка при вчитување: ${err.message}</p>`;
-            }
-        }
-
-        function escapeHtml(text) {
-            const div = document.createElement('div');
-            div.textContent = text;
-            return div.innerHTML;
-        }
+    });
     </script>
 </body>
 </html>
