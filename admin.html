@@ -465,7 +465,7 @@
                             <label for="prodImageUpload">Слики (Drag & Drop или кликни)</label>
                             <div class="image-upload-area" id="prodImageUpload">
                                 <p style="margin: 0; font-size: 0.9rem;">📁 Повлечи слики овде или кликни за избор</p>
-                                <input type="file" id="prodImageInput" multiple accept="image/png,image/jpeg,image/webp" style="display: none;">
+                                <input type="file" id="prodImageInput" multiple accept="image/png,image/jpeg,image/webp,image/avif" style="display: none;">
                             </div>
                             <div id="prodImagePreviewContainer" style="display: flex; flex-wrap: wrap; gap: 1rem; margin-top: 1rem;"></div>
                         </div>
@@ -541,6 +541,15 @@
                             <label for="catIcon">Икона (емоџи)</label>
                             <input type="text" id="catIcon" placeholder="пр. ❄️ 🔥 ☀️">
                         </div>
+
+                        <div class="form-group">
+    <label>Слика на категорија (опционално, но препорачано)</label>
+    <div class="image-upload-area" id="catImageUpload">
+        <p style="margin: 0; font-size: 0.9rem;">📁 Повлечи слика овде или кликни</p>
+        <input type="file" id="catImageInput" accept="image/png,image/jpeg,image/webp,image/avif" style="display: none;">
+    </div>
+    <img id="catImagePreview" style="max-width: 150px; max-height: 100px; margin-top: 10px; display: none; border-radius: 5px; object-fit: cover;">
+</div>
 
                         <div style="display: flex; gap: 0.5rem; margin-top: 1rem;">
                             <button type="submit" class="btn btn-success">Зачувај Категорија</button>
@@ -623,7 +632,7 @@
     <label>Подигни лого (PNG/JPG)</label>
     <div class="image-upload-area" id="brandLogoUpload">
         <p style="margin: 0; font-size: 0.9rem;">📁 Повлечи лого овде или кликни</p>
-        <input type="file" id="brandLogoInput" accept="image/png,image/jpeg,image/webp" style="display: none;">
+        <input type="file" id="brandLogoInput" accept="image/png,image/jpeg,image/webp,image/avif" style="display: none;">
     </div>
     <img id="brandLogoPreview" style="max-width: 150px; max-height: 100px; margin-top: 10px; display: none; border-radius: 5px;">
 </div>
@@ -675,7 +684,7 @@
                 <label>📱 Desktop слика (1200x400px)</label>
                 <div class="image-upload-area" id="adDesktopImageUpload">
                     <p style="margin: 0; font-size: 0.9rem;">📁 Повлечи слика овде или кликни</p>
-                    <input type="file" id="adDesktopImageInput" accept="image/png,image/jpeg,image/webp" style="display: none;">
+                    <input type="file" id="adDesktopImageInput" accept="image/png,image/jpeg,image/webp,image/avif" style="display: none;">
                 </div>
                 <img id="adDesktopImg" style="max-width: 100%; max-height: 200px; margin-top: 10px; display: none; border-radius: 5px;">
             </div>
@@ -685,7 +694,7 @@
                 <label>📱 Mobile слика (500x250px)</label>
                 <div class="image-upload-area" id="adMobileImageUpload">
                     <p style="margin: 0; font-size: 0.9rem;">📁 Повлечи слика овде или кликни</p>
-                    <input type="file" id="adMobileImageInput" accept="image/png,image/jpeg,image/webp" style="display: none;">
+                    <input type="file" id="adMobileImageInput" accept="image/png,image/jpeg,image/webp,image/avif" style="display: none;">
                 </div>
                 <img id="adMobileImg" style="max-width: 100%; max-height: 200px; margin-top: 10px; display: none; border-radius: 5px;">
             </div>
@@ -865,12 +874,13 @@
     let categoriesCache = [];
 
     categoryForm.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        const data = {
-            name: document.getElementById('catName').value.trim(),
-            description: document.getElementById('catDescription').value.trim(),
-            icon: document.getElementById('catIcon').value.trim()
-        };
+    e.preventDefault();
+    const data = {
+        name: document.getElementById('catName').value.trim(),
+        description: document.getElementById('catDescription').value.trim(),
+        icon: document.getElementById('catIcon').value.trim(),
+        image: categoryImageUrl
+    };
         try {
             if (categoryEditId.value) {
                 await window.fbUpdateDoc(window.fbDoc(window.firebaseDb, 'categories', categoryEditId.value), data);
@@ -891,22 +901,32 @@
     categoryCancelBtn.addEventListener('click', resetCategoryForm);
 
     function resetCategoryForm() {
-        categoryForm.reset();
-        categoryEditId.value = '';
-        document.getElementById('categoryFormTitle').textContent = 'Додади Нова Главна Категорија';
-        categoryCancelBtn.style.display = 'none';
-    }
+    categoryForm.reset();
+    categoryEditId.value = '';
+    document.getElementById('categoryFormTitle').textContent = 'Додади Нова Главна Категорија';
+    categoryCancelBtn.style.display = 'none';
+    categoryImageUrl = '';
+    document.getElementById('catImagePreview').style.display = 'none';
+    document.getElementById('catImagePreview').src = '';
+}
 
     window.editCategory = (id) => {
-        const category = categoriesCache.find(c => c.id === id);
-        if (!category) return;
-        document.getElementById('catName').value = category.name;
-        document.getElementById('catDescription').value = category.description || '';
-        document.getElementById('catIcon').value = category.icon || '';
-        categoryEditId.value = id;
-        document.getElementById('categoryFormTitle').textContent = 'Уреди Главна Категорија';
-        categoryCancelBtn.style.display = 'inline-block';
-    };
+    const category = categoriesCache.find(c => c.id === id);
+    if (!category) return;
+    document.getElementById('catName').value = category.name;
+    document.getElementById('catDescription').value = category.description || '';
+    document.getElementById('catIcon').value = category.icon || '';
+    categoryImageUrl = category.image || '';
+    if (categoryImageUrl) {
+        document.getElementById('catImagePreview').src = categoryImageUrl;
+        document.getElementById('catImagePreview').style.display = 'block';
+    } else {
+        document.getElementById('catImagePreview').style.display = 'none';
+    }
+    categoryEditId.value = id;
+    document.getElementById('categoryFormTitle').textContent = 'Уреди Главна Категорија';
+    categoryCancelBtn.style.display = 'inline-block';
+};
 
     window.deleteCategory = async (id) => {
         if (!confirm('Дали сте сигурни?')) return;
@@ -933,8 +953,8 @@
             } else {
                 categoriesCache.forEach(cat => {
                     html += `<tr>
-                        <td><strong>${cat.name}</strong></td>
-                        <td>${cat.icon || '-'}</td>
+    <td><strong>${cat.name}</strong></td>
+    <td>${cat.image ? `<img src="${cat.image}" style="height:30px;border-radius:4px;">` : (cat.icon || '-')}</td>
                         <td class="actions">
                             <button class="btn btn-edit" onclick="editCategory('${cat.id}')">Уреди</button>
                             <button class="btn btn-danger" onclick="deleteCategory('${cat.id}')">Избриши</button>
@@ -1121,8 +1141,8 @@ brandLogoInput.addEventListener('change', (e) => handleBrandLogoUpload(e.target.
 async function handleBrandLogoUpload(files) {
     const file = files[0];
     if (!file) return;
-    if (!['image/png', 'image/jpeg', 'image/webp'].includes(file.type)) {
-        alert('Само PNG, JPG, WebP се дозволени!');
+    if (!['image/png', 'image/jpeg', 'image/webp', 'image/avif'].includes(file.type)) {
+        alert('Само PNG, JPG, WebP, AVIF се дозволени!');
         return;
     }
     if (file.size > 5 * 1024 * 1024) {
@@ -1134,6 +1154,41 @@ async function handleBrandLogoUpload(files) {
         document.getElementById('brandLogo').value = url;
         document.getElementById('brandLogoPreview').src = url;
         document.getElementById('brandLogoPreview').style.display = 'block';
+    } catch (err) {
+        alert('Грешка: ' + err.message);
+    }
+}
+
+let categoryImageUrl = '';
+
+const catImageUpload = document.getElementById('catImageUpload');
+const catImageInput = document.getElementById('catImageInput');
+catImageUpload.addEventListener('click', () => catImageInput.click());
+catImageUpload.addEventListener('dragover', (e) => { e.preventDefault(); catImageUpload.classList.add('drag-over'); });
+catImageUpload.addEventListener('dragleave', () => catImageUpload.classList.remove('drag-over'));
+catImageUpload.addEventListener('drop', (e) => {
+    e.preventDefault();
+    catImageUpload.classList.remove('drag-over');
+    handleCategoryImageUpload(e.dataTransfer.files);
+});
+catImageInput.addEventListener('change', (e) => handleCategoryImageUpload(e.target.files));
+
+async function handleCategoryImageUpload(files) {
+    const file = files[0];
+    if (!file) return;
+    if (!['image/png', 'image/jpeg', 'image/webp', 'image/avif'].includes(file.type)) {
+        alert('Само PNG, JPG, WebP, AVIF се дозволени!');
+        return;
+    }
+    if (file.size > 5 * 1024 * 1024) {
+        alert('Датотеката е преголема! Max 5MB');
+        return;
+    }
+    try {
+        const url = await uploadToCloudinary(file);
+        categoryImageUrl = url;
+        document.getElementById('catImagePreview').src = url;
+        document.getElementById('catImagePreview').style.display = 'block';
     } catch (err) {
         alert('Грешка: ' + err.message);
     }
@@ -1261,11 +1316,11 @@ async function handleBrandLogoUpload(files) {
     imageInput.addEventListener('change', (e) => handleImageUpload(e.target.files));
 
     async function handleImageUpload(files) {
-        for (let file of files) {
-            if (!['image/png', 'image/jpeg', 'image/webp'].includes(file.type)) {
-                alert('Само PNG, JPG, WebP се дозволени!');
-                continue;
-            }
+    for (let file of files) {
+        if (!['image/png', 'image/jpeg', 'image/webp', 'image/avif'].includes(file.type)) {
+            alert('Само PNG, JPG, WebP, AVIF се дозволени!');
+            continue;
+        }
             if (file.size > 5 * 1024 * 1024) {
                 alert('Датотеката е преголема! Max 5MB');
                 continue;
@@ -1485,8 +1540,8 @@ async function handleBrandLogoUpload(files) {
     async function handleAdImageUpload(files, type) {
         const file = files[0];
         if (!file) return;
-        if (!['image/png', 'image/jpeg', 'image/webp'].includes(file.type)) {
-            alert('Само PNG, JPG, WebP се дозволени!');
+        if (!['image/png', 'image/jpeg', 'image/webp', 'image/avif'].includes(file.type)) {
+            alert('Само PNG, JPG, WebP, AVIF се дозволени!');
             return;
         }
         if (file.size > 5 * 1024 * 1024) {
