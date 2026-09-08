@@ -7,6 +7,8 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <title>NKH TECH - Решенија за климатизација и енергија</title>
+    <link rel="icon" type="image/jpeg" href="./images/nkh-logo.jpg.jpg">
+    <link rel="apple-touch-icon" href="./images/nkh-logo.jpg.jpg">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
@@ -3936,6 +3938,42 @@
         flex: 1 1 100%;
     }
 }
+
+.mobile-search-bar {
+    display: none;
+}
+
+@media (max-width: 768px) {
+    .mobile-search-bar {
+        display: flex;
+        gap: 0.5rem;
+        padding: 0.7rem 1rem 1rem;
+        background: #0a2540;
+    }
+
+    .mobile-search-bar input {
+        flex: 1;
+        padding: 0.6rem 1rem;
+        border: none;
+        border-radius: 20px;
+        font-size: 0.9rem;
+    }
+
+    .mobile-search-bar button {
+        background: #2ecc71;
+        border: none;
+        color: white;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        cursor: pointer;
+        flex-shrink: 0;
+    }
+
+    .search-section {
+        display: none !important;
+    }
+}
     </style>
 
     <!-- FIREBASE SDK -->
@@ -4027,6 +4065,11 @@
     <button onclick="prikaziFavorite()" style="background: none; border: none; color: white; font-size: 1.3rem; cursor: pointer; padding: 0.5rem; margin-left: 1rem;">
     ❤️ (<span id="favorite-count">0</span>)
 </button>
+
+<div class="mobile-search-bar">
+    <input type="text" id="mobile-search-input" placeholder="Пребарај производи..." onkeypress="handleMobileSearchKeypress(event)">
+    <button onclick="izvrsiPrebaruvanjeMobile()"><i class="fas fa-search"></i></button>
+</div>
 
 </header>
 
@@ -5759,6 +5802,16 @@ function odiNaKategorijaIzDopolnitelna(kat) {
         function handleSearchKeypress(event) {
             if (event.key === 'Enter') izvrsiPrebaruvanje();
         }
+
+        function handleMobileSearchKeypress(event) {
+    if (event.key === 'Enter') izvrsiPrebaruvanjeMobile();
+}
+
+function izvrsiPrebaruvanjeMobile() {
+    const val = document.getElementById('mobile-search-input').value;
+    document.getElementById('search-input').value = val;
+    izvrsiPrebaruvanje();
+}
 
         function izvrsiPrebaruvanje() {
             const searchTerm = document.getElementById('search-input').value.toLowerCase().trim();
