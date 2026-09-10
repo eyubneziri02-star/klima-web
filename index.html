@@ -7,8 +7,8 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <title>NKH TECH - Решенија за климатизација и енергија</title>
-    <link rel="icon" type="image/jpeg" href="./images/nkh-logo.jpg.jpg">
-    <link rel="apple-touch-icon" href="./images/nkh-logo.jpg.jpg">
+    <link rel="icon" type="image/jpeg" href="./images/favicon.jpg.jpg">
+    <link rel="apple-touch-icon" href="./images/favicon.jpg.jpg">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
@@ -666,6 +666,10 @@
         gap: 0.5rem;
         padding: 0.8rem 10px;
     }
+
+    .header-container .header-container {
+    padding: 0;
+}
 
     .logo-section {
         grid-column: 2;
@@ -3939,35 +3943,83 @@
     }
 }
 
-.mobile-search-bar {
+.mobile-search-cart-row {
     display: none;
 }
 
 @media (max-width: 768px) {
-    .mobile-search-bar {
+    .mobile-search-cart-row {
         display: flex;
-        gap: 0.5rem;
-        padding: 0.7rem 1rem 1rem;
+        align-items: center;
+        gap: 0.6rem;
+        padding: 0.5rem 1rem 0.7rem;
         background: #0a2540;
     }
 
-    .mobile-search-bar input {
+    .mobile-search-compact {
         flex: 1;
-        padding: 0.6rem 1rem;
-        border: none;
+        max-width: 75%;
+        display: flex;
+        align-items: center;
+        background: white;
         border-radius: 20px;
-        font-size: 0.9rem;
+        overflow: hidden;
     }
 
-    .mobile-search-bar button {
+    .mobile-search-compact input {
+        flex: 1;
+        border: none;
+        padding: 0.5rem 0.9rem;
+        font-size: 0.85rem;
+        outline: none;
+        min-width: 0;
+    }
+
+    .mobile-search-compact button {
         background: #2ecc71;
         border: none;
         color: white;
-        width: 40px;
-        height: 40px;
+        width: 34px;
+        height: 34px;
         border-radius: 50%;
         cursor: pointer;
         flex-shrink: 0;
+        margin: 3px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.85rem;
+    }
+
+    .mobile-cart-icon {
+        position: relative;
+        flex-shrink: 0;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.15);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 1.1rem;
+        cursor: pointer;
+    }
+
+    .mobile-cart-icon .cart-count {
+        position: absolute;
+        top: -6px;
+        right: -6px;
+        background: #2ecc71;
+        color: white;
+        border-radius: 50%;
+        width: 20px;
+        height: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.7rem;
+        font-weight: bold;
     }
 
     .search-section {
@@ -4005,74 +4057,80 @@
     <header class="header">
     <div class="header-container">
         <div class="header-container">
-    <div class="logo-section">
-        <div class="logo">
-           <img src="./images/nkh-logo.jpg.jpg" alt="NKH TECH Logo" class="logo-img">
-            <a onclick="prikaziDom()" style="cursor: pointer;">NKH TECH</a>
-        </div>
-        <!-- SOSYAL İKONLAR (LOGO YANINDA) -->
-        <div class="social-icons-header">
-    <a href="https://www.facebook.com/nkhtechh" target="_blank" title="Facebook">
-        <i class="fab fa-facebook"></i>
-    </a>
-    <a href="https://www.instagram.com/nkhtechofficial" target="_blank" title="Instagram">
-        <i class="fab fa-instagram"></i>
-       </a>
-    </div>
-</div>
-
-<!-- MOBİL MENU BUTONU -->
-<button class="mobile-menu-btn" id="mobile-menu-btn" onclick="toggleMobileMenu()">
-    <i class="fas fa-bars"></i>
-</button>
-
-    <!-- KATEGORİ VE MARKA BUTONLARI (ORTADA) -->
-    <div class="filter-buttons">
-    <li class="dropdown-menu">
-    <button class="dropdown-toggle">
-        Категории <i class="fas fa-chevron-down"></i>
-    </button>
-    <div class="dropdown-content" id="categories-dropdown">
-    <a onclick="prikaziSiProizvodi()">Сите</a>
-</div>
-
-<div class="submenu-wrapper" id="submenu-wrapper-container"></div>
-</li>
-
-            <!-- BRENDOVI (BEZ KATEGORİZASYON) -->
-            <div class="dropdown-menu">
-                <button class="dropdown-toggle">
-                    Брендови <i class="fas fa-chevron-down"></i>
-                </button>
-                <div class="dropdown-content" id="brands-dropdown">
-    <a onclick="filtrirajPoBrend('all')">Сите</a>
-</div>
-</div>
-
-        <!-- ARAMA CUBUGU VE SEPET -->
-        <div class="search-section">
-            <input type="text" class="search-input" id="search-input" placeholder="Пребарај производи, брендови..." onkeypress="handleSearchKeypress(event)">
-            <button class="search-btn" onclick="izvrsiPrebaruvanje()">
-                <i class="fas fa-search"></i>
-            </button>
-            <div class="cart-icon" onclick="toggleCart()">
-                <i class="fas fa-shopping-cart"></i>
-                <span class="cart-count" id="cart-count">0</span>
+            <div class="logo-section">
+                <div class="logo">
+                   <img src="./images/nkh-logo.jpg.jpg" alt="NKH TECH Logo" class="logo-img">
+                    <a onclick="prikaziDom()" style="cursor: pointer;">NKH TECH</a>
+                </div>
+                <!-- SOSYAL İKОНИ (LOGO YANINDA) -->
+                <div class="social-icons-header">
+                    <a href="https://www.facebook.com/nkhtechh" target="_blank" title="Facebook">
+                        <i class="fab fa-facebook"></i>
+                    </a>
+                    <a href="https://www.instagram.com/nkhtechofficial" target="_blank" title="Instagram">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                </div>
             </div>
+
+            <!-- MOBİL MENU BUTONU -->
+            <button class="mobile-menu-btn" id="mobile-menu-btn" onclick="toggleMobileMenu()">
+                <i class="fas fa-bars"></i>
+            </button>
+
+            <!-- KATEGORİ VE MARKA BUTONLARI (ORTADA) -->
+            <div class="filter-buttons">
+                <li class="dropdown-menu">
+                    <button class="dropdown-toggle">
+                        Категории <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div class="dropdown-content" id="categories-dropdown">
+                        <a onclick="prikaziSiProizvodi()">Сите</a>
+                    </div>
+                    <div class="submenu-wrapper" id="submenu-wrapper-container"></div>
+                </li>
+
+                <!-- BRENDOVI (BEZ KATEGORİZASYON) -->
+                <div class="dropdown-menu">
+                    <button class="dropdown-toggle">
+                        Брендови <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div class="dropdown-content" id="brands-dropdown">
+                        <a onclick="filtrirajPoBrend('all')">Сите</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ARAMA CUBUGU VE SEPET -->
+            <div class="search-section">
+                <input type="text" class="search-input" id="search-input" placeholder="Пребарај производи, брендови..." onkeypress="handleSearchKeypress(event)">
+                <button class="search-btn" onclick="izvrsiPrebaruvanje()">
+                    <i class="fas fa-search"></i>
+                </button>
+                <div class="cart-icon" onclick="toggleCart()">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="cart-count" id="cart-count">0</span>
+                </div>
+            </div>
+
+            <button onclick="prikaziFavorite()" style="background: none; border: none; color: white; font-size: 1.3rem; cursor: pointer; padding: 0.5rem; margin-left: 1rem;">
+                ❤️ (<span id="favorite-count">0</span>)
+            </button>
         </div>
     </div>
 
-    <button onclick="prikaziFavorite()" style="background: none; border: none; color: white; font-size: 1.3rem; cursor: pointer; padding: 0.5rem; margin-left: 1rem;">
-    ❤️ (<span id="favorite-count">0</span>)
-</button>
-
-<div class="mobile-search-bar">
-    <input type="text" id="mobile-search-input" placeholder="Пребарај производи..." onkeypress="handleMobileSearchKeypress(event)">
-    <button onclick="izvrsiPrebaruvanjeMobile()"><i class="fas fa-search"></i></button>
+    <div class="mobile-search-cart-row">
+    <div class="mobile-search-compact">
+        <input type="text" id="mobile-search-input" placeholder="Пребарај..." onkeypress="handleMobileSearchKeypress(event)">
+        <button onclick="izvrsiPrebaruvanjeMobile()"><i class="fas fa-search"></i></button>
+    </div>
+    <div class="mobile-cart-icon" onclick="toggleCart()">
+        <i class="fas fa-shopping-cart"></i>
+        <span class="cart-count" id="cart-count-mobile">0</span>
+    </div>
 </div>
-
 </header>
-
+    
 <!-- MOBİL MENU -->
 <div class="mobile-menu hidden" id="mobile-menu">
     <span class="mobile-menu-close" onclick="toggleMobileMenu()">✕</span>
@@ -4686,6 +4744,7 @@
         const totalSlides = 4;
 
         function calculateInstallments(price, productId = null) {
+                if (!isPriceValid(price)) return [];
     if (productId) {
         const product = proizvodi.find(p => p.id === productId);
         if (product && product.taksitSecenekleri && product.taksitSecenekleri.length > 0) {
@@ -4718,6 +4777,17 @@ function renderProductImage(p) {
         return `<img src="${img}" style="width:100%;height:100%;object-fit:contain;">`;
     }
     return img || '📦';
+}
+
+function isPriceValid(cena) {
+    return typeof cena === 'number' && !isNaN(cena);
+}
+
+function formatPriceDisplay(cena) {
+    if (isPriceValid(cena)) {
+        return cena.toLocaleString('mk-MK') + ' ден.';
+    }
+    return cena || 'Повик за цена';
 }
 
 function renderDetailImageContent(img) {
@@ -4852,7 +4922,7 @@ function prikaziFavorite() {
             <div class="product-content">
                 <p class="product-brand">${p.brend}</p>
                 <h3 class="product-title">${p.naziv}</h3>
-                <div class="product-price">${p.cena.toLocaleString('mk-MK')} ден.</div>
+                <div class="product-price">${formatPriceDisplay(p.cena)}</div>
                 <div class="installment-badge">${getInstallmentBadgeText(p.cena)}</div>
                 <div style="display: flex; gap: 0.5rem;">
                     <button class="btn btn-outline" style="flex: 1;" onclick="event.stopPropagation(); event.preventDefault(); dodajUKorpu('${p.id}')">Додај во Кошничка</button>
@@ -4908,7 +4978,7 @@ function initCarousel() {
                     <div class="carousel-product-brand">${p.brend}</div>
                     <div class="carousel-product-title">${p.naziv}</div>
                 </div>
-                <div class="carousel-product-price">${p.cena.toLocaleString('mk-MK')} ден.</div>
+                <div class="carousel-product-price">${formatPriceDisplay(p.cena)}</div>
                 <div class="installment-badge" style="font-size: 0.8rem;">${getInstallmentBadgeText(p.cena, p.id)}</div>
                 <div style="display: flex; gap: 0.3rem;">
                     <button class="carousel-product-button" style="flex: 1;" onclick="event.stopPropagation(); dodajUKorpu('${p.id}')">Додај во Кошничка</button>
@@ -5143,7 +5213,7 @@ grid.innerHTML = paginatedProducts.map(p => `
         <div class="product-content">
             <p class="product-brand">${p.brend}</p>
             <h3 class="product-title">${p.naziv}</h3>
-            <div class="product-price">${p.cena.toLocaleString('mk-MK')} ден.</div>
+            <div class="product-price">${formatPriceDisplay(p.cena)}</div>
             <div class="installment-badge">${getInstallmentBadgeText(p.cena, p.id)}</div>
             <div style="display: flex; gap: 0.5rem;">
                 <button class="btn btn-outline" style="flex: 1;" onclick="event.stopPropagation(); event.preventDefault(); dodajUKorpu('${p.id}')">Додај во Кошничка</button>
@@ -5238,7 +5308,7 @@ grid.innerHTML = paginatedProducts.map(p => `
             <div class="product-content">
                 <p class="product-brand">${p.brend}</p>
                 <h3 class="product-title">${p.naziv}</h3>
-                <div class="product-price">${p.cena.toLocaleString('mk-MK')} ден.</div>
+                <div class="product-price">${formatPriceDisplay(p.cena)}</div>
                 <div class="installment-badge">${getInstallmentBadgeText(p.cena, p.id)}</div>
                 <div style="display: flex; gap: 0.5rem;">
                     <button class="btn btn-outline" style="flex: 1;" onclick="event.stopPropagation(); event.preventDefault(); dodajUKorpu('${p.id}')">Додај во Кошничка</button>
@@ -5329,7 +5399,7 @@ grid.innerHTML = paginatedProducts.map(p => `
             <div class="product-content">
                 <p class="product-brand">${p.brend}</p>
                 <h3 class="product-title">${p.naziv}</h3>
-                <div class="product-price">${p.cena.toLocaleString('mk-MK')} ден.</div>
+                <div class="product-price">${formatPriceDisplay(p.cena)}</div>
                 <div class="installment-badge">${getInstallmentBadgeText(p.cena, p.id)}</div>
                 <div style="display: flex; gap: 0.5rem;">
                     <button class="btn btn-outline" style="flex: 1;" onclick="event.stopPropagation(); event.preventDefault(); dodajUKorpu('${p.id}')">Додај во Кошничка</button>
@@ -5351,7 +5421,7 @@ grid.innerHTML = paginatedProducts.map(p => `
     document.getElementById('dopolnitelna-oprema-section').classList.remove('hidden');
     
     document.getElementById('detail-title').textContent = trenutniProizvod.naziv;
-    document.getElementById('detail-price').textContent = trenutniProizvod.cena.toLocaleString('mk-MK') + ' ден.';
+    document.getElementById('detail-price').textContent = formatPriceDisplay(trenutniProizvod.cena);
     document.getElementById('detail-description').textContent = trenutniProizvod.opis || '';
 
         // ⭐ TAKSIT SEÇİMİNİ RESET ET (HER ÜRÜNe TİKLADIĞINDA)
@@ -5570,6 +5640,11 @@ function odiNaKategorijaIzDopolnitelna(kat) {
         console.error('❌ Ürün bulunamadı:', id);
         return;
     }
+
+        if (!isPriceValid(p.cena)) {
+        alert('За овој производ, ве молиме контактирајте нè директно за цена (преку WhatsApp/Viber на страницата на производот).');
+        return;
+    }
     
     const postojeći = korpa.find(s => s.id === id);
     if (postojeći) {
@@ -5639,9 +5714,11 @@ function odiNaKategorijaIzDopolnitelna(kat) {
         }
 
         function azurirajBrojKorpe() {
-            const broj = korpa.reduce((s, st) => s + st.količina, 0);
-            document.getElementById('cart-count').textContent = broj > 0 ? broj : '0';
-        }
+    const broj = korpa.reduce((s, st) => s + st.količina, 0);
+    document.getElementById('cart-count').textContent = broj > 0 ? broj : '0';
+    const mobileBadge = document.getElementById('cart-count-mobile');
+    if (mobileBadge) mobileBadge.textContent = broj > 0 ? broj : '0';
+}
 
         function azurirajBrojFavorita() {
     const count = favoriti.length;
@@ -5867,7 +5944,7 @@ function izvrsiPrebaruvanjeMobile() {
         <div class="product-content">
             <p class="product-brand">${p.brend}</p>
             <h3 class="product-title">${p.naziv}</h3>
-            <div class="product-price">${p.cena.toLocaleString('mk-MK')} ден.</div>
+            <div class="product-price">${formatPriceDisplay(p.cena)}</div>
             <div class="installment-badge">${getInstallmentBadgeText(p.cena, p.id)}</div>
             <div style="display: flex; gap: 0.5rem;">
                 <button class="btn btn-outline" style="flex: 1;" onclick="event.stopPropagation(); event.preventDefault(); dodajUKorpu('${p.id}')">Додај во Кошничка</button>
@@ -6639,7 +6716,7 @@ function renderCategorySections() {
                     <div class="product-content">
                         <p class="product-brand">${p.brend}</p>
                         <h3 class="product-title">${p.naziv}</h3>
-                        <div class="product-price">${p.cena.toLocaleString('mk-MK')} ден.</div>
+                        <div class="product-price">${formatPriceDisplay(p.cena)}</div>
                         <div class="installment-badge">${getInstallmentBadgeText(p.cena, p.id)}</div>
                         <div style="display: flex; gap: 0.5rem;">
                             <button class="btn btn-outline" style="flex: 1;" onclick="event.stopPropagation(); event.preventDefault(); dodajUKorpu('${p.id}')">Додај во Кошничка</button>
@@ -6679,6 +6756,8 @@ function displayInstallmentOptions(price, productId = null) {
     
     // Reset seçim
     window.selectedInstallmentMonths = null;
+
+        if (!installments || installments.length === 0) return;
     
     // Yeni taksit bölümü oluştur (FAİZ BİLGİSİ SILINMIŞ)
     const installmentHTML = `
@@ -6690,7 +6769,7 @@ function displayInstallmentOptions(price, productId = null) {
                 ${installments.map((plan, index) => `
                     <div class="installment-card" id="installment-${plan.months}" onclick="toggleInstallment(${plan.months})">
                         <div class="installment-months">${plan.months} Месеци</div>
-                        <div class="installment-monthly">${plan.monthlyPayment.toLocaleString('mk-MK')} ден./месец</div>
+                        <div class="installment-monthly">${formatPriceDisplay(plan.monthlyPayment)}</div>
                     </div>
                 `).join('')}
             </div>
@@ -6780,7 +6859,7 @@ function updateDetailWhatsAppViberLinks() {
     let orderMessage = `Здраво! Сакам да го порачам овој производ:\n\n`;
     orderMessage += ` ${trenutniProizvod.naziv}\n`;
     orderMessage += ` Бренд: ${trenutniProizvod.brend}\n`;
-    orderMessage += ` Цена: ${trenutniProizvod.cena.toLocaleString('mk-MK')} ден.\n`;
+    orderMessage += ` Цена: ${formatPriceDisplay(trenutniProizvod.cena)}\n`;
     
     // ⭐ TAKИСТ ИНФОРМАЦИЈА (SAMO AKO JE ODABRAN)
     if (window.selectedInstallmentMonths) {
@@ -6897,8 +6976,8 @@ function updatePriceDisplay() {
     const displayMin = document.querySelector('.price-display-value');
     if (displayMin) {
         const allDisplays = document.querySelectorAll('.price-display-value');
-        allDisplays[0].textContent = priceFilterState.minSelected.toLocaleString('mk-MK') + ' ден.';
-        allDisplays[1].textContent = priceFilterState.maxSelected.toLocaleString('mk-MK') + ' ден.';
+        allDisplays[0].textContent = formatPriceDisplay(priceFilterState.minSelected);
+        allDisplays[1].textContent = formatPriceDisplay(priceFilterState.maxSelected);
     }
 }
 
@@ -6937,7 +7016,7 @@ function applyPriceFilterWithPage(page) {
             <div class="product-content">
                 <p class="product-brand">${p.brend}</p>
                 <h3 class="product-title">${p.naziv}</h3>
-                <div class="product-price">${p.cena.toLocaleString('mk-MK')} ден.</div>
+                <div class="product-price">${formatPriceDisplay(p.cena)}</div>
                 <div class="installment-badge">${getInstallmentBadgeText(p.cena, p.id)}</div>
                 <div style="display: flex; gap: 0.5rem;">
                     <button class="btn btn-outline" style="flex: 1;" onclick="event.stopPropagation(); event.preventDefault(); dodajUKorpu('${p.id}')">Додај во Кошничка</button>
@@ -6977,7 +7056,7 @@ function openPriceFilterModal() {
     }
     
     // Min-Max bul
-    const prices = filtrirani.map(p => p.cena);
+    const prices = filtrirani.map(p => p.cena).filter(c => isPriceValid(c));
     const minPrice = Math.min(...prices);
     const maxPrice = Math.max(...prices);
     
@@ -7112,7 +7191,7 @@ function applyModalPriceFilter() {
             <div class="product-content">
                 <p class="product-brand">${p.brend}</p>
                 <h3 class="product-title">${p.naziv}</h3>
-                <div class="product-price">${p.cena.toLocaleString('mk-MK')} ден.</div>
+                <div class="product-price">${formatPriceDisplay(p.cena)}</div>
                 <div class="installment-badge">${getInstallmentBadgeText(p.cena, p.id)}</div>
                 <div style="display: flex; gap: 0.5rem;">
                     <button class="btn btn-outline" style="flex: 1;" onclick="event.stopPropagation(); event.preventDefault(); dodajUKorpu('${p.id}')">Додај во Кошничка</button>
@@ -7184,7 +7263,7 @@ function applyModalPriceFilterWithPage(page) {
             <div class="product-content">
                 <p class="product-brand">${p.brend}</p>
                 <h3 class="product-title">${p.naziv}</h3>
-                <div class="product-price">${p.cena.toLocaleString('mk-MK')} ден.</div>
+                <div class="product-price">${formatPriceDisplay(p.cena)}</div>
                 <div class="installment-badge">${getInstallmentBadgeText(p.cena, p.id)}</div>
                 <div style="display: flex; gap: 0.5rem;">
                     <button class="btn btn-outline" style="flex: 1;" onclick="event.stopPropagation(); event.preventDefault(); dodajUKorpu('${p.id}')">Додај во Кошничка</button>
