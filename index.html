@@ -244,6 +244,11 @@
     opacity: 1;
     visibility: visible;
     transform: translateY(0);
+    transition-delay: 0s;
+}
+
+.dropdown-content {
+    transition-delay: 0.4s;
 }
 
 .dropdown-content a {
@@ -283,7 +288,7 @@
     left: 100%;
     top: 0;
     z-index: 1002;
-    margin-left: 10px;
+    margin-left: 0px;
 }
 
 /* SUBMENU PANEL - ALT KATEGORİ PENCERESI */
@@ -4026,6 +4031,27 @@
         display: none !important;
     }
 }
+
+.ad-banner {
+    display: block;
+    width: 100%;
+    margin-bottom: 2rem;
+    border-radius: 10px;
+    overflow: hidden;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+.ad-banner img {
+    width: 100%;
+    display: block;
+}
+.ad-banner .ad-mobile-img {
+    display: none;
+}
+@media (max-width: 768px) {
+    .ad-banner .ad-desktop-img { display: none; }
+    .ad-banner .ad-mobile-img { display: block; }
+}
     </style>
 
     <!-- FIREBASE SDK -->
@@ -4238,6 +4264,8 @@
     </div>
 </div>
 
+<div id="ads-container"></div>
+
                 <!-- VIEW ALL PRODUCTS BUTTON -->
                 <div style="text-align: center; margin: 3rem 0; padding: 2rem 0; border-top: 1px solid #e0e0e0; border-bottom: 1px solid #e0e0e0;">
                     <button class="btn btn-primary" onclick="prikaziSiProizvodi()" style="padding: 1rem 3rem; font-size: 1.1rem;">Погледни ги сите производи</button>
@@ -4343,7 +4371,7 @@
             <!-- SELECTED PRODUCTS PAGE -->
             <div id="selected-page" class="hidden">
                 <button class="back-btn" onclick="vratiSePrev()"><i class="fas fa-arrow-left"></i> Назад</button>
-                <h2 class="page-title">Избрани Производи</h2>
+                <h2 class="page-title">Производи на попуст</h2>
                 <p class="page-subtitle">Производи со намалена цена и специјални понуди</p>
                 <div class="products-grid" id="selected-full-grid"></div>
             </div>
@@ -4388,7 +4416,6 @@
                  </div>
              </div>
          </div>
-     </div>
 
                         <!-- DOPOLNITELNA OPREMA SECTION - SADECE PRODUCT DETAIL'DA GÖSTER -->
             <section class="dopolnitelna-oprema-section hidden" id="dopolnitelna-oprema-section">
@@ -4452,6 +4479,9 @@
 
         <div class="footer-bottom">
             <p class="copyright">&copy; 2026 Незири Кардешлер Хвац Технолоџи Доо. Сите права се резервирани. | <a href="privacy.html">Политика за Приватност</a> | <a href="terms.html">Услови на Користење</a> | <a href="security.html">Безбедност</a></p>
+            <p style="margin-top: 0.8rem; font-size: 1.1rem;">
+        <a href="https://linktr.ee/eyubneziri" target="_blank" rel="noopener noreferrer" style="color: #2ecc71; text-decoration: none;">Crafted By Neziri Development</a>
+    </p>
         </div>
     </footer>
 
@@ -4923,7 +4953,7 @@ function prikaziFavorite() {
                 <p class="product-brand">${p.brend}</p>
                 <h3 class="product-title">${p.naziv}</h3>
                 <div class="product-price">${formatPriceDisplay(p.cena)}</div>
-                <div class="installment-badge">${getInstallmentBadgeText(p.cena)}</div>
+                ${getInstallmentBadgeText(p.cena) ? `<div class="installment-badge">${getInstallmentBadgeText(p.cena)}</div>` : ''}
                 <div style="display: flex; gap: 0.5rem;">
                     <button class="btn btn-outline" style="flex: 1;" onclick="event.stopPropagation(); event.preventDefault(); dodajUKorpu('${p.id}')">Додај во Кошничка</button>
                     <button class="favorite-btn" data-product-id="${p.id}" onclick="toggleFavorit('${p.id}', event)">
@@ -5214,7 +5244,7 @@ grid.innerHTML = paginatedProducts.map(p => `
             <p class="product-brand">${p.brend}</p>
             <h3 class="product-title">${p.naziv}</h3>
             <div class="product-price">${formatPriceDisplay(p.cena)}</div>
-            <div class="installment-badge">${getInstallmentBadgeText(p.cena, p.id)}</div>
+            ${getInstallmentBadgeText(p.cena, p.id) ? `<div class="installment-badge">${getInstallmentBadgeText(p.cena, p.id)}</div>` : ''}
             <div style="display: flex; gap: 0.5rem;">
                 <button class="btn btn-outline" style="flex: 1;" onclick="event.stopPropagation(); event.preventDefault(); dodajUKorpu('${p.id}')">Додај во Кошничка</button>
                 <button class="favorite-btn" data-product-id="${p.id}" onclick="toggleFavorit('${p.id}', event)">
@@ -5309,7 +5339,7 @@ grid.innerHTML = paginatedProducts.map(p => `
                 <p class="product-brand">${p.brend}</p>
                 <h3 class="product-title">${p.naziv}</h3>
                 <div class="product-price">${formatPriceDisplay(p.cena)}</div>
-                <div class="installment-badge">${getInstallmentBadgeText(p.cena, p.id)}</div>
+                ${getInstallmentBadgeText(p.cena, p.id) ? `<div class="installment-badge">${getInstallmentBadgeText(p.cena, p.id)}</div>` : ''}
                 <div style="display: flex; gap: 0.5rem;">
                     <button class="btn btn-outline" style="flex: 1;" onclick="event.stopPropagation(); event.preventDefault(); dodajUKorpu('${p.id}')">Додај во Кошничка</button>
                     <button class="favorite-btn" data-product-id="${p.id}" onclick="toggleFavorit('${p.id}', event)">
@@ -5400,7 +5430,7 @@ grid.innerHTML = paginatedProducts.map(p => `
                 <p class="product-brand">${p.brend}</p>
                 <h3 class="product-title">${p.naziv}</h3>
                 <div class="product-price">${formatPriceDisplay(p.cena)}</div>
-                <div class="installment-badge">${getInstallmentBadgeText(p.cena, p.id)}</div>
+                ${getInstallmentBadgeText(p.cena, p.id) ? `<div class="installment-badge">${getInstallmentBadgeText(p.cena, p.id)}</div>` : ''}
                 <div style="display: flex; gap: 0.5rem;">
                     <button class="btn btn-outline" style="flex: 1;" onclick="event.stopPropagation(); event.preventDefault(); dodajUKorpu('${p.id}')">Додај во Кошничка</button>
                     <button class="favorite-btn" data-product-id="${p.id}" onclick="toggleFavorit('${p.id}', event)">
@@ -5934,7 +5964,7 @@ function izvrsiPrebaruvanjeMobile() {
             skrij();
             document.getElementById('search-results-page').classList.remove('hidden');
             document.getElementById('product-detailed-section').classList.add('hidden');
-            document.getElementById('search-results-title').textContent = 'Резултати од Претрага';
+            document.getElementById('search-results-title').textContent = 'Резултати од пребарување';
             document.getElementById('search-results-subtitle').textContent = `Пронајдени ${rezultati.length} производи за "${searchTerm}"`;
            const grid = document.getElementById('search-results-grid');
              grid.innerHTML = rezultati.map(p => `
@@ -5945,7 +5975,7 @@ function izvrsiPrebaruvanjeMobile() {
             <p class="product-brand">${p.brend}</p>
             <h3 class="product-title">${p.naziv}</h3>
             <div class="product-price">${formatPriceDisplay(p.cena)}</div>
-            <div class="installment-badge">${getInstallmentBadgeText(p.cena, p.id)}</div>
+            ${getInstallmentBadgeText(p.cena, p.id) ? `<div class="installment-badge">${getInstallmentBadgeText(p.cena, p.id)}</div>` : ''}
             <div style="display: flex; gap: 0.5rem;">
                 <button class="btn btn-outline" style="flex: 1;" onclick="event.stopPropagation(); event.preventDefault(); dodajUKorpu('${p.id}')">Додај во Кошничка</button>
                 <button class="favorite-btn" data-product-id="${p.id}" onclick="toggleFavorit('${p.id}', event)">
@@ -6657,6 +6687,32 @@ function renderBrandMenus() {
     }
 }
 
+function renderAds() {
+    const container = document.getElementById('ads-container');
+    if (!container) return;
+
+    const activeAds = adsData.filter(ad => ad.isActive);
+    if (activeAds.length === 0) {
+        container.innerHTML = '';
+        return;
+    }
+
+    container.innerHTML = activeAds.map(ad => {
+        let clickAttr = '';
+        if (ad.linkUrl) {
+            clickAttr = `onclick="window.open('${ad.linkUrl}', '_blank')"`;
+        } else if (ad.categoryId) {
+            clickAttr = `onclick="filtrirajPoKategorija('${ad.categoryId}')"`;
+        }
+        return `
+            <div class="ad-banner" ${clickAttr}>
+                ${ad.desktopImageUrl ? `<img src="${ad.desktopImageUrl}" alt="${ad.title}" class="ad-desktop-img">` : ''}
+                ${ad.mobileImageUrl ? `<img src="${ad.mobileImageUrl}" alt="${ad.title}" class="ad-mobile-img">` : ''}
+            </div>
+        `;
+    }).join('');
+}
+
 function filtrirajPoPodkategorija(subcatId, catId) {
     skrij();
     document.getElementById('products-page').classList.remove('hidden');
@@ -6717,7 +6773,7 @@ function renderCategorySections() {
                         <p class="product-brand">${p.brend}</p>
                         <h3 class="product-title">${p.naziv}</h3>
                         <div class="product-price">${formatPriceDisplay(p.cena)}</div>
-                        <div class="installment-badge">${getInstallmentBadgeText(p.cena, p.id)}</div>
+                        ${getInstallmentBadgeText(p.cena, p.id) ? `<div class="installment-badge">${getInstallmentBadgeText(p.cena, p.id)}</div>` : ''}
                         <div style="display: flex; gap: 0.5rem;">
                             <button class="btn btn-outline" style="flex: 1;" onclick="event.stopPropagation(); event.preventDefault(); dodajUKorpu('${p.id}')">Додај во Кошничка</button>
                             <button class="favorite-btn" data-product-id="${p.id}" onclick="toggleFavorit('${p.id}', event)">
@@ -6763,7 +6819,7 @@ function displayInstallmentOptions(price, productId = null) {
     const installmentHTML = `
         <div class="installment-options">
             <div class="installment-options-title">
-                📅 Taksit Seçenekleri
+                📅Плаќање на рати
             </div>
             <div class="installment-grid">
                 ${installments.map((plan, index) => `
@@ -7017,7 +7073,7 @@ function applyPriceFilterWithPage(page) {
                 <p class="product-brand">${p.brend}</p>
                 <h3 class="product-title">${p.naziv}</h3>
                 <div class="product-price">${formatPriceDisplay(p.cena)}</div>
-                <div class="installment-badge">${getInstallmentBadgeText(p.cena, p.id)}</div>
+                ${getInstallmentBadgeText(p.cena, p.id) ? `<div class="installment-badge">${getInstallmentBadgeText(p.cena, p.id)}</div>` : ''}
                 <div style="display: flex; gap: 0.5rem;">
                     <button class="btn btn-outline" style="flex: 1;" onclick="event.stopPropagation(); event.preventDefault(); dodajUKorpu('${p.id}')">Додај во Кошничка</button>
                     <button class="favorite-btn" data-product-id="${p.id}" onclick="toggleFavorit('${p.id}', event)">
@@ -7192,7 +7248,7 @@ function applyModalPriceFilter() {
                 <p class="product-brand">${p.brend}</p>
                 <h3 class="product-title">${p.naziv}</h3>
                 <div class="product-price">${formatPriceDisplay(p.cena)}</div>
-                <div class="installment-badge">${getInstallmentBadgeText(p.cena, p.id)}</div>
+                ${getInstallmentBadgeText(p.cena, p.id) ? `<div class="installment-badge">${getInstallmentBadgeText(p.cena, p.id)}</div>` : ''}
                 <div style="display: flex; gap: 0.5rem;">
                     <button class="btn btn-outline" style="flex: 1;" onclick="event.stopPropagation(); event.preventDefault(); dodajUKorpu('${p.id}')">Додај во Кошничка</button>
                     <button class="favorite-btn" data-product-id="${p.id}" onclick="toggleFavorit('${p.id}', event)">
@@ -7264,7 +7320,7 @@ function applyModalPriceFilterWithPage(page) {
                 <p class="product-brand">${p.brend}</p>
                 <h3 class="product-title">${p.naziv}</h3>
                 <div class="product-price">${formatPriceDisplay(p.cena)}</div>
-                <div class="installment-badge">${getInstallmentBadgeText(p.cena, p.id)}</div>
+                ${getInstallmentBadgeText(p.cena, p.id) ? `<div class="installment-badge">${getInstallmentBadgeText(p.cena, p.id)}</div>` : ''}
                 <div style="display: flex; gap: 0.5rem;">
                     <button class="btn btn-outline" style="flex: 1;" onclick="event.stopPropagation(); event.preventDefault(); dodajUKorpu('${p.id}')">Додај во Кошничка</button>
                     <button class="favorite-btn" data-product-id="${p.id}" onclick="toggleFavorit('${p.id}', event)">
@@ -7424,14 +7480,16 @@ window.addEventListener('pagehide', function() {
     let categoriesData = [];
 let subcategoriesData = [];
 let brandsData = [];
+let adsData = [];
 
 async function loadSiteDataFromFirestore() {
     try {
-        const [catSnap, subSnap, brandSnap, prodSnap] = await Promise.all([
+        const [catSnap, subSnap, brandSnap, prodSnap, adSnap] = await Promise.all([
             window.fbGetDocs(window.fbCollection(window.firebaseDb, 'categories')),
             window.fbGetDocs(window.fbCollection(window.firebaseDb, 'subcategories')),
             window.fbGetDocs(window.fbCollection(window.firebaseDb, 'brands')),
-            window.fbGetDocs(window.fbCollection(window.firebaseDb, 'products'))
+            window.fbGetDocs(window.fbCollection(window.firebaseDb, 'products')),
+            window.fbGetDocs(window.fbCollection(window.firebaseDb, 'ads'))
         ]);
 
         categoriesData = [];
@@ -7443,6 +7501,9 @@ async function loadSiteDataFromFirestore() {
         brandsData = [];
         brandSnap.forEach(d => brandsData.push({ id: d.id, ...d.data() }));
 
+        adsData = [];
+        adSnap.forEach(d => adsData.push({ id: d.id, ...d.data() }));
+
         proizvodi.length = 0;
         prodSnap.forEach(d => {
             const data = d.data();
@@ -7453,7 +7514,7 @@ async function loadSiteDataFromFirestore() {
                 brandId: data.brandId || '',
                 kategorija: data.categoryId || '',
                 tip: data.subcategoryId || '',
-                cena: typeof data.price === 'number' ? data.price : 0,
+                cena: typeof data.price === 'number' ? data.price : data.price,
                 slika: (data.images && data.images[0]) || '📦',
                 slike: (data.images && data.images.length > 0) ? data.images : ['📦'],
                 opis: data.description || '',
@@ -7465,10 +7526,11 @@ async function loadSiteDataFromFirestore() {
             });
         });
 
-        console.log('✅ Firestore verisi yüklendi:', proizvodi.length, 'ürün,', categoriesData.length, 'kategori,', brandsData.length, 'marka');
+        console.log('✅ Firestore verisi yüklendi:', proizvodi.length, 'ürün,', categoriesData.length, 'kategori,', brandsData.length, 'marka,', adsData.length, 'reklam');
 
         renderCategoryMenus();
         renderBrandMenus();
+        renderAds();
         prikaziIzbraniNaDomPull();
         initCarousel();
         renderCategorySections();
