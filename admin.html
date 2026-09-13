@@ -1298,10 +1298,9 @@ async function handleCategoryImageUpload(files) {
     window.updateInstallmentPrice = (index, value) => { installmentOptions[index].monthlyPrice = parseFloat(value) || 0; };
     window.addInstallmentOption = () => { installmentOptions.push({ months: 24, monthlyPrice: 0 }); renderInstallmentOptions(); };
     window.removeInstallmentOption = (index) => {
-        if (installmentOptions.length <= 1) { alert('En az bir taksit seçeneği olmalı!'); return; }
-        installmentOptions.splice(index, 1);
-        renderInstallmentOptions();
-    };
+    installmentOptions.splice(index, 1);
+    renderInstallmentOptions();
+};
     renderInstallmentOptions();
 
     const imageUploadArea = document.getElementById('prodImageUpload');
