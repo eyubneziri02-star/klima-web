@@ -4034,20 +4034,45 @@
 
 .image-slide-ad {
     padding: 0 !important;
-    background: #f0f0f0;
+    position: relative;
+    overflow: hidden;
+    background: #0a2540;
 }
-.image-slide-ad img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
+
+.ad-bg-desktop, .ad-bg-mobile {
+    position: absolute;
+    inset: 0;
+    background-size: cover;
+    background-position: center;
+    filter: blur(25px) brightness(0.6);
+    transform: scale(1.15);
 }
-.image-slide-ad .ad-mobile-img {
+
+.ad-bg-mobile {
     display: none;
 }
+
+.ad-fg {
+    position: relative;
+    z-index: 2;
+    max-width: 100%;
+    max-height: 100%;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    display: block;
+    margin: auto;
+}
+
+.ad-fg.ad-mobile-img {
+    display: none;
+}
+
 @media (max-width: 768px) {
-    .image-slide-ad .ad-desktop-img { display: none; }
-    .image-slide-ad .ad-mobile-img { display: block; }
+    .ad-bg-desktop { display: none; }
+    .ad-bg-mobile { display: block; }
+    .ad-fg.ad-desktop-img { display: none; }
+    .ad-fg.ad-mobile-img { display: block; }
 }
     </style>
 
@@ -4187,10 +4212,10 @@
 
     <!-- FLOATING BUTTONS -->
     <div class="floating-buttons">
-        <a href="https://wa.me/38978899369?text=Здраво!%20Интересиран%20сум%20за%20вашите%20услуги" target="_blank" class="floating-whatsapp" title="Контактирајте нас преку WhatsApp">
+        <a href="https://wa.me/38975652037?text=Здраво!%20Интересиран%20сум%20за%20вашите%20услуги" target="_blank" class="floating-whatsapp" title="Контактирајте нас преку WhatsApp">
             <i class="fab fa-whatsapp"></i>
         </a>
-        <a href="viber://chat?number=%2B38978899369" class="floating-viber" title="Контактирајте нас преку Viber">
+        <a href="viber://chat?number=%2B38975652037" class="floating-viber" title="Контактирајте нас преку Viber">
             <i class="fab fa-viber"></i>
         </a>
     </div>
@@ -4426,7 +4451,7 @@
                 <h4 class="footer-title">Информации за Контакт</h4>
                 <ul class="footer-contact">
                     <li><strong>Телефон:</strong><br>
-                        <a href="tel:+38975392282">+389 75 392 282</a><br>
+                        <a href="tel:+38975652037">+389 75 652 037</a><br>
                         <a href="tel:+38978899369">+389 78 899 369</a><br>
                     </li>
                     <li><strong>Е-пошта:</strong><br>
@@ -6676,19 +6701,21 @@ function renderHeroSlider() {
     }
 
     container.innerHTML = activeAds.map(ad => {
-        let clickAttr = '';
-        if (ad.linkUrl) {
-            clickAttr = `onclick="window.open('${ad.linkUrl}', '_blank')" style="cursor:pointer;"`;
-        } else if (ad.categoryId) {
-            clickAttr = `onclick="filtrirajPoKategorija('${ad.categoryId}')" style="cursor:pointer;"`;
-        }
-        return `
-            <div class="image-slide image-slide-ad" ${clickAttr}>
-                ${ad.desktopImageUrl ? `<img src="${ad.desktopImageUrl}" alt="${ad.title}" class="ad-desktop-img">` : ''}
-                ${ad.mobileImageUrl ? `<img src="${ad.mobileImageUrl}" alt="${ad.title}" class="ad-mobile-img">` : ''}
-            </div>
-        `;
-    }).join('');
+    let clickAttr = '';
+    if (ad.linkUrl) {
+        clickAttr = `onclick="window.open('${ad.linkUrl}', '_blank')" style="cursor:pointer;"`;
+    } else if (ad.categoryId) {
+        clickAttr = `onclick="filtrirajPoKategorija('${ad.categoryId}')" style="cursor:pointer;"`;
+    }
+    return `
+        <div class="image-slide image-slide-ad" ${clickAttr}>
+            ${ad.desktopImageUrl ? `<div class="ad-bg-desktop" style="background-image:url('${ad.desktopImageUrl}')"></div>` : ''}
+            ${ad.mobileImageUrl ? `<div class="ad-bg-mobile" style="background-image:url('${ad.mobileImageUrl}')"></div>` : ''}
+            ${ad.desktopImageUrl ? `<img src="${ad.desktopImageUrl}" alt="${ad.title}" class="ad-fg ad-desktop-img">` : ''}
+            ${ad.mobileImageUrl ? `<img src="${ad.mobileImageUrl}" alt="${ad.title}" class="ad-fg ad-mobile-img">` : ''}
+        </div>
+    `;
+}).join('');
 
     dotsContainer.innerHTML = activeAds.map((_, i) =>
         `<span class="slider-dot${i === 0 ? ' active' : ''}" onclick="goToSlide(${i})"></span>`
