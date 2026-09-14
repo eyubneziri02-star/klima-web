@@ -681,24 +681,31 @@
             </div>
 
             <!-- DESKTOP IMAGE -->
-            <div class="form-group">
-                <label>📱 Desktop слика (1200x400px)</label>
-                <div class="image-upload-area" id="adDesktopImageUpload">
-                    <p style="margin: 0; font-size: 0.9rem;">📁 Повлечи слика овде или кликни</p>
-                    <input type="file" id="adDesktopImageInput" accept="image/png,image/jpeg,image/webp,image/avif" style="display: none;">
-                </div>
-                <img id="adDesktopImg" style="max-width: 100%; max-height: 200px; margin-top: 10px; display: none; border-radius: 5px;">
-            </div>
+            <!-- DESKTOP IMAGE -->
+<div class="form-group">
+    <label>📱 Desktop слика (1200x400px)</label>
+    <div class="image-upload-area" id="adDesktopImageUpload">
+        <p style="margin: 0; font-size: 0.9rem;">📁 Повлечи слика овде или кликни</p>
+        <input type="file" id="adDesktopImageInput" accept="image/png,image/jpeg,image/webp,image/avif" style="display: none;">
+    </div>
+    <div style="position: relative; display: inline-block;">
+        <img id="adDesktopImg" style="max-width: 100%; max-height: 200px; margin-top: 10px; display: none; border-radius: 5px;">
+        <button type="button" id="removeAdDesktopImg" onclick="removeAdImage('desktop')" style="display: none; position: absolute; top: 15px; right: 5px; background: #e74c3c; color: white; border: none; border-radius: 50%; width: 26px; height: 26px; cursor: pointer; font-size: 0.85rem; align-items: center; justify-content: center;">✕</button>
+    </div>
+</div>
 
-            <!-- MOBILE IMAGE -->
-            <div class="form-group">
-                <label>📱 Mobile слика (500x250px)</label>
-                <div class="image-upload-area" id="adMobileImageUpload">
-                    <p style="margin: 0; font-size: 0.9rem;">📁 Повлечи слика овде или кликни</p>
-                    <input type="file" id="adMobileImageInput" accept="image/png,image/jpeg,image/webp,image/avif" style="display: none;">
-                </div>
-                <img id="adMobileImg" style="max-width: 100%; max-height: 200px; margin-top: 10px; display: none; border-radius: 5px;">
-            </div>
+<!-- MOBILE IMAGE -->
+<div class="form-group">
+    <label>📱 Mobile слика (500x250px)</label>
+    <div class="image-upload-area" id="adMobileImageUpload">
+        <p style="margin: 0; font-size: 0.9rem;">📁 Повлечи слика овде или кликни</p>
+        <input type="file" id="adMobileImageInput" accept="image/png,image/jpeg,image/webp,image/avif" style="display: none;">
+    </div>
+    <div style="position: relative; display: inline-block;">
+        <img id="adMobileImg" style="max-width: 100%; max-height: 200px; margin-top: 10px; display: none; border-radius: 5px;">
+        <button type="button" id="removeAdMobileImg" onclick="removeAdImage('mobile')" style="display: none; position: absolute; top: 15px; right: 5px; background: #e74c3c; color: white; border: none; border-radius: 50%; width: 26px; height: 26px; cursor: pointer; font-size: 0.85rem; align-items: center; justify-content: center;">✕</button>
+    </div>
+</div>
 
             <div class="form-group">
                 <label for="adLink">Link (опционално)</label>
@@ -1553,20 +1560,38 @@ const data = {
             return;
         }
         try {
-            const url = await uploadToCloudinary(file);
-            if (type === 'desktop') {
-                desktopImageUrl = url;
-                document.getElementById('adDesktopImg').src = url;
-                document.getElementById('adDesktopImg').style.display = 'block';
-            } else {
-                mobileImageUrl = url;
-                document.getElementById('adMobileImg').src = url;
-                document.getElementById('adMobileImg').style.display = 'block';
-            }
-        } catch (err) {
-            alert('Грешка: ' + err.message);
-        }
+    const url = await uploadToCloudinary(file);
+    if (type === 'desktop') {
+        desktopImageUrl = url;
+        document.getElementById('adDesktopImg').src = url;
+        document.getElementById('adDesktopImg').style.display = 'block';
+        document.getElementById('removeAdDesktopImg').style.display = 'flex';
+    } else {
+        mobileImageUrl = url;
+        document.getElementById('adMobileImg').src = url;
+        document.getElementById('adMobileImg').style.display = 'block';
+        document.getElementById('removeAdMobileImg').style.display = 'flex';
     }
+} catch (err) {
+    alert('Грешка: ' + err.message);
+}
+    }
+
+    window.removeAdImage = (type) => {
+    if (type === 'desktop') {
+        desktopImageUrl = '';
+        document.getElementById('adDesktopImg').src = '';
+        document.getElementById('adDesktopImg').style.display = 'none';
+        document.getElementById('removeAdDesktopImg').style.display = 'none';
+        document.getElementById('adDesktopImageInput').value = '';
+    } else {
+        mobileImageUrl = '';
+        document.getElementById('adMobileImg').src = '';
+        document.getElementById('adMobileImg').style.display = 'none';
+        document.getElementById('removeAdMobileImg').style.display = 'none';
+        document.getElementById('adMobileImageInput').value = '';
+    }
+};
 
     adForm.addEventListener('submit', async (e) => {
         e.preventDefault();
@@ -1609,15 +1634,17 @@ const data = {
     adCancelBtn.addEventListener('click', resetAdForm);
 
     function resetAdForm() {
-        adForm.reset();
-        adEditId.value = '';
-        document.getElementById('adFormTitle').textContent = 'Додади Нова Реклама';
-        adCancelBtn.style.display = 'none';
-        desktopImageUrl = '';
-        mobileImageUrl = '';
-        document.getElementById('adDesktopImg').style.display = 'none';
-        document.getElementById('adMobileImg').style.display = 'none';
-    }
+    adForm.reset();
+    adEditId.value = '';
+    document.getElementById('adFormTitle').textContent = 'Додади Нова Реклама';
+    adCancelBtn.style.display = 'none';
+    desktopImageUrl = '';
+    mobileImageUrl = '';
+    document.getElementById('adDesktopImg').style.display = 'none';
+    document.getElementById('adMobileImg').style.display = 'none';
+    document.getElementById('removeAdDesktopImg').style.display = 'none';
+    document.getElementById('removeAdMobileImg').style.display = 'none';
+}
 
     window.editAd = (id) => {
         const ad = adsCache.find(a => a.id === id);
@@ -1631,13 +1658,15 @@ const data = {
         mobileImageUrl = ad.mobileImageUrl;
 
         if (ad.desktopImageUrl) {
-            document.getElementById('adDesktopImg').src = ad.desktopImageUrl;
-            document.getElementById('adDesktopImg').style.display = 'block';
-        }
-        if (ad.mobileImageUrl) {
-            document.getElementById('adMobileImg').src = ad.mobileImageUrl;
-            document.getElementById('adMobileImg').style.display = 'block';
-        }
+    document.getElementById('adDesktopImg').src = ad.desktopImageUrl;
+    document.getElementById('adDesktopImg').style.display = 'block';
+    document.getElementById('removeAdDesktopImg').style.display = 'flex';
+}
+if (ad.mobileImageUrl) {
+    document.getElementById('adMobileImg').src = ad.mobileImageUrl;
+    document.getElementById('adMobileImg').style.display = 'block';
+    document.getElementById('removeAdMobileImg').style.display = 'flex';
+}
 
         adEditId.value = id;
         document.getElementById('adFormTitle').textContent = 'Уреди Реклама';
