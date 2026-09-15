@@ -5780,7 +5780,8 @@ function odiNaKategorijaIzDopolnitelna(kat) {
 
     // ⭐ TAKИСТ (SAMO AKO JE ODABRAN)
     if (window.selectedInstallmentMonths) {
-        const installments = calculateInstallments(ukupno);
+        const productIdForInstallment = korpa.length === 1 ? korpa[0].id : null;
+        const installments = calculateInstallments(ukupno, productIdForInstallment);
         const selected = installments.find(i => i.months === window.selectedInstallmentMonths);
         if (selected) {
             poruka += `\nНа Рати: ${selected.months} месеци\n`;
@@ -5817,7 +5818,8 @@ function odiNaKategorijaIzDopolnitelna(kat) {
     
     // ⭐ TAKИСТ (SAMO AKO JE ODABRAN)
     if (window.selectedInstallmentMonths) {
-        const installments = calculateInstallments(ukupno);
+        const productIdForInstallment = korpa.length === 1 ? korpa[0].id : null;
+        const installments = calculateInstallments(ukupno, productIdForInstallment);
         const selected = installments.find(i => i.months === window.selectedInstallmentMonths);
         if (selected) {
             poruka += `\nНа Рати: ${selected.months} месеци\n`;
@@ -6932,7 +6934,7 @@ function updateDetailWhatsAppViberLinks() {
     
     // ⭐ TAKИСТ ИНФОРМАЦИЈА (SAMO AKO JE ODABRAN)
     if (window.selectedInstallmentMonths) {
-        const installments = calculateInstallments(trenutniProizvod.cena);
+        const installments = calculateInstallments(trenutniProizvod.cena, trenutniProizvod.id);
         const selectedPlan = installments.find(i => i.months === window.selectedInstallmentMonths);
         if (selectedPlan) {
             orderMessage += `\n На Рати: ${selectedPlan.months} месеци\n`;
