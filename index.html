@@ -5467,9 +5467,9 @@ grid.innerHTML = paginatedProducts.map(p => `
         }
         
                 const brandInfo = brandsData.find(b => b.id === trenutniProizvod.brandId);
-        let brandHTML = `<strong>Marka:</strong> ${trenutniProizvod.brend}`;
+        let brandHTML = `<strong>Бренд:</strong> ${trenutniProizvod.brend}`;
         if (brandInfo && brandInfo.logo) {
-            brandHTML = `<img src="${brandInfo.logo}" alt="${trenutniProizvod.brend}" style="height: 30px; margin-right: 8px; vertical-align: middle; object-fit: contain;"><strong>Marka:</strong> ${trenutniProizvod.brend}`;
+            brandHTML = `<img src="${brandInfo.logo}" alt="${trenutniProizvod.brend}" style="height: 30px; margin-right: 8px; vertical-align: middle; object-fit: contain;"><strong>Бренд:</strong> ${trenutniProizvod.brend}`;
         }
         brandDisplay.innerHTML = brandHTML;
     }
