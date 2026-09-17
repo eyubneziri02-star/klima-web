@@ -4397,12 +4397,7 @@
                     <div class="product-detail-container">
                         <div class="product-detail-gallery">
                             <div class="product-detail-main-image" id="detail-main-image">❄️</div>
-                            <div class="product-detail-thumbnails" id="detail-thumbnails-container">
-                            <div class="thumbnail active" onclick="switchImage(0)" id="detail-thumb-0">❄️</div>
-                            <div class="thumbnail" onclick="switchImage(1)" id="detail-thumb-1">❄️</div>
-                            <div class="thumbnail" onclick="switchImage(2)" id="detail-thumb-2">❄️</div>
-                            <div class="thumbnail" onclick="switchImage(3)" id="detail-thumb-3">❄️</div>
-                       </div>
+                            <div class="product-detail-thumbnails" id="detail-thumbnails-container"></div>
                     </div>
 
                         <div class="product-detail-info">
@@ -4858,6 +4853,7 @@ function renderDetailImageContent(img) {
         let korpa = [];
         let trenutniProizvod = null;
         let pageHistory = [];
+        let isPoppingState = false;
 
         // ===== FAVORİ/İSTEKLİ LİSTESİ SİSTEMİ =====
 let favoriti = [];
@@ -4987,9 +4983,10 @@ function prikaziFavorite() {
         </article>
     `).join('');
     
-    if (pageHistory[pageHistory.length - 1] !== 'favorites') {
+        if (pageHistory[pageHistory.length - 1] !== 'favorites') {
         pageHistory.push('favorites');
     }
+    if (!isPoppingState) history.pushState({ pageHistory: [...pageHistory] }, '');
     updateBackButtonVisibility();
     window.scrollTo(0, 0);
 }
@@ -5152,13 +5149,14 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
         // INITIALIZATION
-        document.addEventListener('DOMContentLoaded', function() {
-            ucitajKorpu();
-            azurirajBrojKorpe();
-            prikaziIzbraniNaDomPull();
-            pageHistory = ['home'];
-            showSlide(0);
-        });
+document.addEventListener('DOMContentLoaded', function() {
+    ucitajKorpu();
+    azurirajBrojKorpe();
+    prikaziIzbraniNaDomPull();
+    pageHistory = ['home'];
+    history.replaceState({ pageHistory: ['home'] }, '');
+    showSlide(0);
+});
 
         // IMAGE SLIDER FUNCTIONS
         function showSlide(n) {
@@ -5314,6 +5312,7 @@ grid.innerHTML = paginatedProducts.map(p => `
             filtri.kategorija = 'all';
             filtri.brend = 'all';
             pageHistory = ['home'];
+            if (!isPoppingState) history.pushState({ pageHistory: [...pageHistory] }, '');
             updateBackButtonVisibility();
             window.scrollTo(0, 0);
         }
@@ -5328,6 +5327,7 @@ grid.innerHTML = paginatedProducts.map(p => `
             filtri.brend = 'all';
             prikaziProizvodiSaFiltromISayfalama(1);
             if (pageHistory[pageHistory.length - 1] !== 'products') pageHistory = ['home', 'products'];
+            if (!isPoppingState) history.pushState({ pageHistory: [...pageHistory] }, '');
             updateBackButtonVisibility();
             window.scrollTo(0, 0);
         }
@@ -5348,7 +5348,8 @@ grid.innerHTML = paginatedProducts.map(p => `
                 <p style="color: #bbb;">Проверете ги нашите редовни производи</p>
             </div>
         `;
-        pageHistory = ['home', 'selected'];
+                pageHistory = ['home', 'selected'];
+        if (!isPoppingState) history.pushState({ pageHistory: [...pageHistory] }, '');
         updateBackButtonVisibility();
         return;
     }
@@ -5373,7 +5374,8 @@ grid.innerHTML = paginatedProducts.map(p => `
         </article>
     `).join('');
     
-    if (pageHistory[pageHistory.length - 1] !== 'selected') pageHistory = ['home', 'selected'];
+        if (pageHistory[pageHistory.length - 1] !== 'selected') pageHistory = ['home', 'selected'];
+    if (!isPoppingState) history.pushState({ pageHistory: [...pageHistory] }, '');
     updateBackButtonVisibility();
     window.scrollTo(0, 0);
 }
@@ -5395,11 +5397,11 @@ grid.innerHTML = paginatedProducts.map(p => `
         document.getElementById('products-page-subtitle').textContent = 'Разгледајте го нашето богато портфолио од решенија за ' + name.toLowerCase();
     }
     prikaziProizvodiSaFiltromISayfalama(1);
-    if (pageHistory[pageHistory.length - 1] !== 'category-' + kat) pageHistory.push('category-' + kat);
+        if (pageHistory[pageHistory.length - 1] !== 'category-' + kat) pageHistory.push('category-' + kat);
+    if (!isPoppingState) history.pushState({ pageHistory: [...pageHistory] }, '');
     updateBackButtonVisibility();
     window.scrollTo(0, 0);
 }
-
         function filtrirajPoBrend(brnd) {
     skrij();
     document.getElementById('products-page').classList.remove('hidden');
@@ -5418,7 +5420,8 @@ grid.innerHTML = paginatedProducts.map(p => `
         document.getElementById('products-page-subtitle').textContent = 'Разгледајте ги производите од брендот ' + name;
     }
     prikaziProizvodiSaFiltromISayfalama(1);
-    if (pageHistory[pageHistory.length - 1] !== 'brand-' + brnd) pageHistory.push('brand-' + brnd);
+        if (pageHistory[pageHistory.length - 1] !== 'brand-' + brnd) pageHistory.push('brand-' + brnd);
+    if (!isPoppingState) history.pushState({ pageHistory: [...pageHistory] }, '');
     updateBackButtonVisibility();
     window.scrollTo(0, 0);
 }
@@ -5505,31 +5508,13 @@ grid.innerHTML = paginatedProducts.map(p => `
     }
     
     const slike = trenutniProizvod.slike || [];
-const realImageCount = slike.length; // Gerçek fotoğraf sayısı
+const realImageCount = slike.length;
 
-// Eski 4 thumbnail'i gizle
-for (let i = 0; i < 4; i++) {
-    const thumb = document.getElementById('detail-thumb-' + i);
-    if (thumb) {
-        thumb.style.display = 'none'; // Gizle
-    }
-}
+document.getElementById('detail-thumbnails-container').innerHTML = slike.map((img, i) => `
+    <div class="thumbnail${i === 0 ? ' active' : ''}" data-index="${i}">${renderDetailImageContent(img)}</div>
+`).join('');
 
-// Sadece gerçek fotoğrafları göster
-for (let i = 0; i < realImageCount; i++) {
-    const thumb = document.getElementById('detail-thumb-' + i);
-    if (thumb) {
-        thumb.style.display = 'block';
-        thumb.innerHTML = renderDetailImageContent(slike[i]);
-        thumb.classList.remove('active');
-        thumb.style.cursor = 'pointer';
-        thumb.setAttribute('data-index', i);
-    }
-}
-
-// İlk fotoğrafı aktif yap
 if (realImageCount > 0) {
-    document.getElementById('detail-thumb-0').classList.add('active');
     document.getElementById('detail-main-image').innerHTML = renderDetailImageContent(slike[0]);
 } else {
     document.getElementById('detail-main-image').textContent = '❌ Fotoğraf yok';
@@ -5542,7 +5527,8 @@ console.log(`✅ ${realImageCount} adet fotoğraf yüklendi`);
         
     skrij();
     document.getElementById('product-detail-page').classList.remove('hidden');
-    pageHistory.push('product-' + id);
+        pageHistory.push('product-' + id);
+    if (!isPoppingState) history.pushState({ pageHistory: [...pageHistory] }, '');
     updateBackButtonVisibility();
     window.scrollTo(0, 0);
 
@@ -5914,21 +5900,7 @@ function odiNaKategorijaIzDopolnitelna(kat) {
         }
 
         function vratiSePrev() {
-    if (pageHistory.length > 1) {
-        pageHistory.pop();
-        const poslednja = pageHistory[pageHistory.length - 1];
-        if (poslednja === 'home') prikaziDom();
-        else if (poslednja === 'products') prikaziSiProizvodi();
-        else if (poslednja === 'selected') prikaziIzbraniPuni();
-        else if (poslednja === 'favorites') prikaziFavorite();
-        else if (poslednja.startsWith('category-')) filtrirajPoKategorija(poslednja.split('-')[1]);
-        else if (poslednja.startsWith('brand-')) filtrirajPoBrend(poslednja.split('-')[1]);
-        else if (poslednja.startsWith('product-')) prikaziDetalje(poslednja.split('-')[1]);
-        else if (poslednja === 'search') izvrsiPrebaruvanje();
-    } else {
-        prikaziDom();
-    }
-    updateBackButtonVisibility();
+    history.back();
 }
 
         function handleSearchKeypress(event) {
@@ -6011,6 +5983,7 @@ function izvrsiPrebaruvanjeMobile() {
     </article>
 `).join('');
             pageHistory.push('search');
+            if (!isPoppingState) history.pushState({ pageHistory: [...pageHistory] }, '');
             updateBackButtonVisibility();
             window.scrollTo(0, 0);
         }
@@ -6055,19 +6028,27 @@ function izvrsiPrebaruvanjeMobile() {
 
         // BROWSER BACK BUTTON
         window.addEventListener('popstate', function(event) {
-            if (pageHistory.length > 1) {
-                pageHistory.pop();
-                const poslednja = pageHistory[pageHistory.length - 1];
-                if (poslednja === 'home') prikaziDom();
-                else if (poslednja === 'products') prikaziSiProizvodi();
-                else if (poslednja === 'selected') prikaziIzbraniPuni();
-                else if (poslednja.startsWith('category-')) filtrirajPoKategorija(poslednja.split('-')[1]);
-                else if (poslednja.startsWith('brand-')) filtrirajPoBrend(poslednja.split('-')[1]);
-                else if (poslednja.startsWith('product-')) prikaziDetalje(poslednja.split('-')[1]);
-                else if (poslednja === 'search') izvrsiPrebaruvanje();
-                updateBackButtonVisibility();
-            }
-        });
+    const state = event.state;
+    pageHistory = (state && state.pageHistory) ? state.pageHistory : ['home'];
+    const poslednja = pageHistory[pageHistory.length - 1];
+
+    isPoppingState = true;
+    if (poslednja === 'home') prikaziDom();
+    else if (poslednja === 'products') prikaziSiProizvodi();
+    else if (poslednja === 'selected') prikaziIzbraniPuni();
+    else if (poslednja === 'favorites') prikaziFavorite();
+    else if (poslednja.startsWith('subcat|')) {
+        const parts = poslednja.split('|');
+        filtrirajPoPodkategorija(parts[1], parts[2]);
+    }
+    else if (poslednja.startsWith('category-')) filtrirajPoKategorija(poslednja.split('-')[1]);
+    else if (poslednja.startsWith('brand-')) filtrirajPoBrend(poslednja.split('-')[1]);
+    else if (poslednja.startsWith('product-')) prikaziDetalje(poslednja.split('-')[1]);
+    else if (poslednja === 'search') izvrsiPrebaruvanje();
+    isPoppingState = false;
+
+    updateBackButtonVisibility();
+});
 
         // KEYBOARD BACK BUTTON
         document.addEventListener('keydown', function(event) {
@@ -6772,6 +6753,10 @@ function filtrirajPoPodkategorija(subcatId, catId) {
     currentPage = 1;
 
     prikaziProizvodiSaFiltromISayfalama(1, subcatId);
+    const key = 'subcat|' + subcatId + '|' + catId;
+    if (pageHistory[pageHistory.length - 1] !== key) pageHistory.push(key);
+    if (!isPoppingState) history.pushState({ pageHistory: [...pageHistory] }, '');
+    updateBackButtonVisibility();
     window.scrollTo(0, 0);
 }
 
@@ -6983,21 +6968,13 @@ function updateDetailWhatsAppViberLinks() {
 
 function switchImage(index) {
     const slike = trenutniProizvod.slike || [];
-    
-    // Eğer o index'te fotoğraf yoksa, hiçbir şey yapma
     if (!slike[index]) return;
-    
-    // Ana fotoğrafı değiştir
     document.getElementById('detail-main-image').innerHTML = renderDetailImageContent(slike[index]);
-    
-    // Tüm thumbnail'lerden active sınıfı kaldır
-    document.querySelectorAll('.thumbnail').forEach((thumb, i) => {
+    document.querySelectorAll('#detail-thumbnails-container .thumbnail').forEach((thumb) => {
         thumb.classList.remove('active');
     });
-    
-    // Seçilen thumbnail'i aktif yap
-    document.getElementById(`detail-thumb-${index}`).classList.add('active');
-    
+    const activeThumb = document.querySelector(`#detail-thumbnails-container .thumbnail[data-index="${index}"]`);
+    if (activeThumb) activeThumb.classList.add('active');
     console.log(`✅ Fotoğraf ${index} gösterildi`);
 }
 
