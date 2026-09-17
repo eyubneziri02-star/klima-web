@@ -1349,6 +1349,19 @@
             margin-bottom: 1rem;
         }
 
+        .price-old {
+    color: #999;
+    font-size: 0.7em;
+    font-weight: 500;
+    text-decoration: line-through;
+    margin-right: 0.4em;
+}
+
+.price-new {
+    color: #2ecc71;
+    font-weight: bold;
+}
+
         .product-brand {
     color: #0a2540;
     font-size: 1rem;
@@ -4813,6 +4826,23 @@ function formatPriceDisplay(cena) {
     return cena || 'Повик за цена';
 }
 
+function getDiscountedPrice(cena, indirim) {
+    if (!isPriceValid(cena)) return cena;
+    if (!indirim || indirim <= 0) return cena;
+    return Math.round(cena * (1 - indirim / 100));
+}
+
+function renderPriceHTML(cena, indirim) {
+    if (!isPriceValid(cena)) {
+        return formatPriceDisplay(cena);
+    }
+    if (indirim && indirim > 0) {
+        const newPrice = getDiscountedPrice(cena, indirim);
+        return `<span class="price-old">${formatPriceDisplay(cena)}</span><span class="price-new">${formatPriceDisplay(newPrice)}</span>`;
+    }
+    return formatPriceDisplay(cena);
+}
+
 function renderDetailImageContent(img) {
     if (img && typeof img === 'string' && img.startsWith('http')) {
         return `<img src="${img}" style="width:100%;height:100%;object-fit:contain;">`;
@@ -4945,7 +4975,7 @@ function prikaziFavorite() {
             <div class="product-content">
                 <p class="product-brand">${p.brend}</p>
                 <h3 class="product-title">${p.naziv}</h3>
-                <div class="product-price">${formatPriceDisplay(p.cena)}</div>
+                <div class="product-price">${renderPriceHTML(p.cena, p.indirim)}</div>
                 ${getInstallmentBadgeText(p.cena) ? `<div class="installment-badge">${getInstallmentBadgeText(p.cena)}</div>` : ''}
                 <div style="display: flex; gap: 0.5rem;">
                     <button class="btn btn-outline" style="flex: 1;" onclick="event.stopPropagation(); event.preventDefault(); dodajUKorpu('${p.id}')">Додај во Кошничка</button>
@@ -5001,7 +5031,7 @@ function initCarousel() {
                     <div class="carousel-product-brand">${p.brend}</div>
                     <div class="carousel-product-title">${p.naziv}</div>
                 </div>
-                <div class="carousel-product-price">${formatPriceDisplay(p.cena)}</div>
+                <div class="carousel-product-price">${renderPriceHTML(p.cena, p.indirim)}</div>
                 <div class="installment-badge" style="font-size: 0.8rem;">${getInstallmentBadgeText(p.cena, p.id)}</div>
                 <div style="display: flex; gap: 0.3rem;">
                     <button class="carousel-product-button" style="flex: 1;" onclick="event.stopPropagation(); dodajUKorpu('${p.id}')">Додај во Кошничка</button>
@@ -5236,7 +5266,7 @@ grid.innerHTML = paginatedProducts.map(p => `
         <div class="product-content">
             <p class="product-brand">${p.brend}</p>
             <h3 class="product-title">${p.naziv}</h3>
-            <div class="product-price">${formatPriceDisplay(p.cena)}</div>
+            <div class="product-price">${renderPriceHTML(p.cena, p.indirim)}</div>
             ${getInstallmentBadgeText(p.cena, p.id) ? `<div class="installment-badge">${getInstallmentBadgeText(p.cena, p.id)}</div>` : ''}
             <div style="display: flex; gap: 0.5rem;">
                 <button class="btn btn-outline" style="flex: 1;" onclick="event.stopPropagation(); event.preventDefault(); dodajUKorpu('${p.id}')">Додај во Кошничка</button>
@@ -5331,7 +5361,7 @@ grid.innerHTML = paginatedProducts.map(p => `
             <div class="product-content">
                 <p class="product-brand">${p.brend}</p>
                 <h3 class="product-title">${p.naziv}</h3>
-                <div class="product-price">${formatPriceDisplay(p.cena)}</div>
+                <div class="product-price">${renderPriceHTML(p.cena, p.indirim)}</div>
                 ${getInstallmentBadgeText(p.cena, p.id) ? `<div class="installment-badge">${getInstallmentBadgeText(p.cena, p.id)}</div>` : ''}
                 <div style="display: flex; gap: 0.5rem;">
                     <button class="btn btn-outline" style="flex: 1;" onclick="event.stopPropagation(); event.preventDefault(); dodajUKorpu('${p.id}')">Додај во Кошничка</button>
@@ -5422,7 +5452,7 @@ grid.innerHTML = paginatedProducts.map(p => `
             <div class="product-content">
                 <p class="product-brand">${p.brend}</p>
                 <h3 class="product-title">${p.naziv}</h3>
-                <div class="product-price">${formatPriceDisplay(p.cena)}</div>
+                <div class="product-price">${renderPriceHTML(p.cena, p.indirim)}</div>
                 ${getInstallmentBadgeText(p.cena, p.id) ? `<div class="installment-badge">${getInstallmentBadgeText(p.cena, p.id)}</div>` : ''}
                 <div style="display: flex; gap: 0.5rem;">
                     <button class="btn btn-outline" style="flex: 1;" onclick="event.stopPropagation(); event.preventDefault(); dodajUKorpu('${p.id}')">Додај во Кошничка</button>
@@ -5444,7 +5474,7 @@ grid.innerHTML = paginatedProducts.map(p => `
     document.getElementById('dopolnitelna-oprema-section').classList.remove('hidden');
     
     document.getElementById('detail-title').textContent = trenutniProizvod.naziv;
-    document.getElementById('detail-price').textContent = formatPriceDisplay(trenutniProizvod.cena);
+    document.getElementById('detail-price').innerHTML = renderPriceHTML(trenutniProizvod.cena, trenutniProizvod.indirim);
     document.getElementById('detail-description').textContent = trenutniProizvod.opis || '';
 
         // ⭐ TAKSIT SEÇİMİNİ RESET ET (HER ÜRÜNe TİKLADIĞINDA)
@@ -5719,11 +5749,11 @@ function odiNaKategorijaIzDopolnitelna(kat) {
                 document.getElementById('cart-total').textContent = '0 ден.';
                 return;
             }
-            const ukupno = korpa.reduce((s, st) => s + (st.cena * st.količina), 0);
+            const ukupno = korpa.reduce((s, st) => s + (getDiscountedPrice(st.cena, st.indirim) * st.količina), 0);
             stavke.innerHTML = korpa.map(st => `
                 <div class="cart-item">
                     <div class="cart-item-title">${st.naziv}</div>
-                    <div class="cart-item-price">${(st.cena * st.količina).toLocaleString('mk-MK')} ден.</div>
+                    <div class="cart-item-price">${(getDiscountedPrice(st.cena, st.indirim) * st.količina).toLocaleString('mk-MK')} ден.</div>
                     <div class="cart-item-quantity">
                         <button class="quantity-btn" onclick="promeniKolicinu('${st.id}', -1)">−</button>
                         <span>${st.količina}</span>
@@ -5762,7 +5792,7 @@ function odiNaKategorijaIzDopolnitelna(kat) {
         return;
     }
     
-    const ukupno = korpa.reduce((s, st) => s + (st.cena * st.količina), 0);
+    const ukupno = korpa.reduce((s, st) => s + (getDiscountedPrice(st.cena, st.indirim) * st.količina), 0);
     
     // ✅ ÜRÜNLERİ BİR BİR LİSTE ET (ÜRÜN DETAYI FORMATI)
     let poruka = `Здравo! Сакам да го порачам овој производ:\n\n`;
@@ -5770,7 +5800,7 @@ function odiNaKategorijaIzDopolnitelna(kat) {
     korpa.forEach((st, index) => {
         poruka += `${st.naziv}\n`;
         poruka += `Бренд: ${st.brend}\n`;
-        poruka += `Цена: ${(st.cena * st.količina).toLocaleString('mk-MK')} ден.\n`;
+        poruka += `Цена: ${(getDiscountedPrice(st.cena, st.indirim) * st.količina).toLocaleString('mk-MK')} ден.\n`;
 
         if (index < korpa.length - 1) {
             poruka += `\n`;
@@ -5800,7 +5830,7 @@ function odiNaKategorijaIzDopolnitelna(kat) {
         return;
     }
     
-    const ukupno = korpa.reduce((s, st) => s + (st.cena * st.količina), 0);
+    const ukupno = korpa.reduce((s, st) => s + (getDiscountedPrice(st.cena, st.indirim) * st.količina), 0);
     
     // ✅ ÜRÜNLERİ BİR BİR LİSTE ET (ÜRÜN DETAYI FORMATI)
     let poruka = `Здравo! Сакам да го порачам овој производ:\n\n`;
@@ -5808,7 +5838,7 @@ function odiNaKategorijaIzDopolnitelna(kat) {
     korpa.forEach((st, index) => {
         poruka += `${st.naziv}\n`;
         poruka += `Бренд: ${st.brend}\n`;
-        poruka += `Цена: ${(st.cena * st.količina).toLocaleString('mk-MK')} ден.\n`;
+        poruka += `Цена: ${(getDiscountedPrice(st.cena, st.indirim) * st.količina).toLocaleString('mk-MK')} ден.\n`;
 
         if (index < korpa.length - 1) {
           poruka += `\n`;
@@ -5969,7 +5999,7 @@ function izvrsiPrebaruvanjeMobile() {
         <div class="product-content">
             <p class="product-brand">${p.brend}</p>
             <h3 class="product-title">${p.naziv}</h3>
-            <div class="product-price">${formatPriceDisplay(p.cena)}</div>
+            <div class="product-price">${renderPriceHTML(p.cena, p.indirim)}</div>
             ${getInstallmentBadgeText(p.cena, p.id) ? `<div class="installment-badge">${getInstallmentBadgeText(p.cena, p.id)}</div>` : ''}
             <div style="display: flex; gap: 0.5rem;">
                 <button class="btn btn-outline" style="flex: 1;" onclick="event.stopPropagation(); event.preventDefault(); dodajUKorpu('${p.id}')">Додај во Кошничка</button>
@@ -6787,7 +6817,7 @@ function renderCategorySections() {
                     <div class="product-content">
                         <p class="product-brand">${p.brend}</p>
                         <h3 class="product-title">${p.naziv}</h3>
-                        <div class="product-price">${formatPriceDisplay(p.cena)}</div>
+                        <div class="product-price">${renderPriceHTML(p.cena, p.indirim)}</div>
                         ${getInstallmentBadgeText(p.cena, p.id) ? `<div class="installment-badge">${getInstallmentBadgeText(p.cena, p.id)}</div>` : ''}
                         <div style="display: flex; gap: 0.5rem;">
                             <button class="btn btn-outline" style="flex: 1;" onclick="event.stopPropagation(); event.preventDefault(); dodajUKorpu('${p.id}')">Додај во Кошничка</button>
@@ -6930,7 +6960,7 @@ function updateDetailWhatsAppViberLinks() {
     let orderMessage = `Здраво! Сакам да го порачам овој производ:\n\n`;
     orderMessage += ` ${trenutniProizvod.naziv}\n`;
     orderMessage += ` Бренд: ${trenutniProizvod.brend}\n`;
-    orderMessage += ` Цена: ${formatPriceDisplay(trenutniProizvod.cena)}\n`;
+    orderMessage += ` Цена: ${formatPriceDisplay(getDiscountedPrice(trenutniProizvod.cena, trenutniProizvod.indirim))}\n`;
     
     // ⭐ TAKИСТ ИНФОРМАЦИЈА (SAMO AKO JE ODABRAN)
     if (window.selectedInstallmentMonths) {
@@ -7087,7 +7117,7 @@ function applyPriceFilterWithPage(page) {
             <div class="product-content">
                 <p class="product-brand">${p.brend}</p>
                 <h3 class="product-title">${p.naziv}</h3>
-                <div class="product-price">${formatPriceDisplay(p.cena)}</div>
+                <div class="product-price">${renderPriceHTML(p.cena, p.indirim)}</div>
                 ${getInstallmentBadgeText(p.cena, p.id) ? `<div class="installment-badge">${getInstallmentBadgeText(p.cena, p.id)}</div>` : ''}
                 <div style="display: flex; gap: 0.5rem;">
                     <button class="btn btn-outline" style="flex: 1;" onclick="event.stopPropagation(); event.preventDefault(); dodajUKorpu('${p.id}')">Додај во Кошничка</button>
