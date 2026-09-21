@@ -6041,6 +6041,10 @@ function izvrsiPrebaruvanjeMobile() {
         const parts = poslednja.split('|');
         filtrirajPoPodkategorija(parts[1], parts[2]);
     }
+        else if (poslednja.startsWith('micro|')) {
+        const parts = poslednja.split('|');
+        filtrirajPoMikroKategorija(parts[1], parts[2]);
+    }
     else if (poslednja.startsWith('category-')) filtrirajPoKategorija(poslednja.split('-')[1]);
     else if (poslednja.startsWith('brand-')) filtrirajPoBrend(poslednja.split('-')[1]);
     else if (poslednja.startsWith('product-')) prikaziDetalje(poslednja.split('-')[1]);
@@ -6573,6 +6577,49 @@ function filtrirajPoKategorijaByName(searchText) {
 
 let menuTimeout2;
 
+let microMenuTimeout;
+
+function showMicroSubmenu(itemEl, subcatId) {
+    clearTimeout(microMenuTimeout);
+    const microItems = subsubcategoriesData.filter(m => m.parentId === subcatId);
+    const panel = document.getElementById(`micro-submenu-${subcatId}`);
+    if (!panel) return;
+
+    if (microItems.length === 0) {
+        panel.style.display = 'none';
+        return;
+    }
+
+    panel.innerHTML = `<div class="submenu-title">Микро-категории</div>` +
+        microItems.map(m => `<a onclick="filtrirajPoMikroKategorija('${m.id}', '${subcatId}')">${m.icon ? m.icon + ' ' : ''}${m.name}</a>`).join('');
+
+    const rect = itemEl.getBoundingClientRect();
+    let topPos = rect.top;
+    let leftPos = rect.right + 5;
+
+    panel.style.display = 'block';
+    const panelHeight = panel.offsetHeight;
+    const viewportHeight = window.innerHeight;
+    if (topPos + panelHeight > viewportHeight) topPos = viewportHeight - panelHeight - 10;
+    if (topPos < 10) topPos = 10;
+
+    const panelWidth = panel.offsetWidth;
+    const viewportWidth = window.innerWidth;
+    if (leftPos + panelWidth > viewportWidth) leftPos = rect.left - panelWidth - 5;
+
+    panel.style.top = topPos + 'px';
+    panel.style.left = leftPos + 'px';
+
+    panel.addEventListener('mouseenter', () => clearTimeout(microMenuTimeout));
+    panel.addEventListener('mouseleave', hideMicroSubmenuDelayed);
+}
+
+function hideMicroSubmenuDelayed() {
+    microMenuTimeout = setTimeout(() => {
+        document.querySelectorAll('.micro-submenu-panel').forEach(p => p.style.display = 'none');
+    }, 300);
+}
+
 function renderCategoryMenus() {
     const dropdown = document.getElementById('categories-dropdown');
     const submenuWrapper = document.getElementById('submenu-wrapper-container');
@@ -6583,11 +6630,22 @@ function renderCategoryMenus() {
 
     categoriesData.forEach(cat => {
         dropdownHTML += `<a onclick="filtrirajPoKategorija('${cat.id}')">${cat.icon ? cat.icon + ' ' : ''}${cat.name}</a>`;
-        const subs = subcategoriesData.filter(s => s.parentId === cat.id);
+                const subs = subcategoriesData.filter(s => s.parentId === cat.id);
         if (subs.length > 0) {
             submenuHTML += `<div class="submenu-panel" id="submenu-${cat.id}">
                 <div class="submenu-title">${cat.name}</div>
-                ${subs.map(s => `<a onclick="filtrirajPoPodkategorija('${s.id}', '${cat.id}')">${s.icon ? s.icon + ' ' : ''}${s.name}</a>`).join('')}
+                ${subs.map(s => {
+                    const microItems = subsubcategoriesData.filter(m => m.parentId === s.id);
+                    if (microItems.length > 0) {
+                        return `<div class="submenu-item-with-children" style="position: relative;" onmouseenter="showMicroSubmenu(this, '${s.id}')" onmouseleave="hideMicroSubmenuDelayed()">
+                            <a onclick="filtrirajPoPodkategorija('${s.id}', '${cat.id}')" style="display:flex; justify-content:space-between; align-items:center;">
+                                <span>${s.icon ? s.icon + ' ' : ''}${s.name}</span><span style="color:#2ecc71;">›</span>
+                            </a>
+                            <div class="submenu-panel micro-submenu-panel" id="micro-submenu-${s.id}"></div>
+                        </div>`;
+                    }
+                    return `<a onclick="filtrirajPoPodkategorija('${s.id}', '${cat.id}')">${s.icon ? s.icon + ' ' : ''}${s.name}</a>`;
+                }).join('')}
             </div>`;
         }
     });
@@ -6637,7 +6695,7 @@ function renderCategoryMenus() {
         });
     }
 
-    const mobileCatSlider = document.getElementById('mobile-categories-slider');
+        const mobileCatSlider = document.getElementById('mobile-categories-slider');
     if (mobileCatSlider) {
         mobileCatSlider.innerHTML = categoriesData.map(cat => {
             const subs = subcategoriesData.filter(s => s.parentId === cat.id);
@@ -6648,7 +6706,21 @@ function renderCategoryMenus() {
                         <span class="category-arrow">▼</span>
                     </div>
                     <div class="mobile-subcategories-list">
-                        ${subs.map(s => `<a class="mobile-subcategory-link" onclick="closeMenuOnNavigation(); filtrirajPoPodkategorija('${s.id}', '${cat.id}')">${s.icon ? s.icon + ' ' : ''}${s.name}</a>`).join('')}
+                        ${subs.map(s => {
+                            const microItems = subsubcategoriesData.filter(m => m.parentId === s.id);
+                            if (microItems.length > 0) {
+                                return `<div class="mobile-micro-item">
+                                    <div class="mobile-subcategory-link" style="display:flex; justify-content:space-between; align-items:center;" onclick="toggleMobileMicroGeneric(event, '${s.id}', '${cat.id}')">
+                                        <span>${s.icon ? s.icon + ' ' : ''}${s.name}</span>
+                                        <span class="category-arrow" style="width:24px;height:24px;font-size:1rem;">▼</span>
+                                    </div>
+                                    <div class="mobile-subcategories-list mobile-micro-list" style="border-left-color:#7d3c98;">
+                                        ${microItems.map(m => `<a class="mobile-subcategory-link" onclick="closeMenuOnNavigation(); filtrirajPoMikroKategorija('${m.id}', '${s.id}')">${m.icon ? m.icon + ' ' : ''}${m.name}</a>`).join('')}
+                                    </div>
+                                </div>`;
+                            }
+                            return `<a class="mobile-subcategory-link" onclick="closeMenuOnNavigation(); filtrirajPoPodkategorija('${s.id}', '${cat.id}')">${s.icon ? s.icon + ' ' : ''}${s.name}</a>`;
+                        }).join('')}
                     </div>
                 </div>
             `;
@@ -6677,6 +6749,24 @@ function toggleMobileSubcategoryGeneric(event, categoryId) {
         sublist.classList.add('open');
         header.classList.add('active');
     }
+}
+
+function toggleMobileMicroGeneric(event, subcatId, catId) {
+    event.stopPropagation();
+    const header = event.currentTarget;
+    const sublist = header.nextElementSibling;
+
+    if (sublist && sublist.children.length === 0) {
+        filtrirajPoPodkategorija(subcatId, catId);
+        closeMenuOnNavigation();
+        return;
+    }
+
+    if (!sublist || !sublist.classList.contains('mobile-subcategories-list')) return;
+
+    const isOpen = sublist.classList.contains('open');
+    document.querySelectorAll('.mobile-micro-list').forEach(l => l.classList.remove('open'));
+    if (!isOpen) sublist.classList.add('open');
 }
 
 function renderBrandMenus() {
@@ -6758,6 +6848,57 @@ function filtrirajPoPodkategorija(subcatId, catId) {
     if (!isPoppingState) history.pushState({ pageHistory: [...pageHistory] }, '');
     updateBackButtonVisibility();
     window.scrollTo(0, 0);
+}
+
+function filtrirajPoMikroKategorija(subsubcatId, subcatId) {
+    skrij();
+    document.getElementById('products-page').classList.remove('hidden');
+    document.getElementById('product-detailed-section').classList.add('hidden');
+
+    const micro = subsubcategoriesData.find(m => m.id === subsubcatId);
+    document.getElementById('products-page-title').textContent = micro ? micro.name : 'Производи';
+    document.getElementById('products-page-subtitle').textContent = 'Разгледајте ги производите';
+
+    const parentSub = subcategoriesData.find(s => s.id === subcatId);
+    filtri.kategorija = parentSub ? parentSub.parentId : 'all';
+    filtri.brend = 'all';
+    currentPage = 1;
+
+    let filtrirani = proizvodi.filter(p => p.subsubcategoryId === subsubcatId);
+    renderFilteredProductsCustom(filtrirani, 1);
+
+    const key = 'micro|' + subsubcatId + '|' + subcatId;
+    if (pageHistory[pageHistory.length - 1] !== key) pageHistory.push(key);
+    if (!isPoppingState) history.pushState({ pageHistory: [...pageHistory] }, '');
+    updateBackButtonVisibility();
+    window.scrollTo(0, 0);
+}
+
+function renderFilteredProductsCustom(filtrirani, page) {
+    const start = (page - 1) * ITEMS_PER_PAGE;
+    const end = start + ITEMS_PER_PAGE;
+    const paginatedProducts = filtrirani.slice(start, end);
+    const totalPages = Math.ceil(filtrirani.length / ITEMS_PER_PAGE);
+
+    const grid = document.getElementById('products-grid');
+    grid.innerHTML = paginatedProducts.map(p => `
+        <article class="product-card" onclick="prikaziDetalje('${p.id}')">
+            ${p.indirim > 0 ? `<div class="indirim-badge">-${p.indirim}%</div>` : ''}
+            <div class="product-image">${renderProductImage(p)}</div>
+            <div class="product-content">
+                <p class="product-brand">${p.brend}</p>
+                <h3 class="product-title">${p.naziv}</h3>
+                <div class="product-price">${renderPriceHTML(p.cena, p.indirim)}</div>
+                ${getInstallmentBadgeText(p.cena, p.id) ? `<div class="installment-badge">${getInstallmentBadgeText(p.cena, p.id)}</div>` : ''}
+                <div style="display: flex; gap: 0.5rem;">
+                    <button class="btn btn-outline" style="flex: 1;" onclick="event.stopPropagation(); event.preventDefault(); dodajUKorpu('${p.id}')">Додај во Кошничка</button>
+                    <button class="favorite-btn" data-product-id="${p.id}" onclick="toggleFavorit('${p.id}', event)">
+                        ${isFavorit(p.id) ? '❤️' : '🤍'}
+                    </button>
+                </div>
+            </div>
+        </article>
+    `).join('');
 }
 
 function renderCategorySections() {
@@ -7501,14 +7642,16 @@ window.addEventListener('pagehide', function() {
     <script>
     let categoriesData = [];
 let subcategoriesData = [];
+let subsubcategoriesData = [];
 let brandsData = [];
 let adsData = [];
 
 async function loadSiteDataFromFirestore() {
     try {
-        const [catSnap, subSnap, brandSnap, prodSnap, adSnap] = await Promise.all([
+                const [catSnap, subSnap, subsubSnap, brandSnap, prodSnap, adSnap] = await Promise.all([
             window.fbGetDocs(window.fbCollection(window.firebaseDb, 'categories')),
             window.fbGetDocs(window.fbCollection(window.firebaseDb, 'subcategories')),
+            window.fbGetDocs(window.fbCollection(window.firebaseDb, 'subsubcategories')),
             window.fbGetDocs(window.fbCollection(window.firebaseDb, 'brands')),
             window.fbGetDocs(window.fbCollection(window.firebaseDb, 'products')),
             window.fbGetDocs(window.fbCollection(window.firebaseDb, 'ads'))
@@ -7519,6 +7662,9 @@ async function loadSiteDataFromFirestore() {
 
         subcategoriesData = [];
         subSnap.forEach(d => subcategoriesData.push({ id: d.id, ...d.data() }));
+
+                subsubcategoriesData = [];
+        subsubSnap.forEach(d => subsubcategoriesData.push({ id: d.id, ...d.data() }));
 
         brandsData = [];
         brandSnap.forEach(d => brandsData.push({ id: d.id, ...d.data() }));
@@ -7535,7 +7681,8 @@ async function loadSiteDataFromFirestore() {
                 brend: data.brandName || '',
                 brandId: data.brandId || '',
                 kategorija: data.categoryId || '',
-                tip: data.subcategoryId || '',
+                                tip: data.subcategoryId || '',
+                subsubcategoryId: data.subsubcategoryId || '',
                 cena: typeof data.price === 'number' ? data.price : data.price,
                 slika: (data.images && data.images[0]) || '📦',
                 slike: (data.images && data.images.length > 0) ? data.images : ['📦'],
