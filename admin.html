@@ -386,6 +386,7 @@
                 <button class="tab-btn active" onclick="showTab('products')">Производи</button>
                 <button class="tab-btn" onclick="showTab('categories')">Категории</button>
                 <button class="tab-btn" onclick="showTab('subcategories')">Подкатегории</button>
+                <button class="tab-btn" onclick="showTab('subsubcategories')">Микро-категории</button>
                 <button class="tab-btn" onclick="showTab('brands')">Марки</button>
                 <button class="tab-btn" onclick="showTab('ads')">Реклами</button>
                 <button class="tab-btn" onclick="showTab('orders')">Нарачки</button>
@@ -421,12 +422,19 @@
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label for="prodSubcategory">Подкатегорија (опционално)</label>
-                                <select id="prodSubcategory">
-                                    <option value="">-- Нема подкатегорија --</option>
-                                </select>
-                            </div>
+                        <label for="prodSubcategory">Подкатегорија (опционално)</label>
+                         <select id="prodSubcategory" onchange="loadSubsubcategoriesForForm()">
+                        <option value="">-- Нема подкатегорија --</option>
+                           </select>
+                          </div>
                         </div>
+
+                        <div class="form-group">
+    <label for="prodSubsubcategory">Микро-категорија (опционално)</label>
+    <select id="prodSubsubcategory">
+        <option value="">-- Нема микро-категорија --</option>
+    </select>
+</div>
 
                     <div class="form-group">
                         <label for="prodPrice">Цена</label>
@@ -614,6 +622,53 @@
                     </div>
                 </div>
             </div>
+
+            <!-- SUB-SUBCATEGORIES TAB -->
+<div id="subsubcategories" class="tab-content">
+    <div class="admin-section">
+        <h3 id="subsubcategoryFormTitle">Додади Нова Микро-категорија</h3>
+        <div class="success-msg" id="subsubcategorySuccessMsg">Микро-категоријата е успешно зачувана!</div>
+        <form id="subsubcategoryForm">
+            <input type="hidden" id="subsubcategoryEditId">
+
+            <div class="form-group">
+                <label for="subsubcatMainParent">Главна Категорија</label>
+                <select id="subsubcatMainParent" required onchange="loadSubcatOptionsForSubsubcatForm()">
+                    <option value="">-- Изберете главна категорија --</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="subsubcatParent">Подкатегорија</label>
+                <select id="subsubcatParent" required>
+                    <option value="">-- Прво изберете главна категорија --</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="subsubcatName">Име на микро-категорија</label>
+                <input type="text" id="subsubcatName" required placeholder="пр. Vivax M Design серија">
+            </div>
+
+            <div class="form-group">
+                <label for="subsubcatIcon">Икона (емоџи, опционално)</label>
+                <input type="text" id="subsubcatIcon" placeholder="пр. ❄️">
+            </div>
+
+            <div style="display: flex; gap: 0.5rem; margin-top: 1rem;">
+                <button type="submit" class="btn btn-success">Зачувај Микро-категорија</button>
+                <button type="button" class="btn btn-primary" id="subsubcategoryCancelBtn" style="display:none;">Откажи</button>
+            </div>
+        </form>
+    </div>
+
+    <div class="admin-section">
+        <h3>Постоечки Микро-категории</h3>
+        <div id="subsubcategoriesList">
+            <p class="empty-state">Се вчитува...</p>
+        </div>
+    </div>
+</div>
 
             <!-- BRANDS TAB -->
             <div id="brands" class="tab-content">
@@ -1107,6 +1162,136 @@
         });
     }
 
+    // ==================== SUB-SUBCATEGORIES ====================
+const subsubcategoryForm = document.getElementById('subsubcategoryForm');
+const subsubcategoryEditId = document.getElementById('subsubcategoryEditId');
+const subsubcategoryCancelBtn = document.getElementById('subsubcategoryCancelBtn');
+let subsubcategoriesCache = [];
+
+subsubcategoryForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const data = {
+        name: document.getElementById('subsubcatName').value.trim(),
+        parentId: document.getElementById('subsubcatParent').value,
+        mainCategoryId: document.getElementById('subsubcatMainParent').value,
+        icon: document.getElementById('subsubcatIcon').value.trim()
+    };
+    try {
+        if (subsubcategoryEditId.value) {
+            await window.fbUpdateDoc(window.fbDoc(window.firebaseDb, 'subsubcategories', subsubcategoryEditId.value), data);
+        } else {
+            await window.fbAddDoc(window.fbCollection(window.firebaseDb, 'subsubcategories'), data);
+        }
+        showSuccessMsg('subsubcategorySuccessMsg', 'Микро-категоријата е успешно зачувана!');
+        resetSubsubcategoryForm();
+        await loadSubsubcategories();
+    } catch (err) {
+        alert('Грешка: ' + err.message);
+    }
+});
+
+subsubcategoryCancelBtn.addEventListener('click', resetSubsubcategoryForm);
+
+function resetSubsubcategoryForm() {
+    subsubcategoryForm.reset();
+    subsubcategoryEditId.value = '';
+    document.getElementById('subsubcategoryFormTitle').textContent = 'Додади Нова Микро-категорија';
+    subsubcategoryCancelBtn.style.display = 'none';
+    document.getElementById('subsubcatParent').innerHTML = '<option value="">-- Прво изберете главна категорија --</option>';
+}
+
+window.editSubsubcategory = (id) => {
+    const item = subsubcategoriesCache.find(c => c.id === id);
+    if (!item) return;
+    document.getElementById('subsubcatMainParent').value = item.mainCategoryId;
+    loadSubcatOptionsForSubsubcatForm();
+    setTimeout(() => {
+        document.getElementById('subsubcatParent').value = item.parentId;
+    }, 0);
+    document.getElementById('subsubcatName').value = item.name;
+    document.getElementById('subsubcatIcon').value = item.icon || '';
+    subsubcategoryEditId.value = id;
+    document.getElementById('subsubcategoryFormTitle').textContent = 'Уреди Микро-категорија';
+    subsubcategoryCancelBtn.style.display = 'inline-block';
+};
+
+window.deleteSubsubcategory = async (id) => {
+    if (!confirm('Дали сте сигурни?')) return;
+    try {
+        await window.fbDeleteDoc(window.fbDoc(window.firebaseDb, 'subsubcategories', id));
+        await loadSubsubcategories();
+    } catch (err) {
+        alert('Грешка: ' + err.message);
+    }
+};
+
+async function loadSubsubcategories() {
+    try {
+        const snapshot = await window.fbGetDocs(window.fbCollection(window.firebaseDb, 'subsubcategories'));
+        subsubcategoriesCache = [];
+        snapshot.forEach(docSnap => subsubcategoriesCache.push({ id: docSnap.id, ...docSnap.data() }));
+
+        let html = `<table class="table"><thead><tr><th>Назив</th><th>Подкатегорија</th><th>Главна Категорија</th><th>Акции</th></tr></thead><tbody>`;
+        if (subsubcategoriesCache.length === 0) {
+            html = '<p class="empty-state">Нема микро-категории</p>';
+        } else {
+            subsubcategoriesCache.forEach(item => {
+                const parentSub = subcategoriesCache.find(s => s.id === item.parentId);
+                const mainCat = categoriesCache.find(c => c.id === item.mainCategoryId);
+                html += `<tr>
+                    <td><strong>${item.name}</strong></td>
+                    <td>${parentSub ? parentSub.name : 'Непознато'}</td>
+                    <td>${mainCat ? mainCat.name : 'Непознато'}</td>
+                    <td class="actions">
+                        <button class="btn btn-edit" onclick="editSubsubcategory('${item.id}')">Уреди</button>
+                        <button class="btn btn-danger" onclick="deleteSubsubcategory('${item.id}')">Избриши</button>
+                    </td>
+                </tr>`;
+            });
+            html += '</tbody></table>';
+        }
+        document.getElementById('subsubcategoriesList').innerHTML = html;
+    } catch (err) {
+        document.getElementById('subsubcategoriesList').innerHTML = `<p class="empty-state">Грешка: ${err.message}</p>`;
+    }
+}
+
+function loadMainCategoriesForSubsubcatForm() {
+    let html = '<option value="">-- Изберете главна категорија --</option>';
+    categoriesCache.forEach(category => {
+        html += `<option value="${category.id}">${category.name}</option>`;
+    });
+    document.getElementById('subsubcatMainParent').innerHTML = html;
+}
+
+function loadSubcatOptionsForSubsubcatForm() {
+    const mainCatId = document.getElementById('subsubcatMainParent').value;
+    const select = document.getElementById('subsubcatParent');
+    select.innerHTML = '<option value="">-- Изберете подкатегорија --</option>';
+    if (!mainCatId) return;
+    const filtered = subcategoriesCache.filter(s => s.parentId === mainCatId);
+    filtered.forEach(subcat => {
+        const option = document.createElement('option');
+        option.value = subcat.id;
+        option.textContent = subcat.name;
+        select.appendChild(option);
+    });
+}
+
+function loadSubsubcategoriesForForm() {
+    const subcatId = document.getElementById('prodSubcategory').value;
+    const select = document.getElementById('prodSubsubcategory');
+    select.innerHTML = '<option value="">-- Нема микро-категорија --</option>';
+    if (!subcatId) return;
+    const filtered = subsubcategoriesCache.filter(s => s.parentId === subcatId);
+    filtered.forEach(item => {
+        const option = document.createElement('option');
+        option.value = item.id;
+        option.textContent = item.name;
+        select.appendChild(option);
+    });
+}
+
     // ==================== BRANDS ====================
     const brandForm = document.getElementById('brandForm');
     const brandEditId = document.getElementById('brandEditId');
@@ -1395,6 +1580,7 @@ const data = {
     categoryId: categoryId,
     categoryName: category ? category.name : '',
     subcategoryId: document.getElementById('prodSubcategory').value || null,
+        subsubcategoryId: document.getElementById('prodSubsubcategory').value || null,
     price: priceValue,
     discount: parseInt(document.getElementById('prodDiscount').value) || 0,
     description: document.getElementById('prodDescription').value.trim(),
@@ -1468,8 +1654,10 @@ const data = {
             renderInstallmentOptions();
         }
 
-        loadSubcategoriesForForm();
+                loadSubcategoriesForForm();
         document.getElementById('prodSubcategory').value = product.subcategoryId || '';
+        loadSubsubcategoriesForForm();
+        document.getElementById('prodSubsubcategory').value = product.subsubcategoryId || '';
 
         productEditId.value = id;
         document.getElementById('productFormTitle').textContent = 'Уреди Производ';
@@ -1744,15 +1932,17 @@ if (ad.mobileImageUrl) {
     }
 
     // ==================== LOAD ALL DATA ====================
-    async function loadAllData() {
+        async function loadAllData() {
         await loadCategories();
         await loadSubcategories();
+        await loadSubsubcategories();
         await loadBrands();
         await loadProducts();
         await loadAds();
         loadCategoriesForProductForm();
         loadBrandsForProductForm();
         loadParentCategoriesForSubcategoryForm();
+        loadMainCategoriesForSubsubcatForm();
         loadCategoriesForAdForm();
         await loadOrders();
     }
