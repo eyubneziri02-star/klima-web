@@ -1820,7 +1820,7 @@ const data = {
             const countEl = document.getElementById('productsCount');
             if (countEl) countEl.textContent = productsCache.length;
 
-            renderProductsList(productsCache);
+                    filterProductsList();
         } catch (err) {
             document.getElementById('productsList').innerHTML = `<p class="empty-state">Грешка: ${err.message}</p>`;
         }
