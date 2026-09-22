@@ -394,6 +394,49 @@
 
             <!-- PRODUCTS TAB -->
             <div id="products" class="tab-content active">
+                
+                <!-- BULK CHARACTERISTIC ADD -->
+<div class="admin-section">
+    <h3>📋 Групно Додавање на Карактеристика (по Категорија)</h3>
+    <div class="success-msg" id="bulkCharSuccessMsg"></div>
+    <p style="color:#666; margin-bottom:1rem; font-size:0.9rem;">
+        💡 Изберете категорија / подкатегорија / микро-категорија (може и да оставите празно = сите) и внесете текст (пр. "Гаранција: 24 месеци"). Текстот ќе се додаде како нова карактеристика на СИТЕ производи што припаѓаат на избраниот опсег.
+    </p>
+
+    <div class="form-row-3">
+        <div class="form-group">
+            <label for="bulkCategory">Главна Категорија</label>
+            <select id="bulkCategory" onchange="loadBulkSubcategories(); updateBulkMatchCount();">
+                <option value="">-- Сите категории --</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="bulkSubcategory">Подкатегорија (опционално)</label>
+            <select id="bulkSubcategory" onchange="loadBulkSubsubcategories(); updateBulkMatchCount();">
+                <option value="">-- Сите подкатегории --</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="bulkSubsubcategory">Микро-категорија (опционално)</label>
+            <select id="bulkSubsubcategory" onchange="updateBulkMatchCount();">
+                <option value="">-- Сите микро-категории --</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="bulkCharacteristicText">Карактеристика за додавање</label>
+        <input type="text" id="bulkCharacteristicText" placeholder="пр. Гаранција: 24 месеци" oninput="">
+    </div>
+
+    <div style="background:#f0fdf4; border:2px solid #2ecc71; border-radius:8px; padding:1rem; margin-bottom:1rem;">
+        <strong id="bulkMatchCountText">Пронајдени 0 производи</strong>
+        <div id="bulkMatchList" style="max-height:150px; overflow-y:auto; margin-top:0.5rem; font-size:0.85rem; color:#555;"></div>
+    </div>
+
+    <button type="button" class="btn btn-success" onclick="applyBulkCharacteristic()">✅ Примени на сите пронајдени производи</button>
+</div>
+
                 <!-- ADD PRODUCT -->
                 <div class="admin-section">
                     <h3 id="productFormTitle">Додади Нов Производ</h3>
@@ -518,9 +561,17 @@
                     </form>
                 </div>
 
-                <!-- PRODUCTS LIST -->
+                                <!-- PRODUCTS LIST -->
                 <div class="admin-section">
-                    <h3>Постоечки Производи</h3>
+                    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; margin-bottom: 1.5rem; padding-bottom: 0.5rem; border-bottom: 2px solid #2ecc71;">
+                        <h3 style="border-bottom: none; margin-bottom: 0; padding-bottom: 0;">Постоечки Производи</h3>
+                        <span style="background: #e8f5e9; color: #27ae60; padding: 0.4rem 1rem; border-radius: 20px; font-weight: bold; font-size: 0.9rem; white-space: nowrap;">
+                            Вкупно: <span id="productsCount">0</span>
+                        </span>
+                    </div>
+                    <div class="form-group" style="margin-bottom: 1.5rem;">
+                        <input type="text" id="productsSearchInput" placeholder="🔍 Пребарај производ по назив, марка или категорија..." oninput="filterProductsList()">
+                    </div>
                     <div id="productsList">
                         <p class="empty-state">Се вчитува...</p>
                     </div>
@@ -1459,6 +1510,92 @@ async function handleCategoryImageUpload(files) {
     const productCancelBtn = document.getElementById('productCancelBtn');
     let productsCache = [];
     let uploadedImages = [];
+    // ==================== BULK CHARACTERISTIC ADD ====================
+function getBulkFilteredProducts() {
+    const catId = document.getElementById('bulkCategory').value;
+    const subId = document.getElementById('bulkSubcategory').value;
+    const subsubId = document.getElementById('bulkSubsubcategory').value;
+
+    return productsCache.filter(p => {
+        if (catId && p.categoryId !== catId) return false;
+        if (subId && p.subcategoryId !== subId) return false;
+        if (subsubId && p.subsubcategoryId !== subsubId) return false;
+        return true;
+    });
+}
+
+function loadBulkSubcategories() {
+    const catId = document.getElementById('bulkCategory').value;
+    const select = document.getElementById('bulkSubcategory');
+    select.innerHTML = '<option value="">-- Сите подкатегории --</option>';
+    document.getElementById('bulkSubsubcategory').innerHTML = '<option value="">-- Сите микро-категории --</option>';
+    if (!catId) return;
+    subcategoriesCache.filter(s => s.parentId === catId).forEach(s => {
+        const opt = document.createElement('option');
+        opt.value = s.id;
+        opt.textContent = s.name;
+        select.appendChild(opt);
+    });
+}
+
+function loadBulkSubsubcategories() {
+    const subId = document.getElementById('bulkSubcategory').value;
+    const select = document.getElementById('bulkSubsubcategory');
+    select.innerHTML = '<option value="">-- Сите микро-категории --</option>';
+    if (!subId) return;
+    subsubcategoriesCache.filter(s => s.parentId === subId).forEach(s => {
+        const opt = document.createElement('option');
+        opt.value = s.id;
+        opt.textContent = s.name;
+        select.appendChild(opt);
+    });
+}
+
+function updateBulkMatchCount() {
+    const matched = getBulkFilteredProducts();
+    document.getElementById('bulkMatchCountText').textContent = `Пронајдени ${matched.length} производи`;
+    const listEl = document.getElementById('bulkMatchList');
+    listEl.innerHTML = matched.length ? matched.map(p => `• ${p.name}`).join('<br>') : '';
+}
+
+async function applyBulkCharacteristic() {
+    const text = document.getElementById('bulkCharacteristicText').value.trim();
+    if (!text) { alert('Внесете текст за карактеристиката!'); return; }
+
+    const matched = getBulkFilteredProducts();
+    if (matched.length === 0) { alert('Нема пронајдени производи за избраниот опсег!'); return; }
+
+    if (!confirm(`Дали сте сигурни дека сакате да додадете "${text}" на ${matched.length} производи?`)) return;
+
+    let successCount = 0, skipCount = 0;
+
+    for (const product of matched) {
+        const existing = product.characteristics || [];
+        if (existing.includes(text)) { skipCount++; continue; }
+        try {
+            await window.fbUpdateDoc(window.fbDoc(window.firebaseDb, 'products', product.id), {
+                characteristics: [...existing, text]
+            });
+            successCount++;
+        } catch (err) {
+            console.error('Грешка при ажурирање на', product.name, err);
+        }
+    }
+
+    showSuccessMsg('bulkCharSuccessMsg', `✅ Додадено на ${successCount} производи. Прескокнато (веќе постоело): ${skipCount}.`);
+    document.getElementById('bulkCharacteristicText').value = '';
+    await loadProducts();
+    updateBulkMatchCount();
+}
+
+function loadCategoriesForBulkForm() {
+    let html = '<option value="">-- Сите категории --</option>';
+    categoriesCache.forEach(category => {
+        html += `<option value="${category.id}">${category.name}</option>`;
+    });
+    const el = document.getElementById('bulkCategory');
+    if (el) el.innerHTML = html;
+}
     let installmentOptions = [
         { months: 3, monthlyPrice: 0 },
         { months: 6, monthlyPrice: 0 },
@@ -1674,34 +1811,55 @@ const data = {
         }
     };
 
-    async function loadProducts() {
+        async function loadProducts() {
         try {
             const snapshot = await window.fbGetDocs(window.fbCollection(window.firebaseDb, 'products'));
             productsCache = [];
             snapshot.forEach(docSnap => productsCache.push({ id: docSnap.id, ...docSnap.data() }));
 
-            let html = `<table class="table"><thead><tr><th>Назив</th><th>Марка</th><th>Категорија</th><th>Цена</th><th>Акции</th></tr></thead><tbody>`;
-            if (productsCache.length === 0) {
-                html = '<p class="empty-state">Нема производи</p>';
-            } else {
-                productsCache.forEach(product => {
-                    html += `<tr>
-                        <td><strong>${product.name}</strong></td>
-                        <td>${product.brandName || '-'}</td>
-                        <td><span class="badge">${product.categoryName || '-'}</span></td>
-                        <td>${product.price} ден</td>
-                        <td class="actions">
-                            <button class="btn btn-edit" onclick="editProduct('${product.id}')">Уреди</button>
-                            <button class="btn btn-danger" onclick="deleteProduct('${product.id}')">Избриши</button>
-                        </td>
-                    </tr>`;
-                });
-                html += '</tbody></table>';
-            }
-            document.getElementById('productsList').innerHTML = html;
+            const countEl = document.getElementById('productsCount');
+            if (countEl) countEl.textContent = productsCache.length;
+
+            renderProductsList(productsCache);
         } catch (err) {
             document.getElementById('productsList').innerHTML = `<p class="empty-state">Грешка: ${err.message}</p>`;
         }
+    }
+
+    function renderProductsList(list) {
+        let html = `<table class="table"><thead><tr><th>Назив</th><th>Марка</th><th>Категорија</th><th>Цена</th><th>Акции</th></tr></thead><tbody>`;
+        if (list.length === 0) {
+            html = '<p class="empty-state">Нема пронајдени производи</p>';
+        } else {
+            list.forEach(product => {
+                html += `<tr>
+                    <td><strong>${product.name}</strong></td>
+                    <td>${product.brandName || '-'}</td>
+                    <td><span class="badge">${product.categoryName || '-'}</span></td>
+                    <td>${product.price} ден</td>
+                    <td class="actions">
+                        <button class="btn btn-edit" onclick="editProduct('${product.id}')">Уреди</button>
+                        <button class="btn btn-danger" onclick="deleteProduct('${product.id}')">Избриши</button>
+                    </td>
+                </tr>`;
+            });
+            html += '</tbody></table>';
+        }
+        document.getElementById('productsList').innerHTML = html;
+    }
+
+    function filterProductsList() {
+        const term = document.getElementById('productsSearchInput').value.toLowerCase().trim();
+        if (!term) {
+            renderProductsList(productsCache);
+            return;
+        }
+        const filtered = productsCache.filter(p =>
+            (p.name || '').toLowerCase().includes(term) ||
+            (p.brandName || '').toLowerCase().includes(term) ||
+            (p.categoryName || '').toLowerCase().includes(term)
+        );
+        renderProductsList(filtered);
     }
 
     // ==================== ADS ====================
@@ -1940,6 +2098,7 @@ if (ad.mobileImageUrl) {
         await loadProducts();
         await loadAds();
         loadCategoriesForProductForm();
+        loadCategoriesForBulkForm();
         loadBrandsForProductForm();
         loadParentCategoriesForSubcategoryForm();
         loadMainCategoriesForSubsubcatForm();
