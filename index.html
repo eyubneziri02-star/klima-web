@@ -310,8 +310,8 @@
     z-index: 1002;
 }
 
-/* SADECE ILGILI ALT KATEGORI GÖSTER */
-.dropdown-menu:hover .submenu-panel {
+/* SADECE ILGILI ALT KATEGORI GÖSTER — samo prvi nivo */
+.dropdown-menu:hover > .submenu-wrapper > .submenu-panel {
     display: block;
     opacity: 1;
     visibility: visible;
@@ -6340,120 +6340,6 @@ function getWaterTypeName(type) {
     return names[type] || 'Водни Системи';
 }
 
-// ALT KATEGORI MENÜ - HASSAS OLMAYAN VERSİYON
-const categoryMap = {
-    'klimatizacija': 'climate',
-    'greenje': 'heating',
-    'solarni': 'solar',
-    'aparati': 'appliances',
-    'tv': 'tv-audio',
-    'elektricni': 'electrical',
-    'vodni': 'water'
-};
-
-let menuTimeout;
-
-document.querySelectorAll('#categories-dropdown a').forEach((link, index) => {
-    const categories = ['all', 'climate', 'heating', 'solar', 'appliances', 'tv-audio', 'electrical', 'water', 'mechanical', 'industrial', 'automotive'];
-    
-    link.addEventListener('mouseenter', function() {
-    clearTimeout(menuTimeout);
-    
-    // Tüm submenu'ları gizle
-    document.querySelectorAll('.submenu-panel').forEach(panel => {
-        panel.style.display = 'none';
-    });
-    
-    // İlgili submenu'yu göster
-    const submenuId = `submenu-${categories[index]}`;
-    const submenu = document.getElementById(submenuId);
-    if (submenu) {
-        submenu.style.display = 'block';
-        
-        // Pozisyon hesapla
-        const rect = link.getBoundingClientRect();
-        let topPos = rect.top;
-        let leftPos = rect.right + 10;
-        
-        // Ekran sınırı denetimi
-        const submenuHeight = submenu.offsetHeight;
-        const viewportHeight = window.innerHeight;
-        
-        // BOTTOM denetimi - Eğer alt sınır ekranı aşıyorsa yukarı kaydır
-        if (topPos + submenuHeight > viewportHeight) {
-            topPos = viewportHeight - submenuHeight - 10; // 10px padding
-        }
-        
-        // TOP denetimi - Yukarıdan çıkmasın
-        if (topPos < 10) {
-            topPos = 10;
-        }
-        
-        // LEFT denetimi - Sağdan çıkmasın
-        const submenuWidth = submenu.offsetWidth;
-        const viewportWidth = window.innerWidth;
-        if (leftPos + submenuWidth > viewportWidth) {
-            leftPos = rect.left - submenuWidth - 10; // Soldan aç
-        }
-        
-        submenu.style.top = topPos + 'px';
-        submenu.style.left = leftPos + 'px';
-    }
-  });
-});
-
-// Dropdown dışına çıkınca menüyü gizle (GECIKMELI)
-document.querySelectorAll('.dropdown-menu').forEach(menu => {
-    menu.addEventListener('mouseleave', function() {
-        menuTimeout = setTimeout(() => {
-            document.querySelectorAll('.submenu-panel').forEach(panel => {
-                panel.style.display = 'none';
-            });
-    }, 300);
-  });
-});
-
-// Submenu üzerine gelince açık tut
-document.querySelectorAll('.submenu-panel').forEach(panel => {
-    panel.addEventListener('mouseenter', function() {
-        clearTimeout(menuTimeout);
-    });
-    
-    panel.addEventListener('mouseleave', function() {
-        menuTimeout = setTimeout(() => {
-            panel.style.display = 'none';
-        }, 300);
-    });
-    
-    // Scroll sırasında pozisyon güncelle
-    panel.addEventListener('scroll', function() {
-        // Scroll sırasında panel açık kalır
-    });
-});
-
-// Window resize sırasında pozisyon güncelle
-window.addEventListener('resize', function() {
-    document.querySelectorAll('.submenu-panel[style*="display: block"]').forEach(panel => {
-        const rect = panel.parentElement.firstElementChild.getBoundingClientRect();
-        let topPos = rect.top;
-        let leftPos = rect.right + 10;
-        
-        const submenuHeight = panel.offsetHeight;
-        const viewportHeight = window.innerHeight;
-        
-        if (topPos + submenuHeight > viewportHeight) {
-            topPos = viewportHeight - submenuHeight - 10;
-        }
-        
-        if (topPos < 10) {
-            topPos = 10;
-        }
-        
-        panel.style.top = topPos + 'px';
-        panel.style.left = leftPos + 'px';
-    });
-});
-
 // MECHANICAL TYPES
 function filtrirajMechanicalByType(type) {
     skrij();
@@ -6538,21 +6424,6 @@ function getAutomotiveTypeName(type) {
     return names[type] || 'Automobilska Oprema';
 }
 
-// Tüm dropdown menüler için hover kontrolü
-document.querySelectorAll('.dropdown-menu').forEach(menu => {
-    menu.addEventListener('mouseenter', function() {
-        clearTimeout(menuTimeout);
-    });
-    
-    menu.addEventListener('mouseleave', function() {
-        menuTimeout = setTimeout(() => {
-            this.querySelectorAll('.submenu-panel').forEach(panel => {
-                panel.style.display = 'none';
-            });
-        }, 300);
-    });
-});
-
 // ===== DİNAMİK KATEGORİ / ALT KATEGORİ / MARKA MENÜLERİ =====
 
 function getCategoryName(id) {
@@ -6577,27 +6448,48 @@ function filtrirajPoKategorijaByName(searchText) {
 
 let menuTimeout2;
 
-let microMenuTimeout;
+function cancelSubmenuHide() {
+    clearTimeout(menuTimeout2);
+}
+
+function scheduleSubmenuHide() {
+    menuTimeout2 = setTimeout(() => {
+        document.querySelectorAll('.submenu-panel').forEach(p => p.style.display = 'none');
+    }, 300);
+}
+
+let globalMicroPanel = null;
+
+function getOrCreateMicroPanel() {
+    if (!globalMicroPanel) {
+        globalMicroPanel = document.createElement('div');
+        globalMicroPanel.className = 'submenu-panel micro-submenu-panel';
+        globalMicroPanel.id = 'global-micro-submenu';
+        const categoriesLi = document.getElementById('categories-dropdown').closest('.dropdown-menu');
+        (categoriesLi || document.body).appendChild(globalMicroPanel);
+        globalMicroPanel.addEventListener('mouseenter', cancelSubmenuHide);
+        globalMicroPanel.addEventListener('mouseleave', scheduleSubmenuHide);
+    }
+    return globalMicroPanel;
+}
 
 function showMicroSubmenu(itemEl, subcatId) {
-    clearTimeout(microMenuTimeout);
+    cancelSubmenuHide();
     const microItems = subsubcategoriesData.filter(m => m.parentId === subcatId);
-    const panel = document.getElementById(`micro-submenu-${subcatId}`);
-    if (!panel) return;
+    if (microItems.length === 0) return;
 
-    if (microItems.length === 0) {
-        panel.style.display = 'none';
-        return;
-    }
-
-    panel.innerHTML = `<div class="submenu-title">Микро-категории</div>` +
-        microItems.map(m => `<a onclick="filtrirajPoMikroKategorija('${m.id}', '${subcatId}')">${m.icon ? m.icon + ' ' : ''}${m.name}</a>`).join('');
+    const panel = getOrCreateMicroPanel();
+    panel.innerHTML = microItems.map(m => `<a onclick="filtrirajPoMikroKategorija('${m.id}', '${subcatId}')">${m.icon ? m.icon + ' ' : ''}${m.name}</a>`).join('');
 
     const rect = itemEl.getBoundingClientRect();
     let topPos = rect.top;
     let leftPos = rect.right + 5;
 
     panel.style.display = 'block';
+    panel.style.opacity = '1';
+    panel.style.visibility = 'visible';
+    panel.style.transform = 'translateX(0)';
+
     const panelHeight = panel.offsetHeight;
     const viewportHeight = window.innerHeight;
     if (topPos + panelHeight > viewportHeight) topPos = viewportHeight - panelHeight - 10;
@@ -6609,15 +6501,10 @@ function showMicroSubmenu(itemEl, subcatId) {
 
     panel.style.top = topPos + 'px';
     panel.style.left = leftPos + 'px';
-
-    panel.addEventListener('mouseenter', () => clearTimeout(microMenuTimeout));
-    panel.addEventListener('mouseleave', hideMicroSubmenuDelayed);
 }
 
 function hideMicroSubmenuDelayed() {
-    microMenuTimeout = setTimeout(() => {
-        document.querySelectorAll('.micro-submenu-panel').forEach(p => p.style.display = 'none');
-    }, 300);
+    scheduleSubmenuHide();
 }
 
 function renderCategoryMenus() {
@@ -6630,18 +6517,16 @@ function renderCategoryMenus() {
 
     categoriesData.forEach(cat => {
         dropdownHTML += `<a onclick="filtrirajPoKategorija('${cat.id}')">${cat.icon ? cat.icon + ' ' : ''}${cat.name}</a>`;
-                const subs = subcategoriesData.filter(s => s.parentId === cat.id);
+                        const subs = subcategoriesData.filter(s => s.parentId === cat.id);
         if (subs.length > 0) {
             submenuHTML += `<div class="submenu-panel" id="submenu-${cat.id}">
-                <div class="submenu-title">${cat.name}</div>
                 ${subs.map(s => {
                     const microItems = subsubcategoriesData.filter(m => m.parentId === s.id);
-                    if (microItems.length > 0) {
-                        return `<div class="submenu-item-with-children" style="position: relative;" onmouseenter="showMicroSubmenu(this, '${s.id}')" onmouseleave="hideMicroSubmenuDelayed()">
+                                        if (microItems.length > 0) {
+                        return `<div class="submenu-item-with-children" style="position: relative;" onmouseenter="showMicroSubmenu(this, '${s.id}')">
                             <a onclick="filtrirajPoPodkategorija('${s.id}', '${cat.id}')" style="display:flex; justify-content:space-between; align-items:center;">
                                 <span>${s.icon ? s.icon + ' ' : ''}${s.name}</span><span style="color:#2ecc71;">›</span>
                             </a>
-                            <div class="submenu-panel micro-submenu-panel" id="micro-submenu-${s.id}"></div>
                         </div>`;
                     }
                     return `<a onclick="filtrirajPoPodkategorija('${s.id}', '${cat.id}')">${s.icon ? s.icon + ' ' : ''}${s.name}</a>`;
@@ -6653,13 +6538,13 @@ function renderCategoryMenus() {
     dropdown.innerHTML = dropdownHTML;
     submenuWrapper.innerHTML = submenuHTML;
 
-    const links = dropdown.querySelectorAll('a[onclick*="filtrirajPoKategorija"]');
+        const links = dropdown.querySelectorAll('a[onclick*="filtrirajPoKategorija"]');
     links.forEach((link, idx) => {
         const cat = categoriesData[idx];
         if (!cat) return;
         link.addEventListener('mouseenter', function() {
-            clearTimeout(menuTimeout2);
-            document.querySelectorAll('.submenu-panel').forEach(p => p.style.display = 'none');
+            cancelSubmenuHide();
+            document.querySelectorAll('.submenu-panel').forEach(p => { if (p.id !== `submenu-${cat.id}`) p.style.display = 'none'; });
             const submenu = document.getElementById(`submenu-${cat.id}`);
             if (submenu) {
                 submenu.style.display = 'block';
@@ -6680,19 +6565,13 @@ function renderCategoryMenus() {
     });
 
     document.querySelectorAll('.submenu-panel').forEach(panel => {
-        panel.addEventListener('mouseenter', () => clearTimeout(menuTimeout2));
-        panel.addEventListener('mouseleave', () => {
-            menuTimeout2 = setTimeout(() => { panel.style.display = 'none'; }, 300);
-        });
+        panel.addEventListener('mouseenter', cancelSubmenuHide);
     });
 
     const dropdownMenuEl = dropdown.closest('.dropdown-menu');
     if (dropdownMenuEl) {
-        dropdownMenuEl.addEventListener('mouseleave', function() {
-            menuTimeout2 = setTimeout(() => {
-                document.querySelectorAll('.submenu-panel').forEach(p => p.style.display = 'none');
-            }, 300);
-        });
+        dropdownMenuEl.addEventListener('mouseenter', cancelSubmenuHide);
+        dropdownMenuEl.addEventListener('mouseleave', scheduleSubmenuHide);
     }
 
         const mobileCatSlider = document.getElementById('mobile-categories-slider');
