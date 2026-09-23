@@ -6507,6 +6507,11 @@ function hideMicroSubmenuDelayed() {
     scheduleSubmenuHide();
 }
 
+function hideMicroSubmenuNow() {
+    cancelSubmenuHide();
+    if (globalMicroPanel) globalMicroPanel.style.display = 'none';
+}
+
 function renderCategoryMenus() {
     const dropdown = document.getElementById('categories-dropdown');
     const submenuWrapper = document.getElementById('submenu-wrapper-container');
@@ -6529,7 +6534,7 @@ function renderCategoryMenus() {
                             </a>
                         </div>`;
                     }
-                    return `<a onclick="filtrirajPoPodkategorija('${s.id}', '${cat.id}')">${s.icon ? s.icon + ' ' : ''}${s.name}</a>`;
+                    return `<a onclick="filtrirajPoPodkategorija('${s.id}', '${cat.id}')" onmouseenter="hideMicroSubmenuNow()">${s.icon ? s.icon + ' ' : ''}${s.name}</a>`;
                 }).join('')}
             </div>`;
         }
