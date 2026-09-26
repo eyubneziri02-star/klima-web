@@ -1549,6 +1549,7 @@
         }
 
         .product-detail-main-image {
+    position: relative;
     background: #ffffff;
     border-radius: 10px;
     overflow: hidden;
@@ -3320,6 +3321,49 @@
     box-shadow: 0 2px 8px rgba(0,0,0,0.1);
 }
 
+.detail-favorite-btn-fixed {
+    position: absolute;
+    top: 0;
+    right: 20px;
+    background: white;
+    border: 2px solid #ddd;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.8rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    z-index: 50;
+}
+
+.detail-favorite-btn-fixed:hover {
+    border-color: #e74c3c;
+    transform: scale(1.1);
+}
+
+.detail-favorite-btn-fixed.active {
+    background: #ffe8e8;
+    border-color: #e74c3c;
+}
+
+#product-detail-page {
+    position: relative;
+}
+
+@media (max-width: 768px) {
+    .detail-favorite-btn-fixed {
+        top: 0;
+        right: 10px;
+        width: 42px;
+        height: 42px;
+        font-size: 1.4rem;
+    }
+}
+
 .detail-favorite-btn:hover {
     border-color: #e74c3c;
     transform: scale(1.1);
@@ -4392,8 +4436,9 @@
 
             <!-- PRODUCT DETAIL PAGE -->
             <div id="product-detail-page" class="hidden">
-                <button class="back-btn" onclick="vratiSePrev()"><i class="fas fa-arrow-left"></i> Назад</button>
-                <div class="product-detail">
+            <button class="back-btn" onclick="vratiSePrev()"><i class="fas fa-arrow-left"></i> Назад</button>
+            <button class="detail-favorite-btn-fixed" id="detail-favorite-btn-fixed" onclick="toggleFavoritFromDetailBtn(event)">🤍</button>
+            <div class="product-detail">
                     <div class="product-detail-container">
                         <div class="product-detail-gallery">
                             <div class="product-detail-main-image" id="detail-main-image">❄️</div>
@@ -4927,17 +4972,8 @@ function updateAllFavoritButtons() {
         }
     });
     
-    // Ürün detayındaki kalp ikonunu güncelle
-    const detailBtn = document.querySelector('.detail-favorite-btn');
-    if (detailBtn && trenutniProizvod) {
-        if (isFavorit(trenutniProizvod.id)) {
-            detailBtn.classList.add('active');
-            detailBtn.textContent = '❤️';
-        } else {
-            detailBtn.classList.remove('active');
-            detailBtn.textContent = '🤍';
-        }
-    }
+        // Ürün detayındaki kalp ikonunu güncelle
+    updateDetailFavoriteButton();
 
         // Favori sayısını güncelle
     azurirajBrojFavorita();
@@ -5483,9 +5519,6 @@ grid.innerHTML = paginatedProducts.map(p => `
         // ⭐ TAKSIT SEÇİMİNİ RESET ET (HER ÜRÜNe TİKLADIĞINDA)
     window.selectedInstallmentMonths = null;
 
-        // FAVORİ BUTONU EKLE
-    addDetailFavoriteButton();
-
     const brandDiv = document.querySelector('.product-detail-info');
     if (brandDiv) {
         let brandDisplay = brandDiv.querySelector('.brand-display');
@@ -5521,6 +5554,9 @@ if (realImageCount > 0) {
 }
 
 console.log(`✅ ${realImageCount} adet fotoğraf yüklendi`);
+
+        // FAVORİ BUTONU DURUMUNU GÜNCELLE
+    updateDetailFavoriteButton();
     
         // ⭐ WHATSAPP/VIBER LİNKLERİNİ GÜNCELLE (FONKSIYON ÇAĞRISI)
     updateDetailWhatsAppViberLinks();
@@ -6924,42 +6960,26 @@ function toggleInstallment(months) {
     updateDetailWhatsAppViberLinks();
 }
 
-// ===== ÜRÜN DETAYINDA FAVORİ BUTONU =====
-function addDetailFavoriteButton() {
-    // Eski buton varsa sil
-    const oldBtn = document.querySelector('.detail-favorite-btn');
-    if (oldBtn) oldBtn.remove();
-    
-    // Yeni buton oluştur
-    const btn = document.createElement('button');
-    btn.className = 'detail-favorite-btn';
+// ===== ÜRÜN DETAYINDA FAVORİ BUTONU (SABİT, ARTIK SİLİNMİYOR) =====
+function updateDetailFavoriteButton() {
+    const btn = document.getElementById('detail-favorite-btn-fixed');
+    if (!btn || !trenutniProizvod) return;
+
     if (isFavorit(trenutniProizvod.id)) {
         btn.classList.add('active');
         btn.textContent = '❤️';
     } else {
+        btn.classList.remove('active');
         btn.textContent = '🤍';
     }
-    
-    btn.onclick = (e) => {
-        e.stopPropagation();
-        e.preventDefault();
-        toggleFavorit(trenutniProizvod.id, e);
-        // Butonu güncelle
-        if (isFavorit(trenutniProizvod.id)) {
-            btn.classList.add('active');
-            btn.textContent = '❤️';
-        } else {
-            btn.classList.remove('active');
-            btn.textContent = '🤍';
-        }
-    };
-    
-    // Ürün detay container'ına ekle
-    const container = document.querySelector('.product-detail-info');
-    if (container) {
-        container.style.position = 'relative';
-        container.appendChild(btn);
-    }
+}
+
+function toggleFavoritFromDetailBtn(event) {
+    event.stopPropagation();
+    event.preventDefault();
+    if (!trenutniProizvod) return;
+    toggleFavorit(trenutniProizvod.id, event);
+    updateDetailFavoriteButton();
 }
 
 // ⭐ ÜRÜN DETAYINDA WHATSAPP/VIBER LİNKLERİNİ GÜNCELLE
