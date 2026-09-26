@@ -347,6 +347,7 @@
             }
         }
     </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 </head>
 <body>
 
@@ -384,6 +385,7 @@
             <!-- TABS -->
             <div class="tabs">
                 <button class="tab-btn active" onclick="showTab('products')">Производи</button>
+                <button class="tab-btn" onclick="showTab('bulk-tools')">Толпо Внесување</button>
                 <button class="tab-btn" onclick="showTab('categories')">Категории</button>
                 <button class="tab-btn" onclick="showTab('subcategories')">Подкатегории</button>
                 <button class="tab-btn" onclick="showTab('subsubcategories')">Микро-категории</button>
@@ -394,48 +396,6 @@
 
             <!-- PRODUCTS TAB -->
             <div id="products" class="tab-content active">
-                
-                <!-- BULK CHARACTERISTIC ADD -->
-<div class="admin-section">
-    <h3>📋 Групно Додавање на Карактеристика (по Категорија)</h3>
-    <div class="success-msg" id="bulkCharSuccessMsg"></div>
-    <p style="color:#666; margin-bottom:1rem; font-size:0.9rem;">
-        💡 Изберете категорија / подкатегорија / микро-категорија (може и да оставите празно = сите) и внесете текст (пр. "Гаранција: 24 месеци"). Текстот ќе се додаде како нова карактеристика на СИТЕ производи што припаѓаат на избраниот опсег.
-    </p>
-
-    <div class="form-row-3">
-        <div class="form-group">
-            <label for="bulkCategory">Главна Категорија</label>
-            <select id="bulkCategory" onchange="loadBulkSubcategories(); updateBulkMatchCount();">
-                <option value="">-- Сите категории --</option>
-            </select>
-        </div>
-        <div class="form-group">
-            <label for="bulkSubcategory">Подкатегорија (опционално)</label>
-            <select id="bulkSubcategory" onchange="loadBulkSubsubcategories(); updateBulkMatchCount();">
-                <option value="">-- Сите подкатегории --</option>
-            </select>
-        </div>
-        <div class="form-group">
-            <label for="bulkSubsubcategory">Микро-категорија (опционално)</label>
-            <select id="bulkSubsubcategory" onchange="updateBulkMatchCount();">
-                <option value="">-- Сите микро-категории --</option>
-            </select>
-        </div>
-    </div>
-
-    <div class="form-group">
-        <label for="bulkCharacteristicText">Карактеристика за додавање</label>
-        <input type="text" id="bulkCharacteristicText" placeholder="пр. Гаранција: 24 месеци" oninput="">
-    </div>
-
-    <div style="background:#f0fdf4; border:2px solid #2ecc71; border-radius:8px; padding:1rem; margin-bottom:1rem;">
-        <strong id="bulkMatchCountText">Пронајдени 0 производи</strong>
-        <div id="bulkMatchList" style="max-height:150px; overflow-y:auto; margin-top:0.5rem; font-size:0.85rem; color:#555;"></div>
-    </div>
-
-    <button type="button" class="btn btn-success" onclick="applyBulkCharacteristic()">✅ Примени на сите пронајдени производи</button>
-</div>
 
                 <!-- ADD PRODUCT -->
                 <div class="admin-section">
@@ -577,6 +537,77 @@
                     </div>
                 </div>
             </div>
+
+            <div id="bulk-tools" class="tab-content"></div>
+            <!-- BULK PRODUCT IMPORT -->
+<div class="admin-section">
+    <h3>📥 Толпо Внесување на Производи (Excel)</h3>
+    <p style="color:#666; margin-bottom:1rem; font-size:0.9rem;">
+        💡 Преземете го шаблонот, пополнете го со производите од каталогот на дистрибутерот, и повторно прикачете го за да ги внесете сите одеднаш.
+        Категориите, подкатегориите, микро-категориите и марките мора да ги имате веќе внесено во соодветните табови, со ИСТИ имиња како во Excel-от.
+    </p>
+
+    <div style="display:flex; gap:1rem; flex-wrap:wrap; margin-bottom:1.5rem;">
+        <button type="button" class="btn btn-primary" onclick="downloadBulkTemplate()">⬇️ Преземи Шаблон (Excel)</button>
+    </div>
+
+    <div class="form-group">
+        <label for="bulkProductFile">Прикачи Excel датотека (.xlsx)</label>
+        <input type="file" id="bulkProductFile" accept=".xlsx,.xls" onchange="handleBulkProductFile(event)">
+    </div>
+
+    <div id="bulkImportSummary" style="display:none; background:#f0fdf4; border:2px solid #2ecc71; border-radius:8px; padding:1rem; margin:1rem 0;">
+        <strong id="bulkImportSummaryText"></strong>
+    </div>
+
+    <div id="bulkImportPreviewContainer" style="max-height:450px; overflow-y:auto; margin-bottom:1rem;"></div>
+
+    <button type="button" class="btn btn-success" id="bulkImportConfirmBtn" style="display:none;" onclick="confirmBulkImport()">✅ Внеси ги сите валидни производи</button>
+</div>
+                
+                <!-- BULK CHARACTERISTIC ADD -->
+<div class="admin-section">
+    <h3>📋 Групно Додавање на Карактеристика (по Категорија)</h3>
+    <div class="success-msg" id="bulkCharSuccessMsg"></div>
+    <p style="color:#666; margin-bottom:1rem; font-size:0.9rem;">
+        💡 Изберете категорија / подкатегорија / микро-категорија (може и да оставите празно = сите) и внесете текст (пр. "Гаранција: 24 месеци"). Текстот ќе се додаде како нова карактеристика на СИТЕ производи што припаѓаат на избраниот опсег.
+    </p>
+
+    <div class="form-row-3">
+        <div class="form-group">
+            <label for="bulkCategory">Главна Категорија</label>
+            <select id="bulkCategory" onchange="loadBulkSubcategories(); updateBulkMatchCount();">
+                <option value="">-- Сите категории --</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="bulkSubcategory">Подкатегорија (опционално)</label>
+            <select id="bulkSubcategory" onchange="loadBulkSubsubcategories(); updateBulkMatchCount();">
+                <option value="">-- Сите подкатегории --</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="bulkSubsubcategory">Микро-категорија (опционално)</label>
+            <select id="bulkSubsubcategory" onchange="updateBulkMatchCount();">
+                <option value="">-- Сите микро-категории --</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="bulkCharacteristicText">Карактеристика за додавање</label>
+        <input type="text" id="bulkCharacteristicText" placeholder="пр. Гаранција: 24 месеци" oninput="">
+    </div>
+
+    <div style="background:#f0fdf4; border:2px solid #2ecc71; border-radius:8px; padding:1rem; margin-bottom:1rem;">
+        <strong id="bulkMatchCountText">Пронајдени 0 производи</strong>
+        <div id="bulkMatchList" style="max-height:150px; overflow-y:auto; margin-top:0.5rem; font-size:0.85rem; color:#555;"></div>
+    </div>
+
+    <button type="button" class="btn btn-success" onclick="applyBulkCharacteristic()">✅ Примени на сите пронајдени производи</button>
+</div>
+
+</div>
 
             <!-- CATEGORIES TAB -->
             <div id="categories" class="tab-content">
@@ -1510,6 +1541,181 @@ async function handleCategoryImageUpload(files) {
     const productCancelBtn = document.getElementById('productCancelBtn');
     let productsCache = [];
     let uploadedImages = [];
+    // ==================== BULK PRODUCT IMPORT (EXCEL) ====================
+let bulkImportRows = [];
+
+function downloadBulkTemplate() {
+    const headers = [
+        'Име на производ', 'Марка', 'Главна Категорија', 'Подкатегорија (опционално)',
+        'Микро-категорија (опционално)', 'Цена', 'Попуст %', 'Опис',
+        'Карактеристики (одделени со |)', 'Слики URL (одделени со |)',
+        'Препорачан (да/не)', 'Попуст листа (да/не)'
+    ];
+    const example = [
+        'Сплит АС Единица 18000 BTU', 'Daikin', 'Климатизација', '', '',
+        35000, 0, 'Детален опис на производот',
+        'Енергетска ефикасност A++|Тивок режим на работа|Гаранција: 24 месеци',
+        'https://example.com/slika1.jpg|https://example.com/slika2.jpg',
+        'да', 'не'
+    ];
+    const ws = XLSX.utils.aoa_to_sheet([headers, example]);
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'Производи');
+    XLSX.writeFile(wb, 'sablon-proizvodi.xlsx');
+}
+
+function handleBulkProductFile(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        const data = new Uint8Array(e.target.result);
+        const workbook = XLSX.read(data, { type: 'array' });
+        const sheet = workbook.Sheets[workbook.SheetNames[0]];
+        const rowsRaw = XLSX.utils.sheet_to_json(sheet, { defval: '' });
+        bulkImportRows = rowsRaw.map(r => processBulkRow(r));
+        renderBulkImportPreview();
+    };
+    reader.readAsArrayBuffer(file);
+}
+
+function norm(s) { return String(s || '').trim().toLowerCase(); }
+
+function findCategoryIdByName(name) {
+    if (!name) return null;
+    const found = categoriesCache.find(c => norm(c.name) === norm(name));
+    return found ? found.id : null;
+}
+function findSubcategoryIdByName(name, categoryId) {
+    if (!name) return null;
+    const found = subcategoriesCache.find(s => norm(s.name) === norm(name) && (!categoryId || s.parentId === categoryId));
+    return found ? found.id : null;
+}
+function findSubsubcategoryIdByName(name, subcategoryId) {
+    if (!name) return null;
+    const found = subsubcategoriesCache.find(s => norm(s.name) === norm(name) && (!subcategoryId || s.parentId === subcategoryId));
+    return found ? found.id : null;
+}
+function findBrandIdByName(name) {
+    if (!name) return null;
+    const found = brandsCache.find(b => norm(b.name) === norm(name));
+    return found ? found.id : null;
+}
+
+function processBulkRow(row) {
+    const errors = [];
+
+    const name = String(row['Име на производ'] || '').trim();
+    if (!name) errors.push('Нема име');
+
+    const brandName = String(row['Марка'] || '').trim();
+    const brandId = findBrandIdByName(brandName);
+    if (brandName && !brandId) errors.push(`Марка "${brandName}" не постои`);
+
+    const categoryName = String(row['Главна Категорија'] || '').trim();
+    const categoryId = findCategoryIdByName(categoryName);
+    if (!categoryName) errors.push('Нема категорија');
+    else if (!categoryId) errors.push(`Категорија "${categoryName}" не постои`);
+
+    const subcategoryName = String(row['Подкатегорија (опционално)'] || '').trim();
+    const subcategoryId = subcategoryName ? findSubcategoryIdByName(subcategoryName, categoryId) : null;
+    if (subcategoryName && !subcategoryId) errors.push(`Подкатегорија "${subcategoryName}" не постои во оваа категорија`);
+
+    const subsubcategoryName = String(row['Микро-категорија (опционално)'] || '').trim();
+    const subsubcategoryId = subsubcategoryName ? findSubsubcategoryIdByName(subsubcategoryName, subcategoryId) : null;
+    if (subsubcategoryName && !subsubcategoryId) errors.push(`Микро-категорија "${subsubcategoryName}" не постои во оваа подкатегорија`);
+
+    const priceRaw = String(row['Цена'] || '').trim();
+    const isNumericPrice = /^[0-9]+([.,][0-9]+)?$/.test(priceRaw);
+    const price = isNumericPrice ? parseFloat(priceRaw.replace(',', '.')) : priceRaw;
+    if (!priceRaw) errors.push('Нема цена');
+
+    const discount = parseInt(row['Попуст %']) || 0;
+    const description = String(row['Опис'] || '').trim();
+
+    const characteristics = String(row['Карактеристики (одделени со |)'] || '')
+        .split('|').map(c => c.trim()).filter(c => c);
+
+    const images = String(row['Слики URL (одделени со |)'] || '')
+        .split('|').map(i => i.trim()).filter(i => i);
+
+    const isPopular = ['да', 'yes', 'true'].includes(norm(row['Препорачан (да/не)']));
+    const showInDiscounted = discount > 0 || ['да', 'yes', 'true'].includes(norm(row['Попуст листа (да/не)']));
+
+    return {
+        valid: errors.length === 0,
+        errors,
+        data: {
+            name, brandId, brandName: brandId ? brandName : '',
+            categoryId, categoryName: categoryId ? categoryName : '',
+            subcategoryId: subcategoryId || null,
+            subsubcategoryId: subsubcategoryId || null,
+            price, discount, description, characteristics, images,
+            isPopular, isSelected: false, showInDiscounted,
+            installments: [
+                { months: 3, monthlyPrice: 0 },
+                { months: 6, monthlyPrice: 0 },
+                { months: 12, monthlyPrice: 0 }
+            ]
+        }
+    };
+}
+
+function renderBulkImportPreview() {
+    const container = document.getElementById('bulkImportPreviewContainer');
+    const validCount = bulkImportRows.filter(r => r.valid).length;
+    const invalidCount = bulkImportRows.length - validCount;
+
+    const summaryEl = document.getElementById('bulkImportSummary');
+    summaryEl.style.display = 'block';
+    document.getElementById('bulkImportSummaryText').textContent =
+        `Вкупно ${bulkImportRows.length} редови: ${validCount} валидни ✅, ${invalidCount} со грешки ❌`;
+
+    let html = `<table class="table"><thead><tr><th>Статус</th><th>Име</th><th>Категорија</th><th>Марка</th><th>Цена</th><th>Слики</th><th>Грешки</th></tr></thead><tbody>`;
+    bulkImportRows.forEach(r => {
+        html += `<tr style="${r.valid ? '' : 'background:#fdecea;'}">
+            <td>${r.valid ? '✅' : '❌'}</td>
+            <td>${r.data.name || '-'}</td>
+            <td>${r.data.categoryName || '-'}</td>
+            <td>${r.data.brandName || '-'}</td>
+            <td>${r.data.price || '-'}</td>
+            <td>${r.data.images.length}</td>
+            <td style="color:#e74c3c; font-size:0.8rem;">${r.errors.join(', ')}</td>
+        </tr>`;
+    });
+    html += '</tbody></table>';
+    container.innerHTML = html;
+
+    document.getElementById('bulkImportConfirmBtn').style.display = validCount > 0 ? 'inline-block' : 'none';
+}
+
+async function confirmBulkImport() {
+    const validRows = bulkImportRows.filter(r => r.valid);
+    if (validRows.length === 0) return;
+
+    if (!confirm(`Дали сте сигурни дека сакате да внесете ${validRows.length} производи?`)) return;
+
+    let successCount = 0, failCount = 0;
+
+    for (const row of validRows) {
+        try {
+            await window.fbAddDoc(window.fbCollection(window.firebaseDb, 'products'), row.data);
+            successCount++;
+        } catch (err) {
+            console.error('Грешка при внесување на', row.data.name, err);
+            failCount++;
+        }
+    }
+
+    alert(`✅ Внесени: ${successCount} производи. ❌ Неуспешни: ${failCount}.`);
+    bulkImportRows = [];
+    document.getElementById('bulkImportPreviewContainer').innerHTML = '';
+    document.getElementById('bulkImportSummary').style.display = 'none';
+    document.getElementById('bulkImportConfirmBtn').style.display = 'none';
+    document.getElementById('bulkProductFile').value = '';
+    await loadProducts();
+}
     // ==================== BULK CHARACTERISTIC ADD ====================
 function getBulkFilteredProducts() {
     const catId = document.getElementById('bulkCategory').value;
