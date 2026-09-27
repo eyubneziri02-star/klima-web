@@ -4818,6 +4818,7 @@
         let currentPage = 1;
         let currentSlide = 0;
         let totalSlides = 4;
+        let currentApplianceType = null;
 
         function calculateInstallments(price, productId = null) {
                 if (!isPriceValid(price)) return [];
@@ -5279,6 +5280,11 @@ document.addEventListener('DOMContentLoaded', function() {
         // DISPLAY PRODUCTS WITH PAGINATION
         function prikaziProizvodiSaFiltromISayfalama(page, applianceType = null) {
             currentPage = page;
+
+                    if (applianceType !== null) {
+        currentApplianceType = applianceType;
+    }
+    applianceType = currentApplianceType;
             
             let filtrirani = proizvodi.filter(p => {
     const k = filtri.kategorija === 'all' || p.kategorija === filtri.kategorija;
@@ -5355,6 +5361,7 @@ grid.innerHTML = paginatedProducts.map(p => `
 
         function prikaziSiProizvodi() {
             skrij();
+            currentApplianceType = null;
             document.getElementById('products-page').classList.remove('hidden');
             document.getElementById('product-detailed-section').classList.add('hidden');
             document.getElementById('products-page-title').textContent = 'Сите Производи';
@@ -5418,6 +5425,7 @@ grid.innerHTML = paginatedProducts.map(p => `
 
         function filtrirajPoKategorija(kat) {
     skrij();
+    currentApplianceType = null;
     document.getElementById('products-page').classList.remove('hidden');
     document.getElementById('product-detailed-section').classList.add('hidden');
 
@@ -5440,6 +5448,7 @@ grid.innerHTML = paginatedProducts.map(p => `
 }
         function filtrirajPoBrend(brnd) {
     skrij();
+    currentApplianceType = null;
     document.getElementById('products-page').classList.remove('hidden');
     document.getElementById('product-detailed-section').classList.add('hidden');
 
