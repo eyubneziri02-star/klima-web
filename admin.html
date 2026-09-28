@@ -565,46 +565,91 @@
     <button type="button" class="btn btn-success" id="bulkImportConfirmBtn" style="display:none;" onclick="confirmBulkImport()">✅ Внеси ги сите валидни производи</button>
 </div>
                 
-                <!-- BULK CHARACTERISTIC ADD -->
+                                <!-- BULK TOOLS: SHARED FILTER -->
 <div class="admin-section">
-    <h3>📋 Групно Додавање на Карактеристика (по Категорија)</h3>
-    <div class="success-msg" id="bulkCharSuccessMsg"></div>
+    <h3>🎯 Филтер за Групни Алатки</h3>
     <p style="color:#666; margin-bottom:1rem; font-size:0.9rem;">
-        💡 Изберете категорија / подкатегорија / микро-категорија (може и да оставите празно = сите) и внесете текст (пр. "Гаранција: 24 месеци"). Текстот ќе се додаде како нова карактеристика на СИТЕ производи што припаѓаат на избраниот опсег.
+        💡 Изберете категорија / подкатегорија / микро-категорија / марка (секое поле е опционално, празно = сите). Овој филтер важи за трите алатки подолу: Карактеристика, Опис и Рати.
     </p>
 
     <div class="form-row-3">
         <div class="form-group">
-            <label for="bulkCategory">Главна Категорија</label>
-            <select id="bulkCategory" onchange="loadBulkSubcategories(); updateBulkMatchCount();">
+            <label for="bulkFilterCategory">Главна Категорија</label>
+            <select id="bulkFilterCategory" onchange="loadBulkFilterSubcategories(); updateBulkFilterMatchCount();">
                 <option value="">-- Сите категории --</option>
             </select>
         </div>
         <div class="form-group">
-            <label for="bulkSubcategory">Подкатегорија (опционално)</label>
-            <select id="bulkSubcategory" onchange="loadBulkSubsubcategories(); updateBulkMatchCount();">
+            <label for="bulkFilterSubcategory">Подкатегорија (опционално)</label>
+            <select id="bulkFilterSubcategory" onchange="loadBulkFilterSubsubcategories(); updateBulkFilterMatchCount();">
                 <option value="">-- Сите подкатегории --</option>
             </select>
         </div>
         <div class="form-group">
-            <label for="bulkSubsubcategory">Микро-категорија (опционално)</label>
-            <select id="bulkSubsubcategory" onchange="updateBulkMatchCount();">
+            <label for="bulkFilterSubsubcategory">Микро-категорија (опционално)</label>
+            <select id="bulkFilterSubsubcategory" onchange="updateBulkFilterMatchCount();">
                 <option value="">-- Сите микро-категории --</option>
             </select>
         </div>
     </div>
 
     <div class="form-group">
+        <label for="bulkFilterBrand">Марка (опционално)</label>
+        <select id="bulkFilterBrand" onchange="updateBulkFilterMatchCount();">
+            <option value="">-- Сите марки --</option>
+        </select>
+    </div>
+
+    <div style="background:#f0fdf4; border:2px solid #2ecc71; border-radius:8px; padding:1rem;">
+        <strong id="bulkFilterMatchCountText">Пронајдени 0 производи</strong>
+        <div id="bulkFilterMatchList" style="max-height:150px; overflow-y:auto; margin-top:0.5rem; font-size:0.85rem; color:#555;"></div>
+    </div>
+</div>
+
+<!-- BULK CHARACTERISTIC ADD -->
+<div class="admin-section">
+    <h3>📋 Групно Додавање на Карактеристика</h3>
+    <div class="success-msg" id="bulkCharSuccessMsg"></div>
+    <p style="color:#666; margin-bottom:1rem; font-size:0.9rem;">
+        💡 Ги користи филтрите погоре. Текстот се додава како нова карактеристика на сите пронајдени производи (ако веќе постои, се прескокнува).
+    </p>
+
+    <div class="form-group">
         <label for="bulkCharacteristicText">Карактеристика за додавање</label>
-        <input type="text" id="bulkCharacteristicText" placeholder="пр. Гаранција: 24 месеци" oninput="">
+        <input type="text" id="bulkCharacteristicText" placeholder="пр. Гаранција: 5 години">
     </div>
 
-    <div style="background:#f0fdf4; border:2px solid #2ecc71; border-radius:8px; padding:1rem; margin-bottom:1rem;">
-        <strong id="bulkMatchCountText">Пронајдени 0 производи</strong>
-        <div id="bulkMatchList" style="max-height:150px; overflow-y:auto; margin-top:0.5rem; font-size:0.85rem; color:#555;"></div>
+    <button type="button" class="btn btn-success" onclick="applyBulkCharacteristic()">✅ Примени карактеристика на сите пронајдени производи</button>
+</div>
+
+<!-- BULK DESCRIPTION ADD -->
+<div class="admin-section">
+    <h3>📝 Групно Дополнување на Опис</h3>
+    <div class="success-msg" id="bulkDescSuccessMsg"></div>
+    <p style="color:#666; margin-bottom:1rem; font-size:0.9rem;">
+        💡 Ги користи филтрите погоре. Текстот се ДОДАВА (во нов ред) на постоечкиот опис на сите пронајдени производи — не го брише постоечкиот опис. Ако текстот веќе постои во описот, се прескокнува.
+    </p>
+
+    <div class="form-group">
+        <label for="bulkDescriptionText">Текст за додавање во опис</label>
+        <textarea id="bulkDescriptionText" placeholder="пр. Овој производ доаѓа со 5 години гаранција од производителот."></textarea>
     </div>
 
-    <button type="button" class="btn btn-success" onclick="applyBulkCharacteristic()">✅ Примени на сите пронајдени производи</button>
+    <button type="button" class="btn btn-success" onclick="applyBulkDescription()">✅ Додади во опис на сите пронајдени производи</button>
+</div>
+
+<!-- BULK INSTALLMENTS ADD -->
+<div class="admin-section">
+    <h3>📅 Групно Поставување на Рати</h3>
+    <div class="success-msg" id="bulkInstallmentSuccessMsg"></div>
+    <p style="color:#666; margin-bottom:1rem; font-size:0.9rem;">
+        💡 Ги користи филтрите погоре. Внесете само број на месеци — месечната рата се пресметува АВТОМАТСКИ според цената на секој производ (цена ÷ месеци). Ова ЌЕ ГИ ЗАМЕНИ постоечките рати на пронајдените производи. Производи без бројна цена (пр. "Повик за цена") се прескокнуваат.
+    </p>
+
+    <div id="bulkInstallmentsContainer"></div>
+    <button type="button" class="btn btn-primary" style="margin-top:1rem; margin-bottom:1rem;" onclick="addBulkInstallmentOption()">+ Додади Опција за Рата</button>
+    <br>
+    <button type="button" class="btn btn-success" onclick="applyBulkInstallments()">✅ Примени рати на сите пронајдени производи</button>
 </div>
 
 </div>
@@ -1716,25 +1761,27 @@ async function confirmBulkImport() {
     document.getElementById('bulkProductFile').value = '';
     await loadProducts();
 }
-    // ==================== BULK CHARACTERISTIC ADD ====================
+        // ==================== BULK TOOLS: SHARED FILTER ====================
 function getBulkFilteredProducts() {
-    const catId = document.getElementById('bulkCategory').value;
-    const subId = document.getElementById('bulkSubcategory').value;
-    const subsubId = document.getElementById('bulkSubsubcategory').value;
+    const catId = document.getElementById('bulkFilterCategory').value;
+    const subId = document.getElementById('bulkFilterSubcategory').value;
+    const subsubId = document.getElementById('bulkFilterSubsubcategory').value;
+    const brandId = document.getElementById('bulkFilterBrand').value;
 
     return productsCache.filter(p => {
         if (catId && p.categoryId !== catId) return false;
         if (subId && p.subcategoryId !== subId) return false;
         if (subsubId && p.subsubcategoryId !== subsubId) return false;
+        if (brandId && p.brandId !== brandId) return false;
         return true;
     });
 }
 
-function loadBulkSubcategories() {
-    const catId = document.getElementById('bulkCategory').value;
-    const select = document.getElementById('bulkSubcategory');
+function loadBulkFilterSubcategories() {
+    const catId = document.getElementById('bulkFilterCategory').value;
+    const select = document.getElementById('bulkFilterSubcategory');
     select.innerHTML = '<option value="">-- Сите подкатегории --</option>';
-    document.getElementById('bulkSubsubcategory').innerHTML = '<option value="">-- Сите микро-категории --</option>';
+    document.getElementById('bulkFilterSubsubcategory').innerHTML = '<option value="">-- Сите микро-категории --</option>';
     if (!catId) return;
     subcategoriesCache.filter(s => s.parentId === catId).forEach(s => {
         const opt = document.createElement('option');
@@ -1744,9 +1791,9 @@ function loadBulkSubcategories() {
     });
 }
 
-function loadBulkSubsubcategories() {
-    const subId = document.getElementById('bulkSubcategory').value;
-    const select = document.getElementById('bulkSubsubcategory');
+function loadBulkFilterSubsubcategories() {
+    const subId = document.getElementById('bulkFilterSubcategory').value;
+    const select = document.getElementById('bulkFilterSubsubcategory');
     select.innerHTML = '<option value="">-- Сите микро-категории --</option>';
     if (!subId) return;
     subsubcategoriesCache.filter(s => s.parentId === subId).forEach(s => {
@@ -1757,13 +1804,32 @@ function loadBulkSubsubcategories() {
     });
 }
 
-function updateBulkMatchCount() {
+function updateBulkFilterMatchCount() {
     const matched = getBulkFilteredProducts();
-    document.getElementById('bulkMatchCountText').textContent = `Пронајдени ${matched.length} производи`;
-    const listEl = document.getElementById('bulkMatchList');
+    document.getElementById('bulkFilterMatchCountText').textContent = `Пронајдени ${matched.length} производи`;
+    const listEl = document.getElementById('bulkFilterMatchList');
     listEl.innerHTML = matched.length ? matched.map(p => `• ${p.name}`).join('<br>') : '';
 }
 
+function loadCategoriesForBulkForm() {
+    let html = '<option value="">-- Сите категории --</option>';
+    categoriesCache.forEach(category => {
+        html += `<option value="${category.id}">${category.name}</option>`;
+    });
+    const el = document.getElementById('bulkFilterCategory');
+    if (el) el.innerHTML = html;
+}
+
+function loadBrandsForBulkForm() {
+    let html = '<option value="">-- Сите марки --</option>';
+    brandsCache.forEach(brand => {
+        html += `<option value="${brand.id}">${brand.name}</option>`;
+    });
+    const el = document.getElementById('bulkFilterBrand');
+    if (el) el.innerHTML = html;
+}
+
+    // ==================== BULK CHARACTERISTIC ADD ====================
 async function applyBulkCharacteristic() {
     const text = document.getElementById('bulkCharacteristicText').value.trim();
     if (!text) { alert('Внесете текст за карактеристиката!'); return; }
@@ -1791,17 +1857,99 @@ async function applyBulkCharacteristic() {
     showSuccessMsg('bulkCharSuccessMsg', `✅ Додадено на ${successCount} производи. Прескокнато (веќе постоело): ${skipCount}.`);
     document.getElementById('bulkCharacteristicText').value = '';
     await loadProducts();
-    updateBulkMatchCount();
+    updateBulkFilterMatchCount();
 }
 
-function loadCategoriesForBulkForm() {
-    let html = '<option value="">-- Сите категории --</option>';
-    categoriesCache.forEach(category => {
-        html += `<option value="${category.id}">${category.name}</option>`;
-    });
-    const el = document.getElementById('bulkCategory');
-    if (el) el.innerHTML = html;
+    // ==================== BULK DESCRIPTION ADD ====================
+async function applyBulkDescription() {
+    const text = document.getElementById('bulkDescriptionText').value.trim();
+    if (!text) { alert('Внесете текст за описот!'); return; }
+
+    const matched = getBulkFilteredProducts();
+    if (matched.length === 0) { alert('Нема пронајдени производи за избраниот опсег!'); return; }
+
+    if (!confirm(`Дали сте сигурни дека сакате да го додадете овој текст во описот на ${matched.length} производи?`)) return;
+
+    let successCount = 0, skipCount = 0;
+
+    for (const product of matched) {
+        const existing = product.description || '';
+        if (existing.includes(text)) { skipCount++; continue; }
+        const newDescription = existing ? `${existing}\n\n${text}` : text;
+        try {
+            await window.fbUpdateDoc(window.fbDoc(window.firebaseDb, 'products', product.id), {
+                description: newDescription
+            });
+            successCount++;
+        } catch (err) {
+            console.error('Грешка при ажурирање на', product.name, err);
+        }
+    }
+
+    showSuccessMsg('bulkDescSuccessMsg', `✅ Додадено на ${successCount} производи. Прескокнато (веќе постоело): ${skipCount}.`);
+    document.getElementById('bulkDescriptionText').value = '';
+    await loadProducts();
+    updateBulkFilterMatchCount();
 }
+
+    // ==================== BULK INSTALLMENTS ADD ====================
+let bulkInstallmentMonths = [3, 6, 12];
+
+function renderBulkInstallmentOptions() {
+    const container = document.getElementById('bulkInstallmentsContainer');
+    container.innerHTML = '';
+    bulkInstallmentMonths.forEach((months, index) => {
+        const div = document.createElement('div');
+        div.className = 'installment-option';
+        div.style.gridTemplateColumns = '1fr auto';
+        div.innerHTML = `
+            <div class="installment-option-input">
+                <label>Број на месеци</label>
+                <input type="number" value="${months}" min="1" max="60" onchange="updateBulkInstallmentMonths(${index}, this.value)">
+            </div>
+            <button type="button" class="remove-btn" onclick="removeBulkInstallmentOption(${index})">✕</button>
+        `;
+        container.appendChild(div);
+    });
+}
+
+window.updateBulkInstallmentMonths = (index, value) => { bulkInstallmentMonths[index] = parseInt(value) || 1; };
+window.addBulkInstallmentOption = () => { bulkInstallmentMonths.push(12); renderBulkInstallmentOptions(); };
+window.removeBulkInstallmentOption = (index) => { bulkInstallmentMonths.splice(index, 1); renderBulkInstallmentOptions(); };
+
+function isBulkPriceNumeric(price) {
+    return typeof price === 'number' && !isNaN(price);
+}
+
+async function applyBulkInstallments() {
+    const matched = getBulkFilteredProducts();
+    if (matched.length === 0) { alert('Нема пронајдени производи за избраниот опсег!'); return; }
+    if (bulkInstallmentMonths.length === 0) { alert('Додадете барем една опција за рата!'); return; }
+
+    if (!confirm(`Дали сте сигурни дека сакате да ги замените ратите на ${matched.length} производи?`)) return;
+
+    let successCount = 0, skipCount = 0;
+
+    for (const product of matched) {
+        if (!isBulkPriceNumeric(product.price)) { skipCount++; continue; }
+        const installments = bulkInstallmentMonths.map(months => ({
+            months,
+            monthlyPrice: Math.round(product.price / months)
+        }));
+        try {
+            await window.fbUpdateDoc(window.fbDoc(window.firebaseDb, 'products', product.id), { installments });
+            successCount++;
+        } catch (err) {
+            console.error('Грешка при ажурирање на', product.name, err);
+        }
+    }
+
+    showSuccessMsg('bulkInstallmentSuccessMsg', `✅ Рати поставени на ${successCount} производи. Прескокнати (немаат бројна цена): ${skipCount}.`);
+    await loadProducts();
+    updateBulkFilterMatchCount();
+}
+
+renderBulkInstallmentOptions();
     let installmentOptions = [
         { months: 3, monthlyPrice: 0 },
         { months: 6, monthlyPrice: 0 },
@@ -2305,6 +2453,7 @@ if (ad.mobileImageUrl) {
         await loadAds();
         loadCategoriesForProductForm();
         loadCategoriesForBulkForm();
+        loadBrandsForBulkForm();
         loadBrandsForProductForm();
         loadParentCategoriesForSubcategoryForm();
         loadMainCategoriesForSubsubcatForm();
