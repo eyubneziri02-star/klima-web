@@ -4131,6 +4131,29 @@
     .ad-fg.ad-desktop-img { display: none; }
     .ad-fg.ad-mobile-img { display: block; }
 }
+
+/* ===== ÜRÜN RESİMLERİ: büyütme yok, standart ve net ===== */
+.product-image img,
+.carousel-product-image img,
+.thumbnail img {
+    width: auto !important;
+    height: auto !important;
+    max-width: 100% !important;
+    max-height: 100% !important;
+    object-fit: contain !important;
+    display: block;
+    margin: auto;
+}
+
+.product-detail-main-image img {
+    width: auto !important;
+    height: auto !important;
+    max-width: 100% !important;
+    max-height: 500px !important;
+    object-fit: contain !important;
+    display: block;
+    margin: auto;
+}
     </style>
 
     <!-- FIREBASE SDK -->
