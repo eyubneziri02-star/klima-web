@@ -4344,16 +4344,6 @@
                     <button class="btn btn-primary" onclick="prikaziSiProizvodi()" style="padding: 1rem 3rem; font-size: 1.1rem;">Погледни ги сите производи</button>
                 </div>
 
-                <!-- ИЗБРАНИ ПРОИЗВОДИ -->
-                <div style="margin-bottom: 3rem;">
-                    <h2 class="page-title">Производи на попуст</h2>
-                    <p class="page-subtitle">Намалена цена и специјални понуди</p>
-                    <div class="products-grid" id="selected-products-grid"></div>
-                    <div style="text-align: center; margin-top: 2rem;">
-                        <button class="btn btn-primary" onclick="prikaziIzbraniPuni()">Види ги сите попусти</button>
-                    </div>
-                </div>
-
                 <!-- RECOMMENDED PRODUCTS CAROUSEL -->
 <section class="recommended-section">
     <h2 class="section-title">Препорачани Производи</h2>
@@ -5508,6 +5498,7 @@ grid.innerHTML = paginatedProducts.map(p => `
     const indirimli = proizvodi.filter(p => p.indirim > 0);
     
     const grid = document.getElementById('selected-products-grid');
+        if (!grid) return;
     
     // Eğer hiç indirimli ürün yoksa, bölümü gizle
     if (indirimli.length === 0) {
