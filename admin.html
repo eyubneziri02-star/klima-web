@@ -1281,6 +1281,7 @@
         const categoryId = document.getElementById('prodCategory').value;
         const subcategorySelect = document.getElementById('prodSubcategory');
         subcategorySelect.innerHTML = '<option value="">-- Нема подкатегорија --</option>';
+        document.getElementById('prodSubsubcategory').innerHTML = '<option value="">-- Нема микро-категорија --</option>';
         if (!categoryId) return;
         const filtered = subcategoriesCache.filter(s => s.parentId === categoryId);
         filtered.forEach(subcat => {
@@ -2107,6 +2108,12 @@ renderBulkInstallmentOptions();
 const isNumericPrice = /^[0-9]+([.,][0-9]+)?$/.test(priceRaw);
 const priceValue = isNumericPrice ? parseFloat(priceRaw.replace(',', '.')) : priceRaw;
 
+const dpCheck = parseFloat(document.getElementById('prodDiscountedPrice').value);
+if (dpCheck) {
+    if (typeof priceValue !== 'number') { alert('Цената со попуст бара бројна цена!'); return; }
+    if (dpCheck >= priceValue) { alert('Цената со попуст мора да биде пониска од цената!'); return; }
+}
+
 const data = {
     name: document.getElementById('prodName').value.trim(),
     brandId: brandId,
@@ -2149,6 +2156,8 @@ const data = {
         document.getElementById('productFormTitle').textContent = 'Додади Нов Производ';
         productCancelBtn.style.display = 'none';
         document.getElementById('prodSubcategory').innerHTML = '<option value="">-- Нема подкатегорија --</option>';
+        document.getElementById('prodSubsubcategory').innerHTML = '<option value="">-- Нема микро-категорија --</option>';
+        document.getElementById('prodDiscount').value = 0;
         uploadedImages = [];
         document.getElementById('prodImagePreviewContainer').innerHTML = '';
         document.getElementById('discountPreview').textContent = '-0%';
