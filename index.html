@@ -5016,7 +5016,7 @@ function prikaziFavorite() {
     const grid = document.getElementById('products-grid');
     grid.innerHTML = favoritniProizvodi.map(p => `
         <article class="product-card" onclick="prikaziDetalje('${p.id}')">
-            ${p.indirim > 0 ? `<div class="indirim-badge">-${p.indirim}%</div>` : ''}
+            ${p.indirim > 0 ? `<div class="indirim-badge">-${Math.round(p.indirim)}%</div>` : ''}
             <div class="product-image">${renderProductImage(p)}</div>
             <div class="product-content">
                 <p class="product-brand">${p.brend}</p>
@@ -5071,7 +5071,7 @@ function initCarousel() {
     track.innerHTML = displayProducts.map(p => `
     <div class="carousel-item">
         <div class="carousel-product-card" onclick="prikaziDetalje('${p.id}')">
-            ${p.indirim > 0 ? `<div class="indirim-badge">-${p.indirim}%</div>` : ''}
+            ${p.indirim > 0 ? `<div class="indirim-badge">-${Math.round(p.indirim)}%</div>` : ''}
             <div class="carousel-product-image">${renderProductImage(p)}</div>
             <div class="carousel-product-content">
                 <div>
@@ -5315,7 +5315,7 @@ document.addEventListener('DOMContentLoaded', function() {
 grid.innerHTML = paginatedProducts.map(p => `
     <article class="product-card" onclick="prikaziDetalje('${p.id}')">
         <div class="product-image">${renderProductImage(p)}</div>
-        ${p.indirim > 0 ? `<div class="indirim-badge">-${p.indirim}%</div>` : ''}
+        ${p.indirim > 0 ? `<div class="indirim-badge">-${Math.round(p.indirim)}%</div>` : ''}
         <div class="product-content">
             <p class="product-brand">${p.brend}</p>
             <h3 class="product-title">${p.naziv}</h3>
@@ -5413,7 +5413,7 @@ grid.innerHTML = paginatedProducts.map(p => `
     const grid = document.getElementById('selected-full-grid');
     grid.innerHTML = indirimli.map(p => `
         <article class="product-card" onclick="prikaziDetalje('${p.id}')">
-            ${p.indirim > 0 ? `<div class="indirim-badge">-${p.indirim}%</div>` : ''}
+            ${p.indirim > 0 ? `<div class="indirim-badge">-${Math.round(p.indirim)}%</div>` : ''}
             <div class="product-image">${renderProductImage(p)}</div>
             <div class="product-content">
                 <p class="product-brand">${p.brend}</p>
@@ -5509,7 +5509,7 @@ grid.innerHTML = paginatedProducts.map(p => `
     // İlk 8 indirimli ürünü göster
     grid.innerHTML = indirimli.slice(0, 8).map(p => `
         <article class="product-card" onclick="prikaziDetalje('${p.id}')">
-            ${p.indirim > 0 ? `<div class="indirim-badge">-${p.indirim}%</div>` : ''}
+            ${p.indirim > 0 ? `<div class="indirim-badge">-${Math.round(p.indirim)}%</div>` : ''}
             <div class="product-image">${renderProductImage(p)}</div>
             <div class="product-content">
                 <p class="product-brand">${p.brend}</p>
@@ -6025,7 +6025,7 @@ function izvrsiPrebaruvanjeMobile() {
            const grid = document.getElementById('search-results-grid');
              grid.innerHTML = rezultati.map(p => `
     <article class="product-card" onclick="prikaziDetalje('${p.id}')">
-        ${p.indirim > 0 ? `<div class="indirim-badge">-${p.indirim}%</div>` : ''}
+        ${p.indirim > 0 ? `<div class="indirim-badge">-${Math.round(p.indirim)}%</div>` : ''}
         <div class="product-image">${renderProductImage(p)}</div>
         <div class="product-content">
             <p class="product-brand">${p.brend}</p>
@@ -6826,7 +6826,7 @@ function renderFilteredProductsCustom(filtrirani, page) {
     const grid = document.getElementById('products-grid');
     grid.innerHTML = paginatedProducts.map(p => `
         <article class="product-card" onclick="prikaziDetalje('${p.id}')">
-            ${p.indirim > 0 ? `<div class="indirim-badge">-${p.indirim}%</div>` : ''}
+            ${p.indirim > 0 ? `<div class="indirim-badge">-${Math.round(p.indirim)}%</div>` : ''}
             <div class="product-image">${renderProductImage(p)}</div>
             <div class="product-content">
                 <p class="product-brand">${p.brend}</p>
@@ -6881,7 +6881,7 @@ function renderCategorySections() {
         <div class="category-products-grid">
             ${randomProducts.slice(0, 4).map(p => `
                 <article class="product-card" onclick="prikaziDetalje('${p.id}')">
-                    ${p.indirim > 0 ? `<div class="indirim-badge">-${p.indirim}%</div>` : ''}
+                    ${p.indirim > 0 ? `<div class="indirim-badge">-${Math.round(p.indirim)}%</div>` : ''}
                     <div class="product-image">${renderProductImage(p)}</div>
                     <div class="product-content">
                         <p class="product-brand">${p.brend}</p>
@@ -7157,7 +7157,7 @@ function applyPriceFilterWithPage(page) {
     const grid = document.getElementById('products-grid');
     grid.innerHTML = paginatedProducts.map(p => `
         <article class="product-card" onclick="prikaziDetalje('${p.id}')">
-            ${p.indirim > 0 ? `<div class="indirim-badge">-${p.indirim}%</div>` : ''}
+            ${p.indirim > 0 ? `<div class="indirim-badge">-${Math.round(p.indirim)}%</div>` : ''}
             <div class="product-image">${renderProductImage(p)}</div>
             <div class="product-content">
                 <p class="product-brand">${p.brend}</p>
@@ -7332,7 +7332,7 @@ function applyModalPriceFilter() {
     
     grid.innerHTML = paginatedProducts.map(p => `
         <article class="product-card" onclick="prikaziDetalje('${p.id}')">
-            ${p.indirim > 0 ? `<div class="indirim-badge">-${p.indirim}%</div>` : ''}
+            ${p.indirim > 0 ? `<div class="indirim-badge">-${Math.round(p.indirim)}%</div>` : ''}
             <div class="product-image">${renderProductImage(p)}</div>
             <div class="product-content">
                 <p class="product-brand">${p.brend}</p>
@@ -7404,7 +7404,7 @@ function applyModalPriceFilterWithPage(page) {
     const grid = document.getElementById('products-grid');
     grid.innerHTML = paginatedProducts.map(p => `
         <article class="product-card" onclick="prikaziDetalje('${p.id}')">
-            ${p.indirim > 0 ? `<div class="indirim-badge">-${p.indirim}%</div>` : ''}
+            ${p.indirim > 0 ? `<div class="indirim-badge">-${Math.round(p.indirim)}%</div>` : ''}
             <div class="product-image">${renderProductImage(p)}</div>
             <div class="product-content">
                 <p class="product-brand">${p.brend}</p>
