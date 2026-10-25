@@ -1678,7 +1678,19 @@ function processBulkRow(row) {
     const price = isNumericPrice ? parseFloat(priceRaw.replace(',', '.')) : priceRaw;
     if (!priceRaw) errors.push('Нема цена');
 
-    const discount = parseInt(row['Попуст %']) || 0;
+    const discountedRaw = String(row['Цена со попуст (ден.)'] ?? '').trim();
+let discount = 0;
+let discountedPrice = null;
+if (discountedRaw) {
+    const dp = parseFloat(discountedRaw.replace(',', '.'));
+    if (isNaN(dp) || dp <= 0) errors.push('Неважечка цена со попуст');
+    else if (typeof price !== 'number') errors.push('Цената со попуст бара бројна цена');
+    else if (dp >= price) errors.push('Цената со попуст мора да биде пониска од цената');
+    else {
+        discountedPrice = dp;
+        discount = parseFloat(((1 - dp / price) * 100).toFixed(6));
+    }
+}
     const description = String(row['Опис'] || '').trim();
 
     const characteristics = String(row['Карактеристики (одделени со |)'] || '')
@@ -1698,7 +1710,7 @@ function processBulkRow(row) {
             categoryId, categoryName: categoryId ? categoryName : '',
             subcategoryId: subcategoryId || null,
             subsubcategoryId: subsubcategoryId || null,
-            price, discount, description, characteristics, images,
+            price, discount, discountedPrice, description, characteristics, images,
             isPopular, isSelected: false, showInDiscounted,
             installments: [
                 { months: 3, monthlyPrice: 0 },
