@@ -445,13 +445,15 @@
                         <small style="display: block; color: #666; margin-top: 0.3rem;">💡 Внесете број за фиксна цена (пр. 35000), или текст (пр. "Повик за цена") ако цената варира</small>
                     </div>
 
-                        <!-- ⭐ İNDİRİM BÖLÜMÜ -->
+                    <!-- ⭐ İNDİRİM BÖLÜMÜ -->
                         <div class="form-group">
-                            <label for="prodDiscount">Инdirim %</label>
-                            <div style="display: flex; gap: 0.5rem; align-items: center;">
-                                <input type="number" id="prodDiscount" min="0" max="100" value="0" step="1" placeholder="0-100">
-                                <span style="font-size: 1.5rem; font-weight: bold;" id="discountPreview">-0%</span>
-                            </div>
+                            <label for="prodDiscountedPrice">Цена со попуст (ден.) - опционално</label>
+                            <input type="number" id="prodDiscountedPrice" min="0" step="any" placeholder="пр. 22900 (остави празно ако нема попуст)">
+                            <div style="display: flex; gap: 0.8rem; align-items: center; margin-top: 0.5rem;">
+                            <input type="hidden" id="prodDiscount" value="0">
+                            <span style="font-size: 1.5rem; font-weight: bold;" id="discountPreview">-0%</span>
+                              </div>
+                            <small style="display: block; color: #666; margin-top: 0.3rem;">💡 Само внесете ја новата цена. Процентот се пресметува автоматски.</small>
                         </div>
 
                         <!-- ⭐ TAKSIT BÖLÜMÜ -->
@@ -2049,6 +2051,35 @@ renderBulkInstallmentOptions();
         }
     });
 
+        function updateDiscountFromPrice() {
+        const price = parseFloat(document.getElementById('prodPrice').value.trim().replace(',', '.'));
+        const dp = parseFloat(document.getElementById('prodDiscountedPrice').value);
+        const discountInput = document.getElementById('prodDiscount');
+        const preview = document.getElementById('discountPreview');
+        const checkbox = document.getElementById('prodShowDiscount');
+
+        let percent = 0;
+        if (!isNaN(price) && price > 0 && !isNaN(dp) && dp > 0 && dp < price) {
+            percent = (1 - dp / price) * 100;
+        }
+
+        discountInput.value = percent > 0 ? percent.toFixed(6) : 0;
+        preview.textContent = '-' + Math.round(percent) + '%';
+
+        if (percent > 0) {
+            checkbox.checked = true;
+            checkbox.disabled = true;
+            checkbox.style.opacity = '0.6';
+        } else if (checkbox.disabled) {
+            checkbox.disabled = false;
+            checkbox.checked = false;
+            checkbox.style.opacity = '1';
+        }
+    }
+
+    document.getElementById('prodDiscountedPrice').addEventListener('input', updateDiscountFromPrice);
+    document.getElementById('prodPrice').addEventListener('input', updateDiscountFromPrice);
+
     productForm.addEventListener('submit', async (e) => {
         e.preventDefault();
         const characteristics = document.getElementById('prodCharacteristics').value.split('\n').map(c => c.trim()).filter(c => c);
@@ -2073,7 +2104,8 @@ const data = {
     subcategoryId: document.getElementById('prodSubcategory').value || null,
         subsubcategoryId: document.getElementById('prodSubsubcategory').value || null,
     price: priceValue,
-    discount: parseInt(document.getElementById('prodDiscount').value) || 0,
+        discount: parseFloat(document.getElementById('prodDiscount').value) || 0,
+    discountedPrice: parseFloat(document.getElementById('prodDiscountedPrice').value) || null,
     description: document.getElementById('prodDescription').value.trim(),
     characteristics: characteristics,
     images: images,
@@ -2127,8 +2159,8 @@ const data = {
         document.getElementById('prodBrand').value = product.brandId;
         document.getElementById('prodCategory').value = product.categoryId;
         document.getElementById('prodPrice').value = product.price;
-        document.getElementById('prodDiscount').value = product.discount || 0;
-        document.getElementById('discountPreview').textContent = `-${product.discount || 0}%`;
+        document.getElementById('prodDiscountedPrice').value = product.discountedPrice || ((product.discount > 0 && typeof product.price === 'number') ? Math.round(product.price * (1 - product.discount / 100)) : '');
+        updateDiscountFromPrice();
         document.getElementById('prodDescription').value = product.description;
         document.getElementById('prodCharacteristics').value = (product.characteristics || []).join('\n');
         document.getElementById('prodPopular').checked = product.isPopular;
