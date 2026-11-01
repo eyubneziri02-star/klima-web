@@ -566,8 +566,33 @@
 
     <button type="button" class="btn btn-success" id="bulkImportConfirmBtn" style="display:none;" onclick="confirmBulkImport()">✅ Внеси ги сите валидни производи</button>
 </div>
+
+<!-- BULK DISCOUNT (EXCEL) -->
+<div class="admin-section">
+    <h3>🏷️ Толпо Попуст (Excel)</h3>
+    <p style="color:#666; margin-bottom:1rem; font-size:0.9rem;">
+        💡 Преземете ги сите производи, пополнете ја жолтата колона "Цена со попуст", па прикачете ја датотеката. Празно = нема промена. 0 = се отстранува попустот. Пред снимање се прикажува преглед.
+    </p>
+
+    <div style="display:flex; gap:1rem; flex-wrap:wrap; margin-bottom:1.5rem;">
+        <button type="button" class="btn btn-primary" onclick="downloadDiscountExcel()">⬇️ Преземи ги сите производи (Excel)</button>
+    </div>
+
+    <div class="form-group">
+        <label for="bulkDiscountFile">Прикачи пополнет Excel (.xlsx)</label>
+        <input type="file" id="bulkDiscountFile" accept=".xlsx,.xls" onchange="handleDiscountFile(event)">
+    </div>
+
+    <div id="bulkDiscountSummary" style="display:none; background:#f0fdf4; border:2px solid #2ecc71; border-radius:8px; padding:1rem; margin:1rem 0;">
+        <strong id="bulkDiscountSummaryText"></strong>
+    </div>
+
+    <div id="bulkDiscountPreview" style="max-height:450px; overflow-y:auto; margin-bottom:1rem;"></div>
+
+    <button type="button" class="btn btn-success" id="bulkDiscountConfirmBtn" style="display:none;" onclick="confirmDiscountImport()">✅ Примени ги попустите</button>
+</div>
                 
-                                <!-- BULK TOOLS: SHARED FILTER -->
+<!-- BULK TOOLS: SHARED FILTER -->
 <div class="admin-section">
     <h3>🎯 Филтер за Групни Алатки</h3>
     <p style="color:#666; margin-bottom:1rem; font-size:0.9rem;">
@@ -1776,6 +1801,152 @@ async function confirmBulkImport() {
     document.getElementById('bulkProductFile').value = '';
     await loadProducts();
 }
+
+// ==================== BULK DISCOUNT (EXCEL) ====================
+let discountRows = [];
+
+function downloadDiscountExcel() {
+    if (!productsCache.length) { alert('Нема производи!'); return; }
+
+    const sorted = [...productsCache].sort((a, b) =>
+        (a.categoryName || '').localeCompare(b.categoryName || '') ||
+        (a.brandName || '').localeCompare(b.brandName || '') ||
+        (a.name || '').localeCompare(b.name || ''));
+
+    const data = [['ID', 'Име на производ', 'Марка', 'Цена', 'Цена со попуст (ден.)', 'Попуст % (автоматски)']];
+    sorted.forEach((p, i) => {
+        const dp = p.discountedPrice || ((p.discount > 0 && typeof p.price === 'number') ? Math.round(p.price * (1 - p.discount / 100)) : '');
+        const r = i + 2;
+        data.push([
+            p.id, p.name || '', p.brandName || '', p.price, dp,
+            { t: 's', f: `IF(OR(D${r}="",E${r}=""),"",IF(E${r}=0,"се отстранува",IF(N(D${r})<=0,"",ROUND((1-E${r}/D${r})*100,0)&"%")))` }
+        ]);
+    });
+
+    const ws = XLSX.utils.aoa_to_sheet(data);
+    ws['!cols'] = [{ wch: 24 }, { wch: 62 }, { wch: 16 }, { wch: 14 }, { wch: 24 }, { wch: 22 }];
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'Popust');
+    XLSX.writeFile(wb, 'proizvodi-popust.xlsx');
+}
+
+function handleDiscountFile(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        const wb = XLSX.read(new Uint8Array(e.target.result), { type: 'array' });
+        const sheet = wb.Sheets[wb.SheetNames[0]];
+        const raw = XLSX.utils.sheet_to_json(sheet, { defval: '' });
+        discountRows = raw.map(processDiscountRow).filter(Boolean);
+        renderDiscountPreview(raw.length - discountRows.length);
+    };
+    reader.readAsArrayBuffer(file);
+}
+
+function processDiscountRow(row) {
+    const id = String(row['ID'] || '').trim();
+    const name = String(row['Име на производ'] || '').trim();
+    const rawValue = String(row['Цена со попуст (ден.)'] ?? '').trim();
+
+    if (!id && !name) return null;
+    if (rawValue === '') return null;
+
+    const errors = [];
+
+    let product = id ? productsCache.find(p => p.id === id) : null;
+    if (!product && name) {
+        const matches = productsCache.filter(p => norm(p.name) === norm(name));
+        if (matches.length === 1) product = matches[0];
+        else if (matches.length > 1) errors.push('Повеќе производи со исто име, користете ID');
+    }
+    if (!product && errors.length === 0) errors.push('Производот не е пронајден');
+
+    const dp = parseFloat(rawValue.replace(',', '.'));
+    let discount = 0, remove = false;
+
+    if (isNaN(dp) || dp < 0) {
+        errors.push('Неважечка цена со попуст');
+    } else if (product) {
+        if (typeof product.price !== 'number') {
+            errors.push('Производот нема бројна цена');
+        } else if (dp === 0) {
+            remove = true;
+        } else if (dp >= product.price) {
+            errors.push('Цената со попуст мора да биде пониска од цената');
+        } else {
+            discount = parseFloat(((1 - dp / product.price) * 100).toFixed(6));
+        }
+    }
+
+    return {
+        valid: errors.length === 0,
+        errors,
+        product,
+        name: product ? product.name : name,
+        oldPrice: product ? product.price : '',
+        dp: remove ? 0 : dp,
+        discount,
+        remove
+    };
+}
+
+function renderDiscountPreview(skippedCount) {
+    const validCount = discountRows.filter(r => r.valid).length;
+    const invalidCount = discountRows.length - validCount;
+
+    document.getElementById('bulkDiscountSummary').style.display = 'block';
+    document.getElementById('bulkDiscountSummaryText').textContent =
+        `${discountRows.length} редови за промена: ${validCount} валидни ✅, ${invalidCount} со грешки ❌. Прескокнати (празна цена со попуст): ${skippedCount}.`;
+
+    let html = `<table class="table"><thead><tr><th>Статус</th><th>Производ</th><th>Цена</th><th>Нова цена</th><th>Попуст</th><th>Грешки</th></tr></thead><tbody>`;
+    discountRows.forEach(r => {
+        const newPrice = r.remove ? 'отстрани попуст' : (r.valid ? r.dp.toLocaleString('mk-MK') + ' ден.' : r.dp);
+        const percent = r.remove ? '0%' : (r.valid ? '-' + Math.round(r.discount) + '%' : '-');
+        html += `<tr style="${r.valid ? '' : 'background:#fdecea;'}">
+            <td>${r.valid ? '✅' : '❌'}</td>
+            <td>${r.name || '-'}</td>
+            <td>${typeof r.oldPrice === 'number' ? r.oldPrice.toLocaleString('mk-MK') + ' ден.' : (r.oldPrice || '-')}</td>
+            <td>${newPrice}</td>
+            <td>${percent}</td>
+            <td style="color:#e74c3c; font-size:0.8rem;">${r.errors.join(', ')}</td>
+        </tr>`;
+    });
+    html += '</tbody></table>';
+    document.getElementById('bulkDiscountPreview').innerHTML = html;
+    document.getElementById('bulkDiscountConfirmBtn').style.display = validCount > 0 ? 'inline-block' : 'none';
+}
+
+async function confirmDiscountImport() {
+    const validRows = discountRows.filter(r => r.valid);
+    if (validRows.length === 0) return;
+    if (!confirm(`Дали сте сигурни дека сакате да ги примените попустите на ${validRows.length} производи?`)) return;
+
+    let successCount = 0, failCount = 0;
+    for (const r of validRows) {
+        try {
+            await window.fbUpdateDoc(window.fbDoc(window.firebaseDb, 'products', r.product.id), {
+                discount: r.remove ? 0 : r.discount,
+                discountedPrice: r.remove ? null : r.dp,
+                showInDiscounted: !r.remove
+            });
+            successCount++;
+        } catch (err) {
+            console.error('Грешка при ажурирање на', r.name, err);
+            failCount++;
+        }
+    }
+
+    alert(`✅ Успешно: ${successCount}. ❌ Неуспешни: ${failCount}.`);
+    discountRows = [];
+    document.getElementById('bulkDiscountPreview').innerHTML = '';
+    document.getElementById('bulkDiscountSummary').style.display = 'none';
+    document.getElementById('bulkDiscountConfirmBtn').style.display = 'none';
+    document.getElementById('bulkDiscountFile').value = '';
+    await loadProducts();
+}
+
         // ==================== BULK TOOLS: SHARED FILTER ====================
 function getBulkFilteredProducts() {
     const catId = document.getElementById('bulkFilterCategory').value;
