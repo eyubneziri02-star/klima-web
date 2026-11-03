@@ -1622,14 +1622,16 @@ function downloadBulkTemplate() {
         'Име на производ', 'Марка', 'Главна Категорија', 'Подкатегорија (опционално)',
         'Микро-категорија (опционално)', 'Цена', 'Цена со попуст (ден.)', 'Опис',
         'Карактеристики (одделени со |)', 'Слики URL (одделени со |)',
-        'Препорачан (да/не)', 'Попуст листа (да/не)'
+        'Препорачан (да/не)', 'Попуст листа (да/не)',
+        'Рати (месеци, одделени со |)'
     ];
     const example = [
         'Сплит АС Единица 18000 BTU', 'Daikin', 'Климатизација', '', '',
         35000, '', 'Детален опис на производот',
         'Енергетска ефикасност A++|Тивок режим на работа|Гаранција: 24 месеци',
         'https://example.com/slika1.jpg|https://example.com/slika2.jpg',
-        'да', 'не'
+        'да', 'не',
+        '3|6|12|18|24'
     ];
     const ws = XLSX.utils.aoa_to_sheet([headers, example]);
     const wb = XLSX.utils.book_new();
@@ -1705,18 +1707,18 @@ function processBulkRow(row) {
     if (!priceRaw) errors.push('Нема цена');
 
     const discountedRaw = String(row['Цена со попуст (ден.)'] ?? '').trim();
-let discount = 0;
-let discountedPrice = null;
-if (discountedRaw) {
-    const dp = parseFloat(discountedRaw.replace(',', '.'));
-    if (isNaN(dp) || dp <= 0) errors.push('Неважечка цена со попуст');
-    else if (typeof price !== 'number') errors.push('Цената со попуст бара бројна цена');
-    else if (dp >= price) errors.push('Цената со попуст мора да биде пониска од цената');
-    else {
-        discountedPrice = dp;
-        discount = parseFloat(((1 - dp / price) * 100).toFixed(6));
+    let discount = 0;
+    let discountedPrice = null;
+    if (discountedRaw) {
+        const dp = parseFloat(discountedRaw.replace(',', '.'));
+        if (isNaN(dp) || dp <= 0) errors.push('Неважечка цена со попуст');
+        else if (typeof price !== 'number') errors.push('Цената со попуст бара бројна цена');
+        else if (dp >= price) errors.push('Цената со попуст мора да биде пониска од цената');
+        else {
+            discountedPrice = dp;
+            discount = parseFloat(((1 - dp / price) * 100).toFixed(6));
+        }
     }
-}
     const description = String(row['Опис'] || '').trim();
 
     const characteristics = String(row['Карактеристики (одделени со |)'] || '')
@@ -1728,6 +1730,46 @@ if (discountedRaw) {
     const isPopular = ['да', 'yes', 'true'].includes(norm(row['Препорачан (да/не)']));
     const showInDiscounted = discount > 0 || ['да', 'yes', 'true'].includes(norm(row['Попуст листа (да/не)']));
 
+    // ===== РАТИ (TAKSIT) =====
+    const installmentsRaw = String(row['Рати (месеци, одделени со |)'] ?? '').trim();
+    let installmentMonths = [];
+
+    if (installmentsRaw === '') {
+        // Колоната е празна -> автоматски 3, 6, 12
+        installmentMonths = [3, 6, 12];
+    } else {
+        const tokens = installmentsRaw.split(/[|,;]+/).map(t => t.trim()).filter(t => t);
+        let installmentError = false;
+        tokens.forEach(t => {
+            if (!/^[0-9]+$/.test(t)) {
+                installmentError = true;
+                return;
+            }
+            const m = parseInt(t, 10);
+            if (m < 1 || m > 60) {
+                installmentError = true;
+                return;
+            }
+            installmentMonths.push(m);
+        });
+        if (installmentError || installmentMonths.length === 0) {
+            errors.push('Рати: неважечка вредност (дозволени се цели броеви 1-60, одделени со |)');
+            installmentMonths = [];
+        } else {
+            // Отстрани дупликати и подреди од најмало кон најголемо
+            installmentMonths = [...new Set(installmentMonths)].sort((a, b) => a - b);
+        }
+    }
+
+    // Месечна рата се пресметува од цената (или цената со попуст, ако има)
+    const installmentBase = (typeof price === 'number')
+        ? (discountedPrice !== null ? discountedPrice : price)
+        : null;
+    const installments = installmentMonths.map(months => ({
+        months,
+        monthlyPrice: installmentBase !== null ? Math.round(installmentBase / months) : 0
+    }));
+
     return {
         valid: errors.length === 0,
         errors,
@@ -1738,11 +1780,7 @@ if (discountedRaw) {
             subsubcategoryId: subsubcategoryId || null,
             price, discount, discountedPrice, description, characteristics, images,
             isPopular, isSelected: false, showInDiscounted,
-            installments: [
-                { months: 3, monthlyPrice: 0 },
-                { months: 6, monthlyPrice: 0 },
-                { months: 12, monthlyPrice: 0 }
-            ]
+            installments
         }
     };
 }
@@ -1757,14 +1795,18 @@ function renderBulkImportPreview() {
     document.getElementById('bulkImportSummaryText').textContent =
         `Вкупно ${bulkImportRows.length} редови: ${validCount} валидни ✅, ${invalidCount} со грешки ❌`;
 
-    let html = `<table class="table"><thead><tr><th>Статус</th><th>Име</th><th>Категорија</th><th>Марка</th><th>Цена</th><th>Слики</th><th>Грешки</th></tr></thead><tbody>`;
+    let html = `<table class="table"><thead><tr><th>Статус</th><th>Име</th><th>Категорија</th><th>Марка</th><th>Цена</th><th>Рати</th><th>Слики</th><th>Грешки</th></tr></thead><tbody>`;
     bulkImportRows.forEach(r => {
+        const ratiText = (r.data.installments && r.data.installments.length > 0)
+            ? r.data.installments.map(i => i.months).join(', ') + ' мес.'
+            : '-';
         html += `<tr style="${r.valid ? '' : 'background:#fdecea;'}">
             <td>${r.valid ? '✅' : '❌'}</td>
             <td>${r.data.name || '-'}</td>
             <td>${r.data.categoryName || '-'}</td>
             <td>${r.data.brandName || '-'}</td>
             <td>${r.data.price || '-'}</td>
+            <td>${ratiText}</td>
             <td>${r.data.images.length}</td>
             <td style="color:#e74c3c; font-size:0.8rem;">${r.errors.join(', ')}</td>
         </tr>`;
