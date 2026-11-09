@@ -567,36 +567,11 @@
     <button type="button" class="btn btn-success" id="bulkImportConfirmBtn" style="display:none;" onclick="confirmBulkImport()">✅ Внеси ги сите валидни производи</button>
 </div>
 
-<!-- BULK DISCOUNT (EXCEL) -->
-<div class="admin-section">
-    <h3>🏷️ Толпо Попуст (Excel)</h3>
-    <p style="color:#666; margin-bottom:1rem; font-size:0.9rem;">
-        💡 Преземете ги сите производи, пополнете ја жолтата колона "Цена со попуст", па прикачете ја датотеката. Празно = нема промена. 0 = се отстранува попустот. Пред снимање се прикажува преглед.
-    </p>
-
-    <div style="display:flex; gap:1rem; flex-wrap:wrap; margin-bottom:1.5rem;">
-        <button type="button" class="btn btn-primary" onclick="downloadDiscountExcel()">⬇️ Преземи ги сите производи (Excel)</button>
-    </div>
-
-    <div class="form-group">
-        <label for="bulkDiscountFile">Прикачи пополнет Excel (.xlsx)</label>
-        <input type="file" id="bulkDiscountFile" accept=".xlsx,.xls" onchange="handleDiscountFile(event)">
-    </div>
-
-    <div id="bulkDiscountSummary" style="display:none; background:#f0fdf4; border:2px solid #2ecc71; border-radius:8px; padding:1rem; margin:1rem 0;">
-        <strong id="bulkDiscountSummaryText"></strong>
-    </div>
-
-    <div id="bulkDiscountPreview" style="max-height:450px; overflow-y:auto; margin-bottom:1rem;"></div>
-
-    <button type="button" class="btn btn-success" id="bulkDiscountConfirmBtn" style="display:none;" onclick="confirmDiscountImport()">✅ Примени ги попустите</button>
-</div>
-                
 <!-- BULK TOOLS: SHARED FILTER -->
 <div class="admin-section">
     <h3>🎯 Филтер за Групни Алатки</h3>
     <p style="color:#666; margin-bottom:1rem; font-size:0.9rem;">
-        💡 Изберете категорија / подкатегорија / микро-категорија / марка (секое поле е опционално, празно = сите). Овој филтер важи за трите алатки подолу: Карактеристика, Опис и Рати.
+        💡 Изберете категорија / подкатегорија / микро-категорија / марка (секое поле е опционално, празно = сите). Овој филтер важи за: Толпо Попуст, Толпо Менување на Слики, Карактеристика, Опис и Рати.
     </p>
 
     <div class="form-row-3">
@@ -631,6 +606,64 @@
         <strong id="bulkFilterMatchCountText">Пронајдени 0 производи</strong>
         <div id="bulkFilterMatchList" style="max-height:150px; overflow-y:auto; margin-top:0.5rem; font-size:0.85rem; color:#555;"></div>
     </div>
+</div>
+
+<!-- BULK DISCOUNT (EXCEL) -->
+<div class="admin-section">
+    <h3>🏷️ Толпо Попуст (Excel)</h3>
+    <p style="color:#666; margin-bottom:1rem; font-size:0.9rem;">
+        💡 Погоре изберете категорија и/или марка, па преземете ги само тие производи. Пополнете ја колоната "Цена со попуст", па прикачете ја датотеката. Празно = нема промена. 0 = се отстранува попустот. Пред снимање се прикажува преглед.
+    </p>
+
+    <div style="display:flex; gap:1rem; flex-wrap:wrap; margin-bottom:1.5rem;">
+        <button type="button" class="btn btn-primary" onclick="downloadDiscountExcel()">⬇️ Преземи ги избраните производи (Excel)</button>
+    </div>
+
+    <div class="form-group">
+        <label for="bulkDiscountFile">Прикачи пополнет Excel (.xlsx)</label>
+        <input type="file" id="bulkDiscountFile" accept=".xlsx,.xls" onchange="handleDiscountFile(event)">
+    </div>
+
+    <div id="bulkDiscountSummary" style="display:none; background:#f0fdf4; border:2px solid #2ecc71; border-radius:8px; padding:1rem; margin:1rem 0;">
+        <strong id="bulkDiscountSummaryText"></strong>
+    </div>
+
+    <div id="bulkDiscountPreview" style="max-height:450px; overflow-y:auto; margin-bottom:1rem;"></div>
+
+    <button type="button" class="btn btn-success" id="bulkDiscountConfirmBtn" style="display:none;" onclick="confirmDiscountImport()">✅ Примени ги попустите</button>
+</div>
+
+<!-- BULK IMAGES (EXCEL) -->
+<div class="admin-section">
+    <h3>🖼️ Толпо Менување на Слики (Excel)</h3>
+    <p style="color:#666; margin-bottom:1rem; font-size:0.9rem;">
+        💡 Погоре изберете категорија и/или марка, па преземете Excel со тие производи. Во колоната "Нови слики URL" внесете нови линкови (одделени со |), па прикачете ја датотеката. Празно = нема промена. Пред снимање се прикажува преглед.
+    </p>
+
+    <div class="form-group">
+        <label for="bulkImagesMode">Начин на примена</label>
+        <select id="bulkImagesMode" onchange="if (imageRows.length) renderImagesPreview();">
+            <option value="replace">Замени ги сите постоечки слики</option>
+            <option value="append">Додади на постоечките слики</option>
+        </select>
+    </div>
+
+    <div style="display:flex; gap:1rem; flex-wrap:wrap; margin-bottom:1.5rem;">
+        <button type="button" class="btn btn-primary" onclick="downloadImagesExcel()">⬇️ Преземи ги избраните производи (Excel)</button>
+    </div>
+
+    <div class="form-group">
+        <label for="bulkImagesFile">Прикачи пополнет Excel (.xlsx)</label>
+        <input type="file" id="bulkImagesFile" accept=".xlsx,.xls" onchange="handleImagesFile(event)">
+    </div>
+
+    <div id="bulkImagesSummary" style="display:none; background:#f0fdf4; border:2px solid #2ecc71; border-radius:8px; padding:1rem; margin:1rem 0;">
+        <strong id="bulkImagesSummaryText"></strong>
+    </div>
+
+    <div id="bulkImagesPreview" style="max-height:450px; overflow-y:auto; margin-bottom:1rem;"></div>
+
+    <button type="button" class="btn btn-success" id="bulkImagesConfirmBtn" style="display:none;" onclick="confirmImagesImport()">✅ Примени ги сликите</button>
 </div>
 
 <!-- BULK CHARACTERISTIC ADD -->
@@ -1848,9 +1881,11 @@ async function confirmBulkImport() {
 let discountRows = [];
 
 function downloadDiscountExcel() {
-    if (!productsCache.length) { alert('Нема производи!'); return; }
+    const list = getBulkFilteredProducts();
+    if (!list.length) { alert('Нема производи за избраниот филтер!'); return; }
+    if (!hasBulkFilterSelected() && !confirm('Не е избран ниту еден филтер. Ќе се преземат СИТЕ производи. Дали сакате да продолжите?')) return;
 
-    const sorted = [...productsCache].sort((a, b) =>
+    const sorted = [...list].sort((a, b) =>
         (a.categoryName || '').localeCompare(b.categoryName || '') ||
         (a.brandName || '').localeCompare(b.brandName || '') ||
         (a.name || '').localeCompare(b.name || ''));
@@ -1986,6 +2021,150 @@ async function confirmDiscountImport() {
     document.getElementById('bulkDiscountSummary').style.display = 'none';
     document.getElementById('bulkDiscountConfirmBtn').style.display = 'none';
     document.getElementById('bulkDiscountFile').value = '';
+    await loadProducts();
+}
+
+// ==================== BULK IMAGES (EXCEL) ====================
+let imageRows = [];
+let imageSkipped = 0;
+
+function hasBulkFilterSelected() {
+    return !!(document.getElementById('bulkFilterCategory').value ||
+              document.getElementById('bulkFilterSubcategory').value ||
+              document.getElementById('bulkFilterSubsubcategory').value ||
+              document.getElementById('bulkFilterBrand').value);
+}
+
+function downloadImagesExcel() {
+    const list = getBulkFilteredProducts();
+    if (!list.length) { alert('Нема производи за избраниот филтер!'); return; }
+    if (!hasBulkFilterSelected() && !confirm('Не е избран ниту еден филтер. Ќе се преземат СИТЕ производи. Дали сакате да продолжите?')) return;
+
+    const sorted = [...list].sort((a, b) =>
+        (a.categoryName || '').localeCompare(b.categoryName || '') ||
+        (a.brandName || '').localeCompare(b.brandName || '') ||
+        (a.name || '').localeCompare(b.name || ''));
+
+    const data = [['ID', 'Име на производ', 'Марка', 'Тековни слики (само за информација)', 'Нови слики URL (одделени со |)']];
+    sorted.forEach(p => {
+        data.push([p.id, p.name || '', p.brandName || '', (p.images || []).join('|'), '']);
+    });
+
+    const ws = XLSX.utils.aoa_to_sheet(data);
+    ws['!cols'] = [{ wch: 24 }, { wch: 62 }, { wch: 16 }, { wch: 50 }, { wch: 60 }];
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'Slike');
+    XLSX.writeFile(wb, 'proizvodi-slike.xlsx');
+}
+
+function handleImagesFile(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        const wb = XLSX.read(new Uint8Array(e.target.result), { type: 'array' });
+        const sheet = wb.Sheets[wb.SheetNames[0]];
+        const raw = XLSX.utils.sheet_to_json(sheet, { defval: '' });
+        imageRows = raw.map(processImageRow).filter(Boolean);
+        imageSkipped = raw.length - imageRows.length;
+        renderImagesPreview();
+    };
+    reader.readAsArrayBuffer(file);
+}
+
+function processImageRow(row) {
+    const id = String(row['ID'] || '').trim();
+    const name = String(row['Име на производ'] || '').trim();
+    const raw = String(row['Нови слики URL (одделени со |)'] ?? '').trim();
+
+    if (!id && !name) return null;
+    if (raw === '') return null;
+
+    const errors = [];
+
+    let product = id ? productsCache.find(p => p.id === id) : null;
+    if (!product && name) {
+        const matches = productsCache.filter(p => norm(p.name) === norm(name));
+        if (matches.length === 1) product = matches[0];
+        else if (matches.length > 1) errors.push('Повеќе производи со исто име, користете ID');
+    }
+    if (!product && errors.length === 0) errors.push('Производот не е пронајден');
+
+    const urls = [...new Set(raw.split(/[|\n]+/).map(u => u.trim()).filter(u => u))];
+    const bad = urls.filter(u => !/^https?:\/\/\S+$/i.test(u));
+    if (urls.length === 0) errors.push('Нема слики');
+    if (bad.length > 0) errors.push('Неважечки линк: ' + bad[0]);
+
+    return {
+        valid: errors.length === 0,
+        errors,
+        product,
+        name: product ? product.name : name,
+        urls
+    };
+}
+
+function renderImagesPreview() {
+    const validCount = imageRows.filter(r => r.valid).length;
+    const invalidCount = imageRows.length - validCount;
+    const mode = document.getElementById('bulkImagesMode').value;
+    const modeText = mode === 'append' ? 'ќе се ДОДАДАТ на постоечките' : 'ќе ги ЗАМЕНАТ постоечките';
+
+    document.getElementById('bulkImagesSummary').style.display = 'block';
+    document.getElementById('bulkImagesSummaryText').textContent =
+        `${imageRows.length} редови за промена: ${validCount} валидни ✅, ${invalidCount} со грешки ❌. Прескокнати (празна колона): ${imageSkipped}. Новите слики ${modeText}.`;
+
+    let html = `<table class="table"><thead><tr><th>Статус</th><th>Производ</th><th>Тековни</th><th>Нови</th><th>Преглед</th><th>Грешки</th></tr></thead><tbody>`;
+    imageRows.forEach(r => {
+        const currentCount = r.product ? (r.product.images || []).length : '-';
+        const thumb = r.urls.length > 0
+            ? `<img src="${r.urls[0].replace(/"/g, '&quot;')}" referrerpolicy="no-referrer" style="height:45px; width:45px; object-fit:contain; border-radius:4px; background:#f4f6f8;" onerror="this.style.opacity=0.2">`
+            : '-';
+        html += `<tr style="${r.valid ? '' : 'background:#fdecea;'}">
+            <td>${r.valid ? '✅' : '❌'}</td>
+            <td>${r.name || '-'}</td>
+            <td>${currentCount}</td>
+            <td>${r.urls.length}</td>
+            <td>${thumb}</td>
+            <td style="color:#e74c3c; font-size:0.8rem;">${r.errors.join(', ')}</td>
+        </tr>`;
+    });
+    html += '</tbody></table>';
+    document.getElementById('bulkImagesPreview').innerHTML = html;
+    document.getElementById('bulkImagesConfirmBtn').style.display = validCount > 0 ? 'inline-block' : 'none';
+}
+
+async function confirmImagesImport() {
+    const validRows = imageRows.filter(r => r.valid);
+    if (validRows.length === 0) return;
+
+    const mode = document.getElementById('bulkImagesMode').value;
+    const modeText = mode === 'append' ? 'додадат на' : 'заменат во';
+    if (!confirm(`Дали сте сигурни дека сакате сликите да се ${modeText} ${validRows.length} производи?`)) return;
+
+    let successCount = 0, failCount = 0;
+    for (const r of validRows) {
+        const existing = r.product.images || [];
+        const images = mode === 'append'
+            ? [...existing, ...r.urls.filter(u => !existing.includes(u))]
+            : r.urls;
+        try {
+            await window.fbUpdateDoc(window.fbDoc(window.firebaseDb, 'products', r.product.id), { images });
+            successCount++;
+        } catch (err) {
+            console.error('Грешка при ажурирање на', r.name, err);
+            failCount++;
+        }
+    }
+
+    alert(`✅ Успешно: ${successCount}. ❌ Неуспешни: ${failCount}.`);
+    imageRows = [];
+    imageSkipped = 0;
+    document.getElementById('bulkImagesPreview').innerHTML = '';
+    document.getElementById('bulkImagesSummary').style.display = 'none';
+    document.getElementById('bulkImagesConfirmBtn').style.display = 'none';
+    document.getElementById('bulkImagesFile').value = '';
     await loadProducts();
 }
 
