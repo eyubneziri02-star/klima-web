@@ -4132,6 +4132,348 @@
     .ad-fg.ad-mobile-img { display: block; }
 }
 
+/* ============================================================
+   📱 MOBİL APP TASARIMI — ZÜMRÜT YEŞİLİ (#0F5132)
+   TÜMÜ sadece max-width:768px içinde — masaüstüne SIFIR etki
+   ============================================================ */
+
+:root {
+    --nkh-green: #0F5132;
+    --nkh-green-dark: #0b3d26;
+    --nkh-green-light: #e7f3ec;
+    --nkh-green-gradient: linear-gradient(135deg, #15803d 0%, #0F5132 100%);
+}
+
+.bottom-nav,
+.mobile-fullscreen-overlay,
+.mobile-more-sheet,
+.mobile-more-backdrop,
+.mobile-category-chips,
+.mobile-section-head {
+    display: none;
+}
+
+@media (max-width: 768px) {
+
+    body { background: #ffffff !important; padding-bottom: 74px !important; }
+
+    .mobile-menu-btn, .mobile-menu { display: none !important; }
+
+    .header { background: #ffffff !important; box-shadow: none !important; border-bottom: 1px solid #f1f3f2; }
+    .logo a { color: #1a1a1a !important; font-size: 1.3rem !important; font-weight: 700; }
+    .logo-img { background: var(--nkh-green-light) !important; }
+    .mobile-search-cart-row { background: #ffffff !important; padding: 0.4rem 14px 0.7rem !important; gap: 0.7rem !important; margin-top: -35px;}
+    .mobile-search-compact { max-width: none !important; flex: 1; background: #f3f4f4 !important; border: none !important; border-radius: 14px !important; }
+    .mobile-search-compact input { color: #1a1a1a !important; background: transparent; padding: 0.7rem 0.4rem 0.7rem 1rem !important; font-size: 0.9rem !important; }
+    .mobile-search-compact button { background: transparent !important; color: #444 !important; box-shadow: none !important; width: 40px !important; border-radius: 0 !important; margin: 0 !important; }
+    .mobile-cart-icon { width: 46px !important; height: 46px !important; background: #ffffff !important; border: 1.5px solid #e6e9e8; color: #1a1a1a !important; }
+    .header button[onclick="prikaziFavorite()"] { display: none !important; }
+
+    .mobile-section-head { display: flex; align-items: center; justify-content: space-between; margin: 0.2rem 0.1rem 0.2rem; }
+    .mobile-section-head h3 { font-size: 1.1rem; font-weight: 700; color: #1a1a1a; }
+    .mobile-section-head a { color: var(--nkh-green); font-weight: 600; font-size: 0.9rem; cursor: pointer; }
+    .home-viewall-block { display: none !important; }
+
+    .mobile-category-chips { display: flex; gap: 0.6rem; overflow-x: auto; padding: 0.6rem 0.1rem 0.9rem; scrollbar-width: none; }
+    .mobile-category-chips::-webkit-scrollbar { display: none; }
+    .mobile-category-chip { flex-shrink: 0; padding: 0.5rem 1rem; border-radius: 20px; border: 1.5px solid #1a1a1a; background: #fff; color: #1a1a1a; font-size: 0.85rem; font-weight: 600; white-space: nowrap; cursor: pointer; }
+    .mobile-category-chip.active { background: var(--nkh-green); border-color: var(--nkh-green); color: #fff; }
+
+    .image-slider-container { height: 170px !important; margin-bottom: 0.9rem !important; border-radius: 22px !important; }
+    .image-slide, .image-slide-ad { background: var(--nkh-green-gradient) !important; }
+    .slider-btn { width: 28px !important; height: 28px !important; font-size: 0.8rem !important; background: rgba(0,0,0,0.25) !important; }
+    .slider-dots { bottom: 8px !important; }
+    .slider-dot { width: 7px !important; height: 7px !important; }
+    .slider-dot.active { background: var(--nkh-green) !important; }
+
+    .product-card { background: transparent !important; border: none !important; box-shadow: none !important; border-radius: 0 !important; overflow: visible !important; transition: transform .25s ease !important; }
+    .product-card:active { transform: scale(0.97); box-shadow: none !important; }
+    .product-image { background: #f3f5f4 !important; border-radius: 18px !important; height: 150px !important; padding: 12px !important; }
+    .product-image img { mix-blend-mode: multiply; transition: transform .4s ease; }
+    .product-card:active .product-image img { transform: scale(1.08); }
+    .product-content { padding: 0.6rem 0.1rem 0 !important; }
+    .product-brand { font-size: 0.75rem !important; margin-bottom: 0.1rem !important; color: #6b7a72 !important; font-weight: 500 !important; }
+    .product-title { font-size: 0.85rem !important; font-weight: 600; color: #1a1a1a !important; }
+    .product-price { color: #1a1a1a !important; font-weight: 700; }
+    .product-price .price-new { color: var(--nkh-green) !important; }
+    .indirim-badge { top: 8px !important; right: 8px !important; min-width: 0 !important; padding: 3px 8px !important; font-size: 0.72rem !important; border-radius: 10px !important; }
+    .product-content .btn-outline { background: var(--nkh-green) !important; color: #fff !important; border-color: var(--nkh-green) !important; border-radius: 12px !important; font-size: 0.72rem !important; }
+    .installment-badge { background: var(--nkh-green-gradient) !important; border-radius: 10px !important; box-shadow: none !important; }
+    .back-btn { background: var(--nkh-green) !important; }
+    .btn-order-whatsapp, .cart-checkout { background: #25d366 !important; }
+    .btn-order-viber, .cart-checkout-viber { background: #7d3c98 !important; }
+    .btn-primary, .btn-add-cart, .search-btn { background: var(--nkh-green-gradient) !important; }
+
+    .footer { background: #ffffff !important; color: #444 !important; border-top: 1px solid #eee; }
+    .footer-title { color: var(--nkh-green) !important; }
+    .footer-links a, .footer-contact a { color: #444 !important; }
+    .footer-links a:hover, .footer-contact a:hover { color: var(--nkh-green) !important; }
+    .footer-bottom { border-top: 1px solid #eee !important; color: #999 !important; }
+    .copyright a { color: var(--nkh-green) !important; }
+    .why-choose-us, .contact-cta { background: var(--nkh-green-gradient) !important; }
+    .category-section-title { font-size: 1.15rem !important; margin-bottom: 0.8rem !important; color: #1a1a1a !important; }
+    .page-subtitle { font-size: 0.85rem !important; margin-bottom: 1rem !important; }
+    .page-title { font-size: 1.35rem !important; color: #1a1a1a !important; }
+    .main-wrapper { padding: 1rem 14px !important; gap: 1rem !important; }
+    .products-grid, .category-products-grid, #selected-products-grid { grid-template-columns: repeat(2, 1fr) !important; gap: 0.8rem !important; }
+
+    .price-filter-apply, .price-filter-apply-top, .price-filter-btn-header-new { background: var(--nkh-green) !important; border-color: var(--nkh-green) !important; color: #fff !important; }
+    .price-filter-reset, .price-filter-reset-top { color: var(--nkh-green) !important; border-color: var(--nkh-green) !important; }
+    .range-slider-fill, #modal-range-fill, #range-fill { background: var(--nkh-green) !important; }
+    .range-input::-webkit-slider-thumb { background: var(--nkh-green) !important; }
+
+    .main-wrapper { position: relative; }
+    .main-wrapper::before, .main-wrapper::after { content: ''; position: absolute; border-radius: 50%; filter: blur(40px); opacity: 0.1; z-index: 0; pointer-events: none; animation: floatBlobGreen 7s ease-in-out infinite; }
+    .main-wrapper::before { width: 140px; height: 140px; background: #16a34a; top: 10px; right: -30px; }
+    .main-wrapper::after { width: 160px; height: 160px; background: #0F5132; top: 320px; left: -40px; animation-delay: 2.5s; }
+    @keyframes floatBlobGreen { 0%, 100% { transform: translateY(0) scale(1); } 50% { transform: translateY(-18px) scale(1.1); } }
+    .main-wrapper > * { position: relative; z-index: 1; }
+    .floating-buttons { bottom: 90px !important; }
+
+    .bottom-nav { display: flex; position: fixed; bottom: 0; left: 0; width: 100%; background: #ffffff; box-shadow: 0 -2px 16px rgba(0,0,0,0.08); z-index: 1400; padding: 0.5rem 0 calc(0.5rem + env(safe-area-inset-bottom, 0px)); justify-content: space-around; align-items: center; border-radius: 22px 22px 0 0; }
+    .bottom-nav-item { display: flex; flex-direction: column; align-items: center; gap: 0.2rem; background: none; border: none; cursor: pointer; color: #999; font-size: 0.68rem; font-weight: 600; position: relative; padding: 0.3rem 0.5rem; }
+    .bottom-nav-item i { font-size: 1.25rem; transition: transform .2s ease; }
+    .bottom-nav-item.active { color: var(--nkh-green); }
+    .bottom-nav-item.active i { transform: translateY(-4px) scale(1.15); filter: drop-shadow(0 6px 6px rgba(15,81,50,0.35)); }
+    .bottom-nav-item:active i { transform: scale(0.85); }
+    .bottom-nav-item.active::after { content: ''; position: absolute; bottom: -2px; left: 50%; width: 5px; height: 5px; margin-left: -2.5px; border-radius: 50%; background: var(--nkh-green); }
+    .bottom-nav-badge { position: absolute; top: -4px; right: 8px; background: var(--nkh-green); color: #fff; font-size: 0.6rem; font-weight: bold; width: 16px; height: 16px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+
+    .mobile-fullscreen-overlay { display: block; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #fff; z-index: 2000; transform: translateY(100%); transition: transform .35s ease; overflow-y: auto; -webkit-overflow-scrolling: touch; overscroll-behavior: contain; padding-bottom: 90px; }
+    .mobile-fullscreen-overlay.open { transform: translateY(0); }
+    .mobile-overlay-header { position: sticky; top: 0; background: #fff; z-index: 5; display: flex; align-items: center; justify-content: space-between; padding: 1rem; border-bottom: 1px solid #f0f0f0; }
+    .mobile-overlay-tabs { display: flex; gap: 0.5rem; }
+    .mobile-overlay-tab { padding: 0.5rem 1.2rem; border-radius: 20px; border: none; background: #f4f6f5; color: #555; font-weight: 700; font-size: 0.9rem; cursor: pointer; }
+    .mobile-overlay-tab.active { background: var(--nkh-green); color: #fff; }
+    .mobile-overlay-close { background: #f4f6f5; border: none; width: 36px; height: 36px; border-radius: 50%; font-size: 1.1rem; color: #555; cursor: pointer; }
+    .mobile-overlay-body { padding: 1rem; }
+    .mobile-overlay-body.hidden { display: none; }
+    .mobile-ov-category { border-bottom: 1px solid #f2f2f2; }
+    .mobile-ov-category-header { display: flex; align-items: center; gap: 0.8rem; padding: 0.9rem 0.2rem; cursor: pointer; }
+    .mobile-ov-category-visual { width: 46px; height: 46px; border-radius: 12px; background: var(--nkh-green-light); display: flex; align-items: center; justify-content: center; font-size: 1.4rem; overflow: hidden; flex-shrink: 0; }
+    .mobile-ov-category-visual img { width: 100%; height: 100%; object-fit: cover; }
+    .mobile-ov-category-name { flex: 1; font-weight: 600; color: #1a1a1a; font-size: 0.95rem; }
+    .mobile-ov-arrow { color: #bbb; font-size: 1.4rem; transition: transform .2s ease; }
+    .mobile-ov-category-header.active .mobile-ov-arrow { transform: rotate(90deg); color: var(--nkh-green); }
+    .mobile-ov-subcats { max-height: 0; overflow: hidden; transition: max-height .3s ease; padding-left: 3.6rem; }
+    .mobile-ov-subcats.open { max-height: 3000px; }
+    .mobile-ov-subcats a { display: block; padding: 0.6rem 0; color: #555; text-decoration: none; font-size: 0.88rem; }
+    .mobile-ov-subcats a:active { color: var(--nkh-green); }
+
+    .mobile-ov-subcat-row { display: flex; align-items: center; justify-content: space-between; cursor: pointer; padding: 0.6rem 0; color: #555; font-size: 0.88rem; }
+    .mobile-ov-subcat-row.active .mobile-ov-micro-arrow { transform: rotate(90deg); color: var(--nkh-green); }
+    .mobile-ov-micro-arrow { color: #bbb; font-size: 1.2rem; padding: 0.4rem 0.2rem; transition: transform .2s ease; }
+    .mobile-ov-micros { max-height: 0; overflow: hidden; transition: max-height .3s ease; padding-left: 1rem; }
+    .mobile-ov-micros.open { max-height: 2000px; }
+    .mobile-ov-micros a { display: block; padding: 0.5rem 0; color: #777; text-decoration: none; font-size: 0.84rem; }
+    .mobile-ov-micros a:active { color: var(--nkh-green); }
+    .mobile-ov-micro-viewall { color: var(--nkh-green) !important; font-weight: 600; border-bottom: 1px solid #f0f0f0; padding-bottom: 0.6rem !important; margin-bottom: 0.2rem; }
+
+    .mobile-ov-viewall { width: 100%; margin-top: 1rem; padding: 1rem; background: var(--nkh-green-gradient); color: #fff; border: none; border-radius: 14px; font-weight: 700; font-size: 0.95rem; cursor: pointer; }
+    .mobile-ov-brands-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.8rem; }
+    .mobile-ov-brand-card { aspect-ratio: 1; border-radius: 14px; background: #f8f9fa; border: 1px solid #f0f0f0; display: flex; align-items: center; justify-content: center; padding: 0.8rem; cursor: pointer; }
+    .mobile-ov-brand-card img { max-width: 100%; max-height: 100%; object-fit: contain; }
+    .mobile-ov-brand-card span { font-weight: 700; color: #333; font-size: 0.85rem; text-align: center; }
+
+    .mobile-more-backdrop { display: block; position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 2100; opacity: 0; pointer-events: none; transition: opacity .3s ease; }
+    .mobile-more-backdrop.open { opacity: 1; pointer-events: all; }
+    .mobile-more-sheet { display: block; position: fixed; bottom: 0; left: 0; width: 100%; background: #fff; border-radius: 20px 20px 0 0; z-index: 2200; padding: 0.8rem 1.2rem calc(1.5rem + env(safe-area-inset-bottom, 0px)); transform: translateY(100%); transition: transform .3s ease; box-shadow: 0 -4px 24px rgba(0,0,0,0.15); }
+    .mobile-more-sheet.open { transform: translateY(0); }
+    .mobile-more-handle { width: 40px; height: 4px; background: #ddd; border-radius: 3px; margin: 0 auto 1rem; }
+    .mobile-more-link { display: flex; align-items: center; gap: 0.8rem; padding: 1rem 0.3rem; color: #1a1a1a; text-decoration: none; font-weight: 600; font-size: 0.95rem; border-bottom: 1px solid #f5f5f5; }
+    .mobile-more-link i { color: var(--nkh-green); width: 20px; }
+    .mobile-more-socials { display: flex; justify-content: center; gap: 1.6rem; padding-top: 1.2rem; }
+    .mobile-more-socials a { width: 46px; height: 46px; border-radius: 50%; background: var(--nkh-green-light); color: var(--nkh-green); display: flex; align-items: center; justify-content: center; font-size: 1.2rem; text-decoration: none; }
+
+    /* ---- Kalan lacivert / gri alanlar ---- */
+    .cart-header { background: var(--nkh-green-gradient) !important; }
+    .cart-total, .cart-item-title { color: #1a1a1a !important; }
+    .cart-item-price { color: var(--nkh-green) !important; }
+
+    .category-view-more-btn { background: var(--nkh-green-gradient) !important; border-radius: 14px !important; }
+    .category-section, .dopolnitelna-oprema-section, .product-detailed-section, .services {
+        background: #ffffff !important;
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+        border-radius: 0 !important;
+    }
+
+    .page-title, .section-title, .modal-title, .dopolnitelna-oprema-title, .detailed-title, .service-title,
+    .product-detail-info h1, .product-detail-brand, .brand-display,
+    .installment-months, .installment-options-title { color: #1a1a1a !important; }
+    .why-choose-us .section-title { color: #ffffff !important; }
+
+    .product-detail-price, .installment-monthly { color: var(--nkh-green) !important; }
+    .thumbnail:hover, .thumbnail.active, .installment-card:hover, .installment-card.selected { border-color: var(--nkh-green) !important; }
+    .thumbnail.active, .installment-card.selected { background: var(--nkh-green-light) !important; }
+
+    .detailed-title-v2 { border-bottom-color: var(--nkh-green) !important; }
+    .detailed-specs-v2 li .spec-check { color: var(--nkh-green) !important; }
+    .dopolnitelna-oprema-image { background: var(--nkh-green-gradient) !important; }
+}
+
+/* ============================================================
+   🖥️ MASAÜSTÜ - ZÜMRÜT YEŞİLİ RENKLERİ (sadece renk)
+   ============================================================ */
+@media (min-width: 769px) {
+
+    /* HEADER */
+    .header { background: #ffffff; box-shadow: none; border-bottom: 1px solid #f1f3f2; }
+    .logo a { color: #1a1a1a; }
+    .logo-img { background: var(--nkh-green-light); }
+    .social-icons-header a { color: #1a1a1a; }
+    .social-icons-header a:hover { color: var(--nkh-green); }
+    .dropdown-toggle { color: #1a1a1a; }
+    .dropdown-toggle:hover { color: var(--nkh-green); }
+    .search-input { background: #f3f4f4; color: #1a1a1a; }
+    .search-btn { background: var(--nkh-green-gradient); }
+    .search-btn:hover { background: var(--nkh-green-dark); }
+    .cart-icon { color: #1a1a1a; }
+    .cart-count { background: var(--nkh-green); }
+    .header button[onclick="prikaziFavorite()"] { color: #1a1a1a !important; }
+
+    /* AÇILIR MENÜLER */
+    .dropdown-content a { color: #1a1a1a; }
+    .dropdown-content a::after { color: var(--nkh-green); }
+    .dropdown-content a:hover { background: var(--nkh-green-light); color: var(--nkh-green); }
+    .submenu-panel a { color: #1a1a1a; }
+    .submenu-panel a:hover { background: var(--nkh-green-light); color: var(--nkh-green); }
+    .submenu-title { background: var(--nkh-green); }
+    .dropdown-content::-webkit-scrollbar-thumb,
+    .submenu-panel::-webkit-scrollbar-thumb { background: var(--nkh-green); }
+
+    /* SLIDER */
+    .image-slide, .image-slide-ad { background: var(--nkh-green-gradient); }
+
+    /* ÜRÜN KARTLARI */
+    .page-title, .section-title, .category-section-title, .dopolnitelna-oprema-title,
+    .detailed-title, .service-title, .product-detail-info h1 { color: #1a1a1a; }
+    .why-choose-us .section-title { color: #ffffff; }
+    .product-title { color: #1a1a1a; }
+    .product-brand { color: #6b7a72; font-weight: 500; }
+    .product-price { color: #1a1a1a; }
+    .product-price .price-new, .price-new { color: var(--nkh-green); }
+    .product-detail-price, .installment-monthly { color: var(--nkh-green); }
+    .btn-outline { color: #ffffff; background: var(--nkh-green); border-color: var(--nkh-green); }
+    .btn-outline:hover { background: var(--nkh-green-dark); border-color: var(--nkh-green-dark); color: #fff; }
+    .installment-badge { background: var(--nkh-green-gradient); box-shadow: none; }
+    .carousel-product-brand { color: #6b7a72; }
+    .carousel-product-title { color: #1a1a1a; }
+    .carousel-product-price { color: var(--nkh-green); }
+    .carousel-product-button { color: var(--nkh-green); border-color: var(--nkh-green); }
+    .carousel-product-button:hover { background: var(--nkh-green); border-color: var(--nkh-green); color: #fff; }
+    .carousel-btn { background: var(--nkh-green); }
+
+    /* BUTONLAR */
+    .btn-primary, .btn-add-cart, .back-btn, .category-view-more-btn { background: var(--nkh-green-gradient); }
+    .btn-primary:hover, .btn-add-cart:hover, .back-btn:hover, .category-view-more-btn:hover { background: var(--nkh-green-dark); }
+    .back-btn-desktop { background: var(--nkh-green); }
+    .service-link { background: var(--nkh-green); }
+    .service-link:hover { background: var(--nkh-green-dark); }
+
+    /* BÖLÜM ARKA PLANLARI */
+    .category-section, .dopolnitelna-oprema-section, .product-detailed-section, .services, .recommended-section { background: #ffffff; }
+    .why-choose-us, .contact-cta { background: var(--nkh-green-gradient); }
+    .dopolnitelna-oprema-image { background: var(--nkh-green-gradient) !important; }
+    .contact-method-content a { color: #a7f3c4; }
+    .social-links a { color: #a7f3c4; }
+
+    /* ÜRÜN DETAY */
+    .thumbnail:hover, .thumbnail.active { border-color: var(--nkh-green); }
+    .thumbnail.active { background: var(--nkh-green-light); }
+    .installment-card:hover, .installment-card.selected { border-color: var(--nkh-green); }
+    .installment-card.selected { background: var(--nkh-green-light); }
+    .detailed-title-v2 { border-bottom-color: var(--nkh-green); }
+    .detailed-specs-v2 li .spec-check { color: var(--nkh-green); }
+    .product-features li:before { color: var(--nkh-green); }
+
+    /* SEPET */
+    .cart-header { background: var(--nkh-green-gradient); }
+    .cart-total, .cart-item-title { color: #1a1a1a; }
+    .cart-item-price { color: var(--nkh-green); }
+
+    /* FİYAT FİLTRESİ */
+    .price-filter-apply, .price-filter-apply-top, .price-filter-btn-header-new:hover { background: var(--nkh-green); border-color: var(--nkh-green); color: #fff; }
+    .price-filter-btn-header-new { color: var(--nkh-green); border-color: var(--nkh-green); }
+    .price-filter-reset, .price-filter-reset-top { color: var(--nkh-green); border-color: var(--nkh-green); }
+    .range-slider-fill { background: var(--nkh-green); }
+    .range-input::-webkit-slider-thumb { background: var(--nkh-green); }
+
+    /* FOOTER */
+    .footer { background: #ffffff; color: #444; border-top: 1px solid #eee; }
+    .footer-title { color: var(--nkh-green); }
+    .footer-links a, .footer-contact a { color: #444; }
+    .footer-links a:hover, .footer-contact a:hover { color: var(--nkh-green); }
+    .footer-bottom { border-top: 1px solid #eee; color: #999; }
+    .copyright a { color: var(--nkh-green); }
+}
+
+/* ===== BEYAZ "Додај во Кошничка" BUTONLARI + HOVER DÜZELTME ===== */
+
+/* Masaüstü ve mobil: beyaz zemin, yeşil yazı, yeşil çerçeve */
+.btn-outline,
+.product-content .btn-outline,
+.carousel-product-button {
+    background: #ffffff !important;
+    color: #0F5132 !important;
+    border: 2px solid #0F5132 !important;
+}
+
+/* Üzerine gelince: çok açık yeşil zemin, yazı yeşil kalır */
+.btn-outline:hover,
+.carousel-product-button:hover {
+    background: #e7f3ec !important;
+    color: #0F5132 !important;
+}
+
+/* Yeşil butonlarda "flaş" düzeltmesi */
+.btn-primary,
+.btn-add-cart,
+.back-btn,
+.category-view-more-btn,
+.search-btn {
+    background: linear-gradient(135deg, #15803d 0%, #0F5132 100%) !important;
+    transition: transform 0.3s ease, box-shadow 0.3s ease !important;
+}
+
+.btn-primary:hover,
+.btn-add-cart:hover,
+.back-btn:hover,
+.category-view-more-btn:hover,
+.search-btn:hover {
+    background: linear-gradient(135deg, #0F5132 0%, #0b3d26 100%) !important;
+}
+
+/* ===== 📱 MOBİL: PREPORAČANI PROIZVODI SLIDER ===== */
+@media (max-width: 768px) {
+    .recommended-section { display: block !important; padding: 0 !important; margin: 0 0 1.2rem !important; background: transparent !important; border-radius: 0 !important; }
+    .recommended-section .section-title { font-size: 1.1rem !important; text-align: left !important; margin-bottom: 0.1rem !important; color: #1a1a1a !important; font-weight: 700; }
+    .recommended-section .section-subtitle { text-align: left !important; font-size: 0.8rem !important; margin-bottom: 0.8rem !important; }
+
+    .carousel-container { gap: 0 !important; }
+    .carousel-btn { display: none !important; }
+    .carousel-wrapper { border-radius: 0 !important; }
+    .carousel-track { gap: 10px !important; }
+
+    .carousel-item {
+        flex: 0 0 calc((100% - 10px) / 2) !important;
+        min-width: calc((100% - 10px) / 2) !important;
+        max-width: calc((100% - 10px) / 2) !important;
+    }
+
+    .carousel-product-card { background: transparent !important; box-shadow: none !important; border-radius: 0 !important; min-height: 0 !important; overflow: visible !important; }
+    .carousel-product-card:hover { transform: none !important; box-shadow: none !important; }
+    .carousel-product-image { background: #f3f5f4 !important; border-radius: 18px !important; height: 140px !important; padding: 12px !important; }
+    .carousel-product-image img { mix-blend-mode: multiply; }
+    .carousel-product-content { padding: 0.6rem 0.1rem 0 !important; }
+    .carousel-product-brand { font-size: 0.7rem !important; margin-bottom: 0.1rem !important; color: #6b7a72 !important; font-weight: 500 !important; }
+    .carousel-product-title { font-size: 0.82rem !important; margin-bottom: 0.4rem !important; }
+    .carousel-product-price { font-size: 0.95rem !important; margin-bottom: 0.5rem !important; color: #1a1a1a !important; }
+    .carousel-product-price .price-new { color: var(--nkh-green) !important; }
+    .carousel-product-content .installment-badge { font-size: 0.68rem !important; padding: 4px 6px !important; }
+    .carousel-product-button { font-size: 0.7rem !important; padding: 0.5rem 0.3rem !important; border-radius: 12px !important; }
+}
+
 /* ===== ÜRÜN RESİMLERİ: büyütme yok, standart ve net ===== */
 .product-image img,
 .carousel-product-image img,
@@ -4153,6 +4495,88 @@
     object-fit: contain !important;
     display: block;
     margin: auto;
+}
+
+/* ===== FOOTER SOSYAL İKONLAR ===== */
+.footer-socials {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 1.2rem;
+}
+
+.footer-socials a {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: #e7f3ec;
+    color: #0F5132;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.3rem;
+    text-decoration: none;
+    transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.footer-socials a:hover {
+    background: #0F5132;
+    color: #ffffff;
+    transform: translateY(-3px);
+}
+
+/* ===== BTU FİLTRESİ ===== */
+.btu-filter-bar { display: flex; align-items: center; gap: 0.6rem; overflow-x: auto; padding: 0.2rem 0 1.2rem; scrollbar-width: none; }
+.btu-filter-bar.hidden { display: none; }
+.btu-filter-bar::-webkit-scrollbar { display: none; }
+.btu-label { font-weight: 700; color: #1a1a1a; font-size: 0.9rem; white-space: nowrap; flex-shrink: 0; }
+.btu-chip { flex-shrink: 0; padding: 0.5rem 1rem; border-radius: 20px; border: 1.5px solid #0F5132; background: #ffffff; color: #0F5132; font-size: 0.85rem; font-weight: 600; white-space: nowrap; cursor: pointer; transition: background 0.2s ease, color 0.2s ease; }
+.btu-chip:hover { background: #e7f3ec; }
+.btu-chip.active { background: #0F5132; color: #ffffff; }
+
+/* ===== 🔎 AKILLI ARAMA PANELİ ===== */
+.search-suggest-backdrop { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.35); z-index: 990; }
+.search-suggest-backdrop.open { display: block; }
+.search-suggest-panel { display: none; position: fixed; left: 0; right: 0; background: #ffffff; z-index: 1001; box-shadow: 0 12px 30px rgba(0,0,0,0.18); overflow-y: auto; overscroll-behavior: contain; -webkit-overflow-scrolling: touch; }
+.search-suggest-panel.open { display: block; }
+body.search-open .floating-buttons { display: none !important; }
+
+.ssp-inner { max-width: 1200px; margin: 0 auto; padding: 1.2rem 20px 1.5rem; display: grid; grid-template-columns: 300px 1fr; gap: 2rem; }
+.ssp-inner.ssp-single { grid-template-columns: 1fr; }
+.ssp-title { font-size: 0.78rem; font-weight: 700; color: #6b7a72; text-transform: uppercase; letter-spacing: 0.4px; margin: 0 0 0.6rem; }
+.ssp-section + .ssp-section { margin-top: 1.2rem; }
+
+.ssp-row { display: flex; align-items: center; justify-content: space-between; gap: 0.6rem; padding: 0.7rem 0.9rem; margin-bottom: 0.45rem; background: #f1f4f3; border-radius: 8px; color: #1a1a1a; font-weight: 600; font-size: 0.9rem; cursor: pointer; transition: background 0.2s ease, color 0.2s ease; }
+.ssp-row:hover { background: #e7f3ec; color: #0F5132; }
+.ssp-row-label { display: flex; align-items: center; min-width: 0; }
+.ssp-row-logo { width: 26px; height: 26px; object-fit: contain; margin-right: 0.5rem; flex-shrink: 0; }
+.ssp-row-count { color: #6b7a72; font-weight: 500; font-size: 0.8rem; flex-shrink: 0; }
+
+.ssp-product { display: flex; align-items: center; gap: 1rem; padding: 0.7rem 0.9rem; margin-bottom: 0.6rem; border-radius: 10px; background: #ffffff; box-shadow: 0 2px 10px rgba(0,0,0,0.07); cursor: pointer; transition: box-shadow 0.2s ease; }
+.ssp-product:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.13); }
+.ssp-thumb { width: 56px; height: 56px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 1.6rem; overflow: hidden; }
+.ssp-thumb img { max-width: 100%; max-height: 100%; object-fit: contain; }
+.ssp-info { flex: 1; min-width: 0; }
+.ssp-brand { font-size: 0.72rem; color: #6b7a72; }
+.ssp-name { font-size: 0.88rem; font-weight: 600; color: #1a1a1a; line-height: 1.3; }
+.ssp-price { display: flex; flex-direction: column; align-items: flex-end; flex-shrink: 0; font-size: 0.9rem; font-weight: 700; color: #1a1a1a; white-space: nowrap; }
+.ssp-price .price-old { margin-right: 0; font-size: 0.75rem; }
+.ssp-price .price-new { color: #0F5132; }
+.ssp-all { width: 100%; margin-top: 0.4rem; padding: 0.85rem; border: none; border-radius: 10px; background: linear-gradient(135deg, #15803d 0%, #0F5132 100%); color: #ffffff; font-weight: 700; font-size: 0.95rem; cursor: pointer; }
+.ssp-empty { padding: 1.2rem 0.4rem; color: #6b7a72; }
+
+.search-facets { display: flex; gap: 0.6rem; overflow-x: auto; padding: 0.2rem 0 1.2rem; scrollbar-width: none; }
+.search-facets::-webkit-scrollbar { display: none; }
+.search-facets.search-facets-wrap { flex-wrap: wrap; justify-content: center; overflow: visible; }
+.search-facet-chip { flex-shrink: 0; padding: 0.5rem 1rem; border-radius: 20px; border: 1.5px solid #0F5132; background: #ffffff; color: #0F5132; font-size: 0.85rem; font-weight: 600; white-space: nowrap; cursor: pointer; transition: background 0.2s ease, color 0.2s ease; }
+.search-facet-chip:hover { background: #e7f3ec; }
+.search-facet-chip.active { background: #0F5132; color: #ffffff; }
+
+@media (max-width: 768px) {
+    .ssp-inner { grid-template-columns: 1fr; gap: 1rem; padding: 0.9rem 14px 1.2rem; }
+    .ssp-rows { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+    .ssp-row { margin-bottom: 0; padding: 0.5rem 0.9rem; border-radius: 20px; font-size: 0.82rem; }
+    .ssp-row-count { margin-left: 0.4rem; }
 }
     </style>
 
@@ -4252,14 +4676,62 @@
         <input type="text" id="mobile-search-input" placeholder="Пребарај..." onkeypress="handleMobileSearchKeypress(event)">
         <button onclick="izvrsiPrebaruvanjeMobile()"><i class="fas fa-search"></i></button>
     </div>
-    <div class="mobile-cart-icon" onclick="toggleCart()">
+        <div class="mobile-cart-icon" onclick="toggleCart()">
         <i class="fas fa-shopping-cart"></i>
         <span class="cart-count" id="cart-count-mobile">0</span>
     </div>
 </div>
 </header>
-    
-<!-- MOBİL MENU -->
+
+<!-- 📱 ALT NAVİGASYON BARI -->
+<nav class="bottom-nav" id="bottom-nav">
+    <button class="bottom-nav-item active" id="nav-home" onclick="prikaziDom()">
+        <i class="fas fa-home"></i><span>Почетна</span>
+    </button>
+    <button class="bottom-nav-item" id="nav-categories" onclick="setActiveNavTab('categories'); openMobileCategoriesOverlay()">
+        <i class="fas fa-th-large"></i><span>Категории</span>
+    </button>
+    <button class="bottom-nav-item" id="nav-favorites" onclick="openFavoritesFromNav()">
+        <i class="fas fa-heart"></i><span>Омилени</span>
+        <span class="bottom-nav-badge" id="bottom-nav-fav-badge" style="display:none;">0</span>
+    </button>
+    <button class="bottom-nav-item" id="nav-cart" onclick="toggleCart()">
+        <i class="fas fa-shopping-cart"></i><span>Кошничка</span>
+        <span class="bottom-nav-badge" id="bottom-nav-cart-badge" style="display:none;">0</span>
+    </button>
+    <button class="bottom-nav-item" id="nav-more" onclick="openMoreSheet()">
+        <i class="fas fa-ellipsis-h"></i><span>Повеќе</span>
+    </button>
+</nav>
+
+<!-- 📱 TAM EKRAN KATEGORİ/MARKA SAYFASI -->
+<div class="mobile-fullscreen-overlay" id="mobile-categories-overlay">
+    <div class="mobile-overlay-header">
+        <div class="mobile-overlay-tabs">
+            <button class="mobile-overlay-tab active" id="tab-categories-btn" onclick="switchOverlayTab('categories')">Категории</button>
+            <button class="mobile-overlay-tab" id="tab-brands-btn" onclick="switchOverlayTab('brands')">Брендови</button>
+        </div>
+        <button class="mobile-overlay-close" onclick="closeMobileCategoriesOverlay()">✕</button>
+    </div>
+    <div class="mobile-overlay-body" id="mobile-overlay-body-categories"></div>
+    <div class="mobile-overlay-body hidden" id="mobile-overlay-body-brands"></div>
+</div>
+
+<!-- 📱 "ПОВЕЌЕ" ALT SAYFA -->
+<div class="mobile-more-backdrop" id="mobile-more-backdrop" onclick="closeMoreSheet()"></div>
+<div class="mobile-more-sheet" id="mobile-more-sheet">
+    <div class="mobile-more-handle"></div>
+    <a class="mobile-more-link" onclick="closeMoreSheet(); odiDoUsluge()"><i class="fas fa-concierge-bell"></i> Услуги</a>
+    <a class="mobile-more-link" onclick="closeMoreSheet(); odiDoKontakt()"><i class="fas fa-envelope"></i> Контакт</a>
+    <div class="mobile-more-socials">
+        <a href="https://www.facebook.com/nkhtechh" target="_blank"><i class="fab fa-facebook"></i></a>
+        <a href="https://www.instagram.com/nkhtechofficial" target="_blank"><i class="fab fa-instagram"></i></a>
+        <a href="https://wa.me/38975652037" target="_blank"><i class="fab fa-whatsapp"></i></a>
+        <a href="viber://chat?number=%2B38975652037" target="_blank"><i class="fab fa-viber"></i></a>
+    </div>
+</div>
+
+<!-- MOBİL MENU (artık kullanılmıyor, CSS ile gizli) -->
 <div class="mobile-menu hidden" id="mobile-menu">
     <span class="mobile-menu-close" onclick="toggleMobileMenu()">✕</span>
     <ul class="mobile-menu-list">
@@ -4333,14 +4805,18 @@
         <!-- Динамички рекламни слајдови -->
     </div>
     
-    <button class="slider-btn prev" onclick="prevSlide()">❮</button>
+        <button class="slider-btn prev" onclick="prevSlide()">❮</button>
     <button class="slider-btn next" onclick="nextSlide()">❯</button>
     
     <div class="slider-dots" id="slider-dots"></div>
 </div>
 
+<!-- 📱 MOBİL KATEGORİ BAŞLIĞI + ÇİPLER -->
+<div class="mobile-section-head"><h3>Категории</h3><a onclick="openMobileCategoriesOverlay()">Сите</a></div>
+<div class="mobile-category-chips" id="mobile-category-chips"></div>
+
                 <!-- VIEW ALL PRODUCTS BUTTON -->
-                <div style="text-align: center; margin: 3rem 0; padding: 2rem 0; border-top: 1px solid #e0e0e0; border-bottom: 1px solid #e0e0e0;">
+                <div class="home-viewall-block" style="text-align: center; margin: 3rem 0; padding: 2rem 0; border-top: 1px solid #e0e0e0; border-bottom: 1px solid #e0e0e0;">
                     <button class="btn btn-primary" onclick="prikaziSiProizvodi()" style="padding: 1rem 3rem; font-size: 1.1rem;">Погледни ги сите производи</button>
                 </div>
 
@@ -4369,50 +4845,6 @@
     </div>
 </section>
 
-<!-- ABOUT -->
-    <section class="why-choose-us">
-    <h2 class="section-title">Зошто да изберете NKH TECH?</h2>
-    <p class="section-subtitle">Вашиот веродостоен партнер за решенија за сите ваши потреби</p>
-    
-    <div class="features-grid">
-
-    <article class="feature-card">
-        <div class="feature-icon">♻️</div>
-        <h3 class="feature-title">Енергетска Ефикасност</h3>
-        <p class="feature-description">Сите наши производи се насочени кон енергетска ефикасност.</p>
-    </article>
-
-    <article class="feature-card">
-        <div class="feature-icon">🛡️</div>
-        <h3 class="feature-title">Гаранција</h3>
-        <p class="feature-description">Сите производи и услуги имаат гаранција. Ваша сигурност е наша приоритет.</p>
-    </article>
-
-    <article class="feature-card">
-        <div class="feature-icon">⏰</div>
-        <h3 class="feature-title">Брза Служба</h3>
-        <p class="feature-description">Брза и сигурна испорака.</p>
-    </article>
-</div>
-
-    <div class="social-media-section">
-        <h4>Следете ги нашите социјални мрежи:</h4>
-        <div class="social-links">
-            <a href="https://www.facebook.com/nkhtechh" target="_blank" title="Facebook">
-                <i class="fab fa-facebook"></i> Facebook
-            </a>
-            <a href="https://www.instagram.com/nkhtechofficial" target="_blank" title="Instagram">
-                <i class="fab fa-instagram"></i> Instagram
-            </a>
-            <a href="https://whatsapp.com/channel/0029Vb7mdlX30LKyMf7tO1z" target="_blank" title="WhatsApp Kanal">
-                <i class="fab fa-whatsapp"></i> WhatsApp
-            </a>
-            <a href="https://www.viber.com/en/public-chats/nkh-tech" target="_blank" title="Viber Kanal">
-                <i class="fab fa-viber"></i> Viber
-            </a>
-        </div>
-    </div>
-</section>
             </div>
 
             <!-- PRODUCTS PAGE -->
@@ -4421,13 +4853,13 @@
                 <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; margin-bottom: 2rem;">
     <div style="display: flex; align-items: center; gap: 1rem;">
         <h2 class="page-title" id="products-page-title" style="margin-bottom: 0;">Сите производи</h2>
-        <button class="price-filter-btn-header-new" onclick="openPriceFilterModal()">
-            <i class="fas fa-filter"></i> Филтер за цена
-        </button>
+        <button class="price-filter-btn-header-new" onclick="openFilterPanel()">
+    <i class="fas fa-filter"></i> <span class="fp-btn-label">Филтер</span>
+</button>
     </div>
 </div>
                 <p class="page-subtitle" id="products-page-subtitle">Разгледајте ја нашата широка понуда на производи за вашиот дом</p>
-
+                <div class="btu-filter-bar hidden" id="btu-filter-bar"></div>
                 <div class="products-grid" id="products-grid"></div>
             </div>
 
@@ -4444,6 +4876,9 @@
                 <button class="back-btn" onclick="vratiSePrev()"><i class="fas fa-arrow-left"></i> Назад</button>
                 <h2 class="page-title" id="search-results-title">Резултати од пребарувањето</h2>
                 <p class="page-subtitle" id="search-results-subtitle"></p>
+                <button class="price-filter-btn-header-new" style="margin-bottom: 1.2rem;" onclick="openFilterPanel()">
+    <i class="fas fa-filter"></i> <span class="fp-btn-label">Филтер</span>
+</button>
                 <div class="products-grid" id="search-results-grid"></div>
             </div>
 
@@ -4508,7 +4943,6 @@
                     <li><a onclick="prikaziDom()">Почетна</a></li>
                     <li><a onclick="prikaziSiProizvodi()">Сите Производи</a></li>
                     <li><a onclick="odiDoUsluge()">Услуги</a></li>
-                    <li><a onclick="odiDoZaNas()">За нас</a></li>
                     <li><a onclick="odiDoKontakt()">Контакт</a></li>
                 </ul>
             </div>
@@ -4537,6 +4971,12 @@
         </div>
 
         <div class="footer-bottom">
+                        <div class="footer-socials">
+                <a href="https://www.facebook.com/nkhtechh" target="_blank" title="Facebook"><i class="fab fa-facebook"></i></a>
+                <a href="https://www.instagram.com/nkhtechofficial" target="_blank" title="Instagram"><i class="fab fa-instagram"></i></a>
+                <a href="https://whatsapp.com/channel/0029Vb7mdlX30LKyMf7tO1z" target="_blank" title="WhatsApp Kanal"><i class="fab fa-whatsapp"></i></a>
+                <a href="https://www.viber.com/en/public-chats/nkh-tech" target="_blank" title="Viber Kanal"><i class="fab fa-viber"></i></a>
+            </div>
             <p class="copyright">&copy; 2026 Незири Кардешлер Хвац Технолоџи Доо. Сите права се резервирани. | <a href="privacy.html">Политика за Приватност</a> | <a href="terms.html">Услови на Користење</a> | <a href="security.html">Безбедност</a></p>
             <p style="margin-top: 0.8rem; font-size: 1.1rem;">
         <a href="https://linktr.ee/eyubneziri" target="_blank" rel="noopener noreferrer" style="color: #2ecc71; text-decoration: none;">Crafted By Neziri Development</a>
@@ -4828,23 +5268,236 @@
 
         // CONSTANTS
         const ITEMS_PER_PAGE = 20;
-        let currentPage = 1;
-        let currentSlide = 0;
-        let totalSlides = 4;
-        let currentApplianceType = null;
+        // ===== BTU FİLTRESİ =====
+let btuFilter = null;
 
-        function calculateInstallments(price, productId = null) {
-                if (!isPriceValid(price)) return [];
+let kwFilter = null;
+
+// ===== LİSTEYE GERİ DÖNÜNCE DURUMU KORU =====
+let listSnapshot = null;
+
+function captureListSnapshot() {
+    const listIds = ['home-page', 'products-page', 'selected-page', 'search-results-page'];
+    const visibleId = listIds.find(id => {
+        const el = document.getElementById(id);
+        return el && !el.classList.contains('hidden');
+    });
+    if (!visibleId) return null;
+
+    const key = pageHistory[pageHistory.length - 1];
+    if (!key || key.startsWith('product-')) return null;
+
+    return {
+        key: key,
+        pageId: visibleId,
+        scrollY: window.scrollY,
+        btu: btuFilter,
+        kw: kwFilter
+    };
+}
+
+function restoreListFromSnapshot(key) {
+    const snap = listSnapshot;
+    if (!snap || snap.key !== key) return false;
+    if (key === 'favorites') return false;
+
+    const page = document.getElementById(snap.pageId);
+    if (!page) return false;
+
+    skrij();
+    page.classList.remove('hidden');
+    document.getElementById('product-detailed-section').classList.add('hidden');
+
+    btuFilter = snap.btu;
+    kwFilter = snap.kw;
+    listSnapshot = snap;
+
+    if (key === 'home') setActiveNavTab('home');
+    window.scrollTo(0, snap.scrollY);
+    return true;
+}
+
+const KW_OPTIONS = [
+    { key: 'kw6',  label: 'до 6 kW',  min: 0,     max: 6 },
+    { key: 'kw8',  label: '7-8 kW',   min: 6.01,  max: 8 },
+    { key: 'kw10', label: '9-10 kW',  min: 8.01,  max: 10 },
+    { key: 'kw12', label: '11-12 kW', min: 10.01, max: 12 },
+    { key: 'kw16', label: '13-16 kW', min: 12.01, max: 16 },
+    { key: 'kw99', label: '16+ kW',   min: 16.01, max: 999 }
+];
+
+function isHeatPump(p) {
+    const sub = subcategoriesData.find(s => s.id === p.tip);
+    const micro = subsubcategoriesData.find(m => m.id === p.subsubcategoryId);
+    const text = (p.naziv || '') + ' ' + (sub ? sub.name : '') + ' ' + (micro ? micro.name : '');
+    return /топлин\S*\s*пумп|термо\s*пумп|toplin\S*\s*pump|heat\s*-?\s*pump|воздух\s*-?\s*вода|air\s*to\s*water|hpm-?\s*\d/i.test(text);
+}
+
+function getProductKw(p) {
+    if (!isHeatPump(p)) return null;
+
+    const parts = [p.naziv || '', p.opis || ''];
+    if (Array.isArray(p.karakteristiki)) parts.push(p.karakteristiki.join(' '));
+    const text = parts.join(' ');
+
+    // 1) Açık yazılmış: "12 kW", "12kW", "12 кВт", "8,5 kW"
+    let m = text.match(/(\d+(?:[.,]\d+)?)\s*[kк]\s*[wв]\s*т?(?![a-zа-я])/i);
+    if (m) {
+        const n = parseFloat(m[1].replace(',', '.'));
+        if (n >= 2 && n <= 100) return n;
+    }
+
+    // 2) Yedek: Vivax model kodu "HPM-120..." = 12 kW (son rakam ondalık)
+    m = (p.naziv || '').match(/HPM-?\s*(\d{2,3})/i);
+    if (m) {
+        const n = parseInt(m[1], 10) / 10;
+        if (n >= 2 && n <= 100) return n;
+    }
+
+    return null;
+}
+
+const BTU_OPTIONS = [
+    { key: '9000',  label: 'до 9000 BTU', min: 0,     max: 9000 },
+    { key: '12000', label: '12000 BTU',   min: 9001,  max: 12000 },
+    { key: '18000', label: '18000 BTU',   min: 12001, max: 18000 },
+    { key: '24000', label: '24000 BTU',   min: 18001, max: 24000 },
+    { key: '30000', label: '30000+ BTU',  min: 24001, max: 999999 }
+];
+
+function getProductBtu(p) {
+        if (isHeatPump(p)) return null;
+    const parts = [p.naziv || '', p.opis || ''];
+    if (Array.isArray(p.karakteristiki)) parts.push(p.karakteristiki.join(' '));
+    const text = parts.join(' ');
+
+    const toBtu = (raw, kFlag) => {
+        const s = String(raw).replace(/\s/g, '');
+        let n;
+        if (/^\d{1,3}([.,]\d{3})+$/.test(s)) n = parseInt(s.replace(/[.,]/g, ''), 10);
+        else n = parseFloat(s.replace(',', '.'));
+        if (isNaN(n)) return null;
+        if (kFlag || n < 100) n = Math.round(n * 1000);
+        return (n >= 3000 && n <= 100000) ? n : null;
+    };
+
+    const NUM = '(\\d{1,3}(?:[.,]\\d{3})+|\\d+(?:[.,]\\d+)?)';
+
+    // 1) Açık yazılmış: "18000 BTU", "12.000 BTU", "12k BTU", "12 BTU", "БТУ"
+    let m = text.match(new RegExp(NUM + '\\s*(k|к)?\\s*-?\\s*(?:btu|бту)', 'i'));
+    if (m) { const n = toBtu(m[1], m[2]); if (n) return n; }
+
+    // 2) Ters yazılmış: "BTU: 12000", "BTU/h 12000"
+    m = text.match(new RegExp('(?:btu|бту)\\s*(?:\\/\\s*[hч])?\\s*[:=\\-]?\\s*' + NUM + '\\s*(k|к)?', 'i'));
+    if (m) { const n = toBtu(m[1], m[2]); if (n) return n; }
+
+    // 3) Sadece klima ürünlerinde: model koduna veya addaki sayıya bak
+    const katName = (typeof getCategoryName === 'function') ? getCategoryName(p.kategorija) : '';
+    const jeKlima = /клима|ладење|climate|split|сплит|inverter|инвертер/i.test(katName + ' ' + (p.naziv || ''));
+    if (jeKlima) {
+        const naziv = p.naziv || '';
+        // Model kodu: ACP-12CH35, GWH12AGC, ACP-9CH ...
+        m = naziv.match(/[A-Za-zА-Яа-я]-?(07|09|12|18|24|30|36|48|60|7|9)(?!\d)/);
+        if (m) return parseInt(m[1], 10) * 1000;
+        // Adda tek başına yazan sayı: "Klima 12 inverter"
+        m = naziv.match(/(?:^|[\s(\-\/])(07|09|12|18|24|30|36|48|60)(?=[\s)\/,\-]|$)/);
+        if (m) return parseInt(m[1], 10) * 1000;
+    }
+
+    return null;
+}
+
+function btuMatches(p) {
+    if (btuFilter) {
+        const btu = getProductBtu(p);
+        if (btu === null) return false;
+        const opt = BTU_OPTIONS.find(o => o.key === btuFilter);
+        return opt ? (btu >= opt.min && btu <= opt.max) : true;
+    }
+    if (kwFilter) {
+        const kw = getProductKw(p);
+        if (kw === null) return false;
+        const opt = KW_OPTIONS.find(o => o.key === kwFilter);
+        return opt ? (kw >= opt.min && kw <= opt.max) : true;
+    }
+    return true;
+}
+
+function updateBtuBar(list) {
+    const bar = document.getElementById('btu-filter-bar');
+    if (!bar) return;
+
+    const hasBtu = filtri.kategorija !== 'all' && list.some(p => getProductBtu(p) !== null);
+    const hasKw  = filtri.kategorija !== 'all' && list.some(p => getProductKw(p) !== null);
+
+    if (!hasBtu && !hasKw) {
+        bar.classList.add('hidden');
+        bar.innerHTML = '';
+        return;
+    }
+
+    let html = '';
+
+    if (hasBtu) {
+        html += `<span class="btu-label">BTU:</span>` +
+            `<div class="btu-chip ${!btuFilter ? 'active' : ''}" onclick="setBtuFilter(null)">Сите</div>` +
+            BTU_OPTIONS.map(o => `<div class="btu-chip ${btuFilter === o.key ? 'active' : ''}" onclick="setBtuFilter('${o.key}')">${o.label}</div>`).join('');
+    }
+
+    if (hasKw) {
+        html += `<span class="btu-label" style="margin-left:${hasBtu ? '1rem' : '0'};">kW:</span>` +
+            `<div class="btu-chip ${!kwFilter ? 'active' : ''}" onclick="setKwFilter(null)">Сите</div>` +
+            KW_OPTIONS.map(o => `<div class="btu-chip ${kwFilter === o.key ? 'active' : ''}" onclick="setKwFilter('${o.key}')">${o.label}</div>`).join('');
+    }
+
+    bar.classList.remove('hidden');
+    bar.innerHTML = html;
+}
+
+function setBtuFilter(key) {
+    btuFilter = key;
+    kwFilter = null;
+    rerenderBtuList();
+}
+
+function setKwFilter(key) {
+    kwFilter = key;
+    btuFilter = null;
+    rerenderBtuList();
+}
+
+function rerenderBtuList() {
+    const last = pageHistory[pageHistory.length - 1] || '';
+    if (last.startsWith('micro|')) {
+        renderMicroList(last.split('|')[1]);
+    } else {
+        prikaziProizvodiSaFiltromISayfalama(1);
+    }
+}
+
+let microCurrentId = null;
+
+function renderMicroList(subsubcatId, page = 1) {
+    microCurrentId = subsubcatId;
+    const osnovni = proizvodi.filter(p => p.subsubcategoryId === subsubcatId);
+    updateBtuBar(osnovni);
+    renderFilteredProductsCustom(osnovni.filter(btuMatches), page);
+}
+
+let currentPage = 1;
+let currentSlide = 0;
+let totalSlides = 4;
+let currentApplianceType = null;
+
+function calculateInstallments(price, productId = null) {
+    if (!isPriceValid(price)) return [];
     if (productId) {
         const product = proizvodi.find(p => p.id === productId);
         if (product && product.taksitSecenekleri && product.taksitSecenekleri.length > 0) {
+            const base = (price === product.cena) ? getDiscountedPrice(product.cena, product.indirim) : price;
             return product.taksitSecenekleri.map(plan => {
                 const months = plan.ay || plan.months || 1;
-                let monthlyPayment = plan.monthlyPrice;
-                if (typeof monthlyPayment !== 'number' || isNaN(monthlyPayment)) {
-                    const interest = plan.faiz || 0;
-                    monthlyPayment = Math.round((price * (1 + interest)) / months);
-                }
+                const monthlyPayment = Math.round(base / months);
                 return { months, monthlyPayment, totalPayment: monthlyPayment * months };
             });
         }
@@ -4994,7 +5647,10 @@ function updateAllFavoritButtons() {
 }
 
 function prikaziFavorite() {
+    setActiveNavTab('favorites');
     skrij();
+        const btuBar = document.getElementById('btu-filter-bar');
+    if (btuBar) { btuBar.classList.add('hidden'); btuBar.innerHTML = ''; }
     document.getElementById('products-page').classList.remove('hidden');
     document.getElementById('product-detailed-section').classList.add('hidden');
     
@@ -5022,7 +5678,7 @@ function prikaziFavorite() {
                 <p class="product-brand">${p.brend}</p>
                 <h3 class="product-title">${p.naziv}</h3>
                 <div class="product-price">${renderPriceHTML(p.cena, p.indirim)}</div>
-                ${getInstallmentBadgeText(p.cena) ? `<div class="installment-badge">${getInstallmentBadgeText(p.cena)}</div>` : ''}
+                ${getInstallmentBadgeText(p.cena, p.id) ? `<div class="installment-badge">${getInstallmentBadgeText(p.cena, p.id)}</div>` : ''}
                 <div style="display: flex; gap: 0.5rem;">
                     <button class="btn btn-outline" style="flex: 1;" onclick="event.stopPropagation(); event.preventDefault(); dodajUKorpu('${p.id}')">Додај во Кошничка</button>
                     <button class="favorite-btn" data-product-id="${p.id}" onclick="toggleFavorit('${p.id}', event)">
@@ -5100,6 +5756,20 @@ function initCarousel() {
     const wrapper = document.querySelector('.carousel-wrapper');
     wrapper.addEventListener('mouseenter', stopCarouselAutoPlay);
     wrapper.addEventListener('mouseleave', startCarouselAutoPlay);
+
+        // 📱 Mobil: parmakla kaydırma
+    let carouselTouchStartX = 0;
+    wrapper.addEventListener('touchstart', (e) => {
+        carouselTouchStartX = e.changedTouches[0].screenX;
+        stopCarouselAutoPlay();
+    }, { passive: true });
+    wrapper.addEventListener('touchend', (e) => {
+        const diff = carouselTouchStartX - e.changedTouches[0].screenX;
+        if (Math.abs(diff) > 40) {
+            if (diff > 0) carouselNext(); else carouselPrev();
+        }
+        setTimeout(startCarouselAutoPlay, 600);
+    }, { passive: true });
     
     startCarouselAutoPlay();
 }
@@ -5148,9 +5818,25 @@ function carouselPrev() {
 
 function updateCarouselPosition() {
     const track = document.getElementById('carousel-track');
+    if (!track) return;
+
+    // 📱 Mobil: piksel olarak hesapla (2 ürün görünür)
+    if (window.innerWidth <= 768) {
+        const first = track.querySelector('.carousel-item');
+        if (!first) return;
+        const gap = parseFloat(getComputedStyle(track).columnGap) || 0;
+        const step = first.offsetWidth + gap;
+        if (!step) return;
+        track.style.transform = `translateX(${-(carouselPosition * step)}px)`;
+        return;
+    }
+
+    // 🖥️ Masaüstü: eskisi gibi
     const offset = -(carouselPosition * CAROUSEL_ITEM_WIDTH);
     track.style.transform = `translateX(${offset}%)`;
 }
+
+window.addEventListener('resize', updateCarouselPosition);
 
 function startCarouselAutoPlay() {
     stopCarouselAutoPlay();
@@ -5219,7 +5905,7 @@ document.addEventListener('DOMContentLoaded', function() {
             slider.style.transform = `translateX(-${currentSlide * 100}%)`;
             
             dots.forEach(dot => dot.classList.remove('active'));
-            dots[currentSlide].classList.add('active');
+            if (dots[currentSlide]) dots[currentSlide].classList.add('active');
         }
 
         function nextSlide() {
@@ -5305,6 +5991,9 @@ document.addEventListener('DOMContentLoaded', function() {
     const s = !applianceType || applianceType === 'all' || p.tip === applianceType;
     return k && b && s;
 });
+
+            updateBtuBar(filtrirani);
+            filtrirani = filtrirani.filter(btuMatches);
             
             const start = (page - 1) * ITEMS_PER_PAGE;
             const end = start + ITEMS_PER_PAGE;
@@ -5361,6 +6050,7 @@ grid.innerHTML = paginatedProducts.map(p => `
         }
 
         function prikaziDom() {
+            setActiveNavTab('home');
             skrij();
             document.getElementById('home-page').classList.remove('hidden');
             document.getElementById('product-detailed-section').classList.add('hidden');
@@ -5485,6 +6175,10 @@ grid.innerHTML = paginatedProducts.map(p => `
 }
 
         function skrij() {
+            if (typeof closeSearchPanel === 'function') closeSearchPanel();
+            btuFilter = null;
+            kwFilter = null;
+            listSnapshot = null;
     document.getElementById('home-page').classList.add('hidden');
     document.getElementById('products-page').classList.add('hidden');
     document.getElementById('product-detail-page').classList.add('hidden');
@@ -5530,7 +6224,9 @@ grid.innerHTML = paginatedProducts.map(p => `
         function prikaziDetalje(id) {
     trenutniProizvod = proizvodi.find(p => p.id === id);
 
+        const snapForBack = isPoppingState ? null : captureListSnapshot();
     skrij();
+    listSnapshot = snapForBack;
     document.getElementById('product-detail-page').classList.remove('hidden');
     document.getElementById('product-detailed-section').classList.remove('hidden');
     document.getElementById('dopolnitelna-oprema-section').classList.remove('hidden');
@@ -5585,6 +6281,7 @@ console.log(`✅ ${realImageCount} adet fotoğraf yüklendi`);
     updateDetailWhatsAppViberLinks();
         
     skrij();
+        listSnapshot = snapForBack;
     document.getElementById('product-detail-page').classList.remove('hidden');
         pageHistory.push('product-' + id);
     if (!isPoppingState) history.pushState({ pageHistory: [...pageHistory] }, '');
@@ -5816,6 +6513,12 @@ function odiNaKategorijaIzDopolnitelna(kat) {
     document.getElementById('cart-count').textContent = broj > 0 ? broj : '0';
     const mobileBadge = document.getElementById('cart-count-mobile');
     if (mobileBadge) mobileBadge.textContent = broj > 0 ? broj : '0';
+
+    const bottomNavBadge = document.getElementById('bottom-nav-cart-badge');
+    if (bottomNavBadge) {
+        bottomNavBadge.textContent = broj > 0 ? broj : '0';
+        bottomNavBadge.style.display = broj > 0 ? 'flex' : 'none';
+    }
 }
 
         function azurirajBrojFavorita() {
@@ -5823,6 +6526,12 @@ function odiNaKategorijaIzDopolnitelna(kat) {
     const badge = document.getElementById('favorite-count');
     if (badge) {
         badge.textContent = count > 0 ? count : '0';
+    }
+
+    const bottomNavBadge = document.getElementById('bottom-nav-fav-badge');
+    if (bottomNavBadge) {
+        bottomNavBadge.textContent = count > 0 ? count : '0';
+        bottomNavBadge.style.display = count > 0 ? 'flex' : 'none';
     }
 }
 
@@ -5918,6 +6627,24 @@ function odiNaKategorijaIzDopolnitelna(kat) {
     }
 }
 
+function syncCartWithProducts() {
+    ucitajKorpu();
+    ucitajFavoriti();
+
+    korpa = korpa.map(st => {
+        const fresh = proizvodi.find(p => p.id === st.id);
+        return fresh ? { ...fresh, količina: st.količina } : null;
+    }).filter(Boolean);
+    sačuvajKorpuMobile();
+
+    favoriti = favoriti.filter(id => proizvodi.some(p => p.id === id));
+    sačuvajFavoritiMobile();
+
+    azurirajBrojKorpe();
+    azurirajKorpu();
+    azurirajBrojFavorita();
+}
+
         function ucitajKorpu() {
     try {
         const sačuvano = localStorage.getItem('korpa');
@@ -5976,77 +6703,6 @@ function izvrsiPrebaruvanjeMobile() {
     izvrsiPrebaruvanje();
 }
 
-        function izvrsiPrebaruvanje() {
-            const searchTerm = document.getElementById('search-input').value.toLowerCase().trim();
-            if (!searchTerm) {
-                alert('Внесете го терминот за пребарување!');
-                return;
-            }
-            
-            const latinVersion = cyrillicToLatin(searchTerm);
-            const cyrillicVersion = latinToCyrillic(searchTerm);
-            
-            const brandMatches = proizvodi.filter(p => 
-                p.brend.toLowerCase().includes(searchTerm) ||
-                p.brend.toLowerCase().includes(latinVersion) ||
-                p.brend.toLowerCase().includes(cyrillicVersion)
-            );
-            
-            const productMatches = proizvodi.filter(p => 
-                p.naziv.toLowerCase().includes(searchTerm) ||
-                p.naziv.toLowerCase().includes(latinVersion) ||
-                p.naziv.toLowerCase().includes(cyrillicVersion)
-            );
-            
-            const categoryMatches = proizvodi.filter(p => {
-    const cat = categoriesData.find(c => c.id === p.kategorija);
-    const kategorijaNaziv = cat ? cat.name.toLowerCase() : '';
-    return kategorijaNaziv && (
-        kategorijaNaziv.includes(searchTerm) ||
-        kategorijaNaziv.includes(latinVersion) ||
-        kategorijaNaziv.includes(cyrillicVersion)
-    );
-});
-            
-            let rezultati = [...new Set([...brandMatches, ...productMatches, ...categoryMatches])];
-            if (rezultati.length === 0) {
-                alert('Нема пронајдени производи за: ' + searchTerm);
-                return;
-            }
-            if (rezultati.length === 1) {
-                prikaziDetalje(rezultati[0].id);
-                return;
-            }
-            skrij();
-            document.getElementById('search-results-page').classList.remove('hidden');
-            document.getElementById('product-detailed-section').classList.add('hidden');
-            document.getElementById('search-results-title').textContent = 'Резултати од пребарување';
-            document.getElementById('search-results-subtitle').textContent = `Пронајдени ${rezultati.length} производи за "${searchTerm}"`;
-           const grid = document.getElementById('search-results-grid');
-             grid.innerHTML = rezultati.map(p => `
-    <article class="product-card" onclick="prikaziDetalje('${p.id}')">
-        ${p.indirim > 0 ? `<div class="indirim-badge">-${Math.round(p.indirim)}%</div>` : ''}
-        <div class="product-image">${renderProductImage(p)}</div>
-        <div class="product-content">
-            <p class="product-brand">${p.brend}</p>
-            <h3 class="product-title">${p.naziv}</h3>
-            <div class="product-price">${renderPriceHTML(p.cena, p.indirim)}</div>
-            ${getInstallmentBadgeText(p.cena, p.id) ? `<div class="installment-badge">${getInstallmentBadgeText(p.cena, p.id)}</div>` : ''}
-            <div style="display: flex; gap: 0.5rem;">
-                <button class="btn btn-outline" style="flex: 1;" onclick="event.stopPropagation(); event.preventDefault(); dodajUKorpu('${p.id}')">Додај во Кошничка</button>
-                <button class="favorite-btn" data-product-id="${p.id}" onclick="toggleFavorit('${p.id}', event)">
-                    ${isFavorit(p.id) ? '❤️' : '🤍'}
-                </button>
-            </div>
-        </div>
-    </article>
-`).join('');
-            pageHistory.push('search');
-            if (!isPoppingState) history.pushState({ pageHistory: [...pageHistory] }, '');
-            updateBackButtonVisibility();
-            window.scrollTo(0, 0);
-        }
-
         function otvoriUslugaModal(usluga) {
             document.getElementById(usluga + '-modal').style.display = 'block';
         }
@@ -6070,11 +6726,137 @@ function izvrsiPrebaruvanjeMobile() {
             }
         }
 
-        // MOBILE MENU
+                // MOBILE MENU
         function toggleMobileMenu() {
             const mobileMenu = document.getElementById('mobile-menu');
             mobileMenu.classList.toggle('hidden');
             document.body.style.overflow = mobileMenu.classList.contains('hidden') ? 'auto' : 'hidden';
+        }
+
+        // ===== 📱 ALT NAVİGASYON =====
+        function setActiveNavTab(tab) {
+            document.querySelectorAll('.bottom-nav-item').forEach(btn => btn.classList.remove('active'));
+            const map = { home: 'nav-home', categories: 'nav-categories', favorites: 'nav-favorites' };
+            const el = document.getElementById(map[tab]);
+            if (el) el.classList.add('active');
+        }
+        function openFavoritesFromNav() { prikaziFavorite(); }
+
+        // ===== 📱 KATEGORİ ÇİPLERİ =====
+        function renderMobileCategoryChips() {
+            const container = document.getElementById('mobile-category-chips');
+            if (!container) return;
+            let html = `<div class="mobile-category-chip active" onclick="setMobileChipActive(this); prikaziSiProizvodi()">Сите</div>`;
+            categoriesData.forEach(cat => {
+                html += `<div class="mobile-category-chip" onclick="setMobileChipActive(this); filtrirajPoKategorija('${cat.id}')">${cat.icon ? cat.icon + ' ' : ''}${cat.name}</div>`;
+            });
+            container.innerHTML = html;
+        }
+        function setMobileChipActive(el) {
+            document.querySelectorAll('.mobile-category-chip').forEach(c => c.classList.remove('active'));
+            el.classList.add('active');
+        }
+
+        // ===== 📱 TAM EKRAN KATEGORİ/MARKA SAYFASI (mikro kategori destekli) =====
+        function openMobileCategoriesOverlay() {
+            renderMobileOverlayCategories();
+            renderMobileOverlayBrands();
+            document.getElementById('mobile-categories-overlay').classList.add('open');
+            document.body.style.overflow = 'hidden';
+        }
+        function closeMobileCategoriesOverlay() {
+            document.getElementById('mobile-categories-overlay').classList.remove('open');
+            document.body.style.overflow = 'auto';
+            setActiveNavTab('home');
+        }
+        function switchOverlayTab(tab) {
+            document.getElementById('tab-categories-btn').classList.toggle('active', tab === 'categories');
+            document.getElementById('tab-brands-btn').classList.toggle('active', tab === 'brands');
+            document.getElementById('mobile-overlay-body-categories').classList.toggle('hidden', tab !== 'categories');
+            document.getElementById('mobile-overlay-body-brands').classList.toggle('hidden', tab !== 'brands');
+        }
+        function renderMobileOverlayCategories() {
+            const container = document.getElementById('mobile-overlay-body-categories');
+            if (!container) return;
+            container.innerHTML = categoriesData.map(cat => {
+                const subs = subcategoriesData.filter(s => s.parentId === cat.id);
+                const img = getCategoryImage(cat.id);
+                const visual = img ? `<img src="${img}">` : `<span>${cat.icon || '📦'}</span>`;
+                return `
+                    <div class="mobile-ov-category">
+                        <div class="mobile-ov-category-header" onclick="toggleOvCategory(this, '${cat.id}')">
+                            <div class="mobile-ov-category-visual">${visual}</div>
+                            <span class="mobile-ov-category-name">${cat.name}</span>
+                            <span class="mobile-ov-arrow">›</span>
+                        </div>
+                        <div class="mobile-ov-subcats">
+                            ${subs.map(s => {
+                                const micros = subsubcategoriesData.filter(m => m.parentId === s.id);
+                                if (micros.length === 0) {
+                                    return `<a onclick="closeMobileCategoriesOverlay(); filtrirajPoPodkategorija('${s.id}', '${cat.id}')">${s.icon ? s.icon + ' ' : ''}${s.name}</a>`;
+                                }
+                                return `
+                                    <div class="mobile-ov-subcat-row" onclick="toggleOvMicro(event, this)">
+                                        <span>${s.icon ? s.icon + ' ' : ''}${s.name}</span>
+                                        <span class="mobile-ov-micro-arrow">›</span>
+                                    </div>
+                                    <div class="mobile-ov-micros">
+                                        <a class="mobile-ov-micro-viewall" onclick="closeMobileCategoriesOverlay(); filtrirajPoPodkategorija('${s.id}', '${cat.id}')">Види ги сите во „${s.name}"</a>
+                                        ${micros.map(m => `<a onclick="closeMobileCategoriesOverlay(); filtrirajPoMikroKategorija('${m.id}', '${s.id}')">${m.icon ? m.icon + ' ' : ''}${m.name}</a>`).join('')}
+                                    </div>
+                                `;
+                            }).join('')}
+                        </div>
+                    </div>
+                `;
+            }).join('') + `<button class="mobile-ov-viewall" onclick="closeMobileCategoriesOverlay(); prikaziSiProizvodi()">Погледни ги сите производи</button>`;
+        }
+        function toggleOvMicro(event, rowEl) {
+            event.stopPropagation();
+            const microsList = rowEl.nextElementSibling;
+            const isOpen = microsList.classList.contains('open');
+            rowEl.parentElement.querySelectorAll('.mobile-ov-micros').forEach(l => l.classList.remove('open'));
+            rowEl.parentElement.querySelectorAll('.mobile-ov-subcat-row').forEach(r => r.classList.remove('active'));
+            if (!isOpen) {
+                microsList.classList.add('open');
+                rowEl.classList.add('active');
+            }
+        }
+        function renderMobileOverlayBrands() {
+            const container = document.getElementById('mobile-overlay-body-brands');
+            if (!container) return;
+            container.innerHTML = `<div class="mobile-ov-brands-grid">` + brandsData.map(b => `
+                <div class="mobile-ov-brand-card" onclick="closeMobileCategoriesOverlay(); filtrirajPoBrend('${b.id}')">
+                    ${b.logo ? `<img src="${b.logo}">` : `<span>${b.name}</span>`}
+                </div>
+            `).join('') + `</div>`;
+        }
+        function toggleOvCategory(headerEl, catId) {
+            const sublist = headerEl.nextElementSibling;
+            const isOpen = sublist.classList.contains('open');
+            document.querySelectorAll('.mobile-ov-subcats').forEach(l => l.classList.remove('open'));
+            document.querySelectorAll('.mobile-ov-category-header').forEach(h => h.classList.remove('active'));
+            if (sublist.children.length === 0) {
+                closeMobileCategoriesOverlay();
+                filtrirajPoKategorija(catId);
+                return;
+            }
+            if (!isOpen) {
+                sublist.classList.add('open');
+                headerEl.classList.add('active');
+            }
+        }
+
+        // ===== 📱 "ПОВЕЌЕ" ALT SAYFA =====
+        function openMoreSheet() {
+            document.getElementById('mobile-more-sheet').classList.add('open');
+            document.getElementById('mobile-more-backdrop').classList.add('open');
+            document.body.style.overflow = 'hidden';
+        }
+        function closeMoreSheet() {
+            document.getElementById('mobile-more-sheet').classList.remove('open');
+            document.getElementById('mobile-more-backdrop').classList.remove('open');
+            document.body.style.overflow = 'auto';
         }
 
         function closeMenuOnNavigation() {
@@ -6091,6 +6873,11 @@ function izvrsiPrebaruvanjeMobile() {
     pageHistory = (state && state.pageHistory) ? state.pageHistory : ['home'];
     const poslednja = pageHistory[pageHistory.length - 1];
 
+        if (restoreListFromSnapshot(poslednja)) {
+        updateBackButtonVisibility();
+        return;
+    }
+
     isPoppingState = true;
     if (poslednja === 'home') prikaziDom();
     else if (poslednja === 'products') prikaziSiProizvodi();
@@ -6103,6 +6890,10 @@ function izvrsiPrebaruvanjeMobile() {
         else if (poslednja.startsWith('micro|')) {
         const parts = poslednja.split('|');
         filtrirajPoMikroKategorija(parts[1], parts[2]);
+    }
+        else if (poslednja.startsWith('brandsub|')) {
+        const parts = poslednja.split('|');
+        filtrirajPoBrendIPodkategorija(parts[1], parts[2], parts[3]);
     }
     else if (poslednja.startsWith('category-')) filtrirajPoKategorija(poslednja.split('-')[1]);
     else if (poslednja.startsWith('brand-')) filtrirajPoBrend(poslednja.split('-')[1]);
@@ -6602,6 +7393,14 @@ function renderCategoryMenus() {
     dropdown.innerHTML = dropdownHTML;
     submenuWrapper.innerHTML = submenuHTML;
 
+        const siteLink = dropdown.firstElementChild;
+    if (siteLink) {
+        siteLink.addEventListener('mouseenter', function() {
+            cancelSubmenuHide();
+            document.querySelectorAll('.submenu-panel').forEach(p => p.style.display = 'none');
+        });
+    }
+
         const links = dropdown.querySelectorAll('a[onclick*="filtrirajPoKategorija"]');
     links.forEach((link, idx) => {
         const cat = categoriesData[idx];
@@ -6807,8 +7606,7 @@ function filtrirajPoMikroKategorija(subsubcatId, subcatId) {
     filtri.brend = 'all';
     currentPage = 1;
 
-    let filtrirani = proizvodi.filter(p => p.subsubcategoryId === subsubcatId);
-    renderFilteredProductsCustom(filtrirani, 1);
+        renderMicroList(subsubcatId);
 
     const key = 'micro|' + subsubcatId + '|' + subcatId;
     if (pageHistory[pageHistory.length - 1] !== key) pageHistory.push(key);
@@ -6842,6 +7640,26 @@ function renderFilteredProductsCustom(filtrirani, page) {
             </div>
         </article>
     `).join('');
+
+    
+    if (totalPages > 1) {
+        const btnStyle = 'background: white; border: 2px solid #2ecc71; color: #0a2540; padding: 0.6rem 0.8rem; border-radius: 5px; cursor: pointer; font-weight: bold;';
+        const activeStyle = 'background: #2ecc71; color: white; padding: 0.6rem 0.8rem; border-radius: 5px; font-weight: bold; border: 2px solid #2ecc71; min-width: 40px;';
+        const goto = (n) => `window.scrollTo(0, 0); renderMicroList('${microCurrentId}', ${n})`;
+        let html = '<div style="display: flex; justify-content: center; align-items: center; gap: 0.3rem; margin: 2rem 0; flex-wrap: wrap; grid-column: 1 / -1;">';
+        if (page > 1) html += `<button style="${btnStyle}" onclick="${goto(page - 1)}">←</button>`;
+        let startPage = Math.max(1, page - 2);
+        let endPage = Math.min(totalPages, startPage + 4);
+        if (endPage - startPage < 4) startPage = Math.max(1, endPage - 4);
+        for (let i = startPage; i <= endPage; i++) {
+            html += i === page
+                ? `<button style="${activeStyle}">${i}</button>`
+                : `<button style="${btnStyle}" onclick="${goto(i)}">${i}</button>`;
+        }
+        if (page < totalPages) html += `<button style="${btnStyle}" onclick="${goto(page + 1)}">→</button>`;
+        html += '</div>';
+        grid.innerHTML += html;
+    }
 }
 
 function renderCategorySections() {
@@ -7186,23 +8004,113 @@ let modalPriceFilterState = {
     maxSelected: 1000000
 };
 
+// ===== FİYAT FİLTRESİ: AÇIK LİSTEYE GÖRE ÇALIŞSIN =====
+function priceOf(p) {
+    return isPriceValid(p.cena) ? getDiscountedPrice(p.cena, p.indirim) : null;
+}
+
+function getPriceFilterBase() {
+    const last = pageHistory[pageHistory.length - 1] || '';
+
+    if (last === 'favorites') {
+        return proizvodi.filter(p => favoriti.includes(p.id));
+    }
+
+    if (last.startsWith('micro|')) {
+        const microId = last.split('|')[1];
+        return proizvodi.filter(p => p.subsubcategoryId === microId && btuMatches(p));
+    }
+
+    return proizvodi.filter(p => {
+        const k = filtri.kategorija === 'all' || p.kategorija === filtri.kategorija;
+        const b = filtri.brend === 'all' || p.brandId === filtri.brend;
+        const s = !currentApplianceType || currentApplianceType === 'all' || p.tip === currentApplianceType;
+        return k && b && s && btuMatches(p);
+    });
+}
+
+function renderPriceFilteredPage(page) {
+    currentPage = page;
+
+    const filtrirani = getPriceFilterBase().filter(p => {
+        const price = priceOf(p);
+        return price !== null &&
+               price >= modalPriceFilterState.minSelected &&
+               price <= modalPriceFilterState.maxSelected;
+    });
+
+    const grid = document.getElementById('products-grid');
+
+    if (filtrirani.length === 0) {
+        grid.innerHTML = `
+            <div style="grid-column: 1 / -1; text-align: center; padding: 3rem;">
+                <h3 style="color: #999;">Нема производи во одбранот опсег на цена</h3>
+            </div>
+        `;
+        return;
+    }
+
+    const start = (page - 1) * ITEMS_PER_PAGE;
+    const paginatedProducts = filtrirani.slice(start, start + ITEMS_PER_PAGE);
+    const totalPages = Math.ceil(filtrirani.length / ITEMS_PER_PAGE);
+
+    grid.innerHTML = paginatedProducts.map(p => `
+        <article class="product-card" onclick="prikaziDetalje('${p.id}')">
+            ${p.indirim > 0 ? `<div class="indirim-badge">-${Math.round(p.indirim)}%</div>` : ''}
+            <div class="product-image">${renderProductImage(p)}</div>
+            <div class="product-content">
+                <p class="product-brand">${p.brend}</p>
+                <h3 class="product-title">${p.naziv}</h3>
+                <div class="product-price">${renderPriceHTML(p.cena, p.indirim)}</div>
+                ${getInstallmentBadgeText(p.cena, p.id) ? `<div class="installment-badge">${getInstallmentBadgeText(p.cena, p.id)}</div>` : ''}
+                <div style="display: flex; gap: 0.5rem;">
+                    <button class="btn btn-outline" style="flex: 1;" onclick="event.stopPropagation(); event.preventDefault(); dodajUKorpu('${p.id}')">Додај во Кошничка</button>
+                    <button class="favorite-btn" data-product-id="${p.id}" onclick="toggleFavorit('${p.id}', event)">
+                        ${isFavorit(p.id) ? '❤️' : '🤍'}
+                    </button>
+                </div>
+            </div>
+        </article>
+    `).join('');
+
+    if (totalPages > 1) {
+        const btnStyle = 'background: white; border: 2px solid #2ecc71; color: #0a2540; padding: 0.6rem 0.8rem; border-radius: 5px; cursor: pointer; font-weight: bold;';
+        const activeStyle = 'background: #2ecc71; color: white; padding: 0.6rem 0.8rem; border-radius: 5px; font-weight: bold; border: 2px solid #2ecc71; min-width: 40px;';
+        let html = '<div style="display: flex; justify-content: center; align-items: center; gap: 0.3rem; margin: 2rem 0; flex-wrap: wrap; grid-column: 1 / -1;">';
+
+        if (page > 1) html += `<button style="${btnStyle}" onclick="applyModalPriceFilterWithPage(${page - 1})">←</button>`;
+
+        let startPage = Math.max(1, page - 2);
+        let endPage = Math.min(totalPages, startPage + 4);
+        if (endPage - startPage < 4) startPage = Math.max(1, endPage - 4);
+
+        for (let i = startPage; i <= endPage; i++) {
+            html += i === page
+                ? `<button style="${activeStyle}">${i}</button>`
+                : `<button style="${btnStyle}" onclick="applyModalPriceFilterWithPage(${i})">${i}</button>`;
+        }
+
+        if (page < totalPages) html += `<button style="${btnStyle}" onclick="applyModalPriceFilterWithPage(${page + 1})">→</button>`;
+
+        html += '</div>';
+        grid.innerHTML += html;
+    }
+
+    const info = document.getElementById('modal-price-info-text');
+    if (info) info.textContent = `Пронајдени ${filtrirani.length} производи`;
+
+    window.scrollTo(0, 0);
+}
+
 function openPriceFilterModal() {
     const modal = document.getElementById('price-filter-modal');
     
-    // Mevcut ürünlerin min-max fiyatını bul
-    let filtrirani = proizvodi.filter(p => {
-        const k = filtri.kategorija === 'all' || p.kategorija === filtri.kategorija;
-        const b = filtri.brend === 'all' || p.brandId === filtri.brend;
-        return k && b;
-    });
-    
-    if (filtrirani.length === 0) {
+        // Açık listedeki ürünlerin min-max (indirimli) fiyatını bul
+    const prices = getPriceFilterBase().map(priceOf).filter(c => c !== null);
+    if (prices.length === 0) {
         alert('Нема производи за приказ!');
         return;
     }
-    
-    // Min-Max bul
-    const prices = filtrirani.map(p => p.cena).filter(c => isPriceValid(c));
     const minPrice = Math.min(...prices);
     const maxPrice = Math.max(...prices);
     
@@ -7211,6 +8119,9 @@ function openPriceFilterModal() {
     modalPriceFilterState.maxPrice = maxPrice;
     modalPriceFilterState.minSelected = minPrice;
     modalPriceFilterState.maxSelected = maxPrice;
+
+        document.getElementById('modal-range-min').step = 1;
+    document.getElementById('modal-range-max').step = 1;
     
     // Range slider'ı set et (input alanları artık yok)
     document.getElementById('modal-range-min').min = minPrice;
@@ -7291,165 +8202,23 @@ function updateModalPriceDisplay() {
 function updateModalRangeFill() {
     const rangeFill = document.getElementById('modal-range-fill');
     if (!rangeFill) return;
-    
-    const minPercent = (modalPriceFilterState.minSelected / modalPriceFilterState.maxPrice) * 100;
-    const maxPercent = (modalPriceFilterState.maxSelected / modalPriceFilterState.maxPrice) * 100;
-    
+
+    const span = (modalPriceFilterState.maxPrice - modalPriceFilterState.minPrice) || 1;
+    const minPercent = ((modalPriceFilterState.minSelected - modalPriceFilterState.minPrice) / span) * 100;
+    const maxPercent = ((modalPriceFilterState.maxSelected - modalPriceFilterState.minPrice) / span) * 100;
+
     rangeFill.style.left = minPercent + '%';
     rangeFill.style.right = (100 - maxPercent) + '%';
 }
 
-// Filtre Uygula
 function applyModalPriceFilter() {
     console.log(`✅ Fiyat filtresi uygulandı: ${modalPriceFilterState.minSelected} - ${modalPriceFilterState.maxSelected}`);
-    
-    currentPage = 1;
-    
-    // Filtreleme yap
-    let filtrirani = proizvodi.filter(p => {
-        const k = filtri.kategorija === 'all' || p.kategorija === filtri.kategorija;
-        const b = filtri.brend === 'all' || p.brandId === filtri.brend;
-        const fiyat = p.cena >= modalPriceFilterState.minSelected && p.cena <= modalPriceFilterState.maxSelected;
-        return k && b && fiyat;
-    });
-    
-    if (filtrirani.length === 0) {
-        document.getElementById('products-grid').innerHTML = `
-            <div style="grid-column: 1 / -1; text-align: center; padding: 3rem;">
-                <h3 style="color: #999;">Нема производи во одбранот опсег на цена</h3>
-            </div>
-        `;
-        closePriceFilterModal();
-        return;
-    }
-    
-    // Ürünleri göster
-    const grid = document.getElementById('products-grid');
-    const start = 0;
-    const end = ITEMS_PER_PAGE;
-    const paginatedProducts = filtrirani.slice(start, end);
-    const totalPages = Math.ceil(filtrirani.length / ITEMS_PER_PAGE);
-    
-    grid.innerHTML = paginatedProducts.map(p => `
-        <article class="product-card" onclick="prikaziDetalje('${p.id}')">
-            ${p.indirim > 0 ? `<div class="indirim-badge">-${Math.round(p.indirim)}%</div>` : ''}
-            <div class="product-image">${renderProductImage(p)}</div>
-            <div class="product-content">
-                <p class="product-brand">${p.brend}</p>
-                <h3 class="product-title">${p.naziv}</h3>
-                <div class="product-price">${formatPriceDisplay(p.cena)}</div>
-                ${getInstallmentBadgeText(p.cena, p.id) ? `<div class="installment-badge">${getInstallmentBadgeText(p.cena, p.id)}</div>` : ''}
-                <div style="display: flex; gap: 0.5rem;">
-                    <button class="btn btn-outline" style="flex: 1;" onclick="event.stopPropagation(); event.preventDefault(); dodajUKorpu('${p.id}')">Додај во Кошничка</button>
-                    <button class="favorite-btn" data-product-id="${p.id}" onclick="toggleFavorit('${p.id}', event)">
-                        ${isFavorit(p.id) ? '❤️' : '🤍'}
-                    </button>
-                </div>
-            </div>
-        </article>
-    `).join('');
-    
-    // Pagination
-    if (totalPages > 1) {
-        let paginationHTML = '<div style="display: flex; justify-content: center; align-items: center; gap: 0.3rem; margin: 2rem 0; flex-wrap: wrap; grid-column: 1 / -1;">';
-        
-        if (currentPage > 1) {
-            paginationHTML += `<button style="background: white; border: 2px solid #2ecc71; color: #0a2540; padding: 0.6rem 0.8rem; border-radius: 5px; cursor: pointer; font-weight: bold;" onclick="applyModalPriceFilterWithPage(${currentPage - 1})">←</button>`;
-        }
-        
-        let startPage = Math.max(1, currentPage - 2);
-        let endPage = Math.min(totalPages, startPage + 4);
-        if (endPage - startPage < 4) startPage = Math.max(1, endPage - 4);
-        
-        for (let i = startPage; i <= endPage; i++) {
-            if (i === currentPage) {
-                paginationHTML += `<button style="background: #2ecc71; color: white; padding: 0.6rem 0.8rem; border-radius: 5px; font-weight: bold; border: 2px solid #2ecc71; min-width: 40px;">${i}</button>`;
-            } else {
-                paginationHTML += `<button style="background: white; border: 2px solid #2ecc71; color: #0a2540; padding: 0.6rem 0.8rem; border-radius: 5px; cursor: pointer; font-weight: bold;" onclick="applyModalPriceFilterWithPage(${i})">${i}</button>`;
-            }
-        }
-        
-        if (currentPage < totalPages) {
-            paginationHTML += `<button style="background: white; border: 2px solid #2ecc71; color: #0a2540; padding: 0.6rem 0.8rem; border-radius: 5px; cursor: pointer; font-weight: bold;" onclick="applyModalPriceFilterWithPage(${currentPage + 1})">→</button>`;
-        }
-        
-        paginationHTML += '</div>';
-        grid.innerHTML += paginationHTML;
-    }
-    
-    // Info güncelle
-    document.getElementById('modal-price-info-text').textContent = `Пронајдени ${filtrirani.length} производи`;
-    
-    // Modal'ı kapat
     closePriceFilterModal();
-    window.scrollTo(0, 0);
+    renderPriceFilteredPage(1);
 }
 
-// Sayfalama ile filtre
 function applyModalPriceFilterWithPage(page) {
-    currentPage = page;
-    
-    let filtrirani = proizvodi.filter(p => {
-        const k = filtri.kategorija === 'all' || p.kategorija === filtri.kategorija;
-        const b = filtri.brend === 'all' || p.brandId === filtri.brend;
-        const fiyat = p.cena >= modalPriceFilterState.minSelected && p.cena <= modalPriceFilterState.maxSelected;
-        return k && b && fiyat;
-    });
-    
-    const start = (page - 1) * ITEMS_PER_PAGE;
-    const end = start + ITEMS_PER_PAGE;
-    const paginatedProducts = filtrirani.slice(start, end);
-    const totalPages = Math.ceil(filtrirani.length / ITEMS_PER_PAGE);
-    
-    const grid = document.getElementById('products-grid');
-    grid.innerHTML = paginatedProducts.map(p => `
-        <article class="product-card" onclick="prikaziDetalje('${p.id}')">
-            ${p.indirim > 0 ? `<div class="indirim-badge">-${Math.round(p.indirim)}%</div>` : ''}
-            <div class="product-image">${renderProductImage(p)}</div>
-            <div class="product-content">
-                <p class="product-brand">${p.brend}</p>
-                <h3 class="product-title">${p.naziv}</h3>
-                <div class="product-price">${formatPriceDisplay(p.cena)}</div>
-                ${getInstallmentBadgeText(p.cena, p.id) ? `<div class="installment-badge">${getInstallmentBadgeText(p.cena, p.id)}</div>` : ''}
-                <div style="display: flex; gap: 0.5rem;">
-                    <button class="btn btn-outline" style="flex: 1;" onclick="event.stopPropagation(); event.preventDefault(); dodajUKorpu('${p.id}')">Додај во Кошничка</button>
-                    <button class="favorite-btn" data-product-id="${p.id}" onclick="toggleFavorit('${p.id}', event)">
-                        ${isFavorit(p.id) ? '❤️' : '🤍'}
-                    </button>
-                </div>
-            </div>
-        </article>
-    `).join('');
-    
-    // Pagination
-    if (totalPages > 1) {
-        let paginationHTML = '<div style="display: flex; justify-content: center; align-items: center; gap: 0.3rem; margin: 2rem 0; flex-wrap: wrap; grid-column: 1 / -1;">';
-        
-        if (page > 1) {
-            paginationHTML += `<button style="background: white; border: 2px solid #2ecc71; color: #0a2540; padding: 0.6rem 0.8rem; border-radius: 5px; cursor: pointer; font-weight: bold;" onclick="applyModalPriceFilterWithPage(${page - 1})">←</button>`;
-        }
-        
-        let startPage = Math.max(1, page - 2);
-        let endPage = Math.min(totalPages, startPage + 4);
-        if (endPage - startPage < 4) startPage = Math.max(1, endPage - 4);
-        
-        for (let i = startPage; i <= endPage; i++) {
-            if (i === page) {
-                paginationHTML += `<button style="background: #2ecc71; color: white; padding: 0.6rem 0.8rem; border-radius: 5px; font-weight: bold; border: 2px solid #2ecc71; min-width: 40px;">${i}</button>`;
-            } else {
-                paginationHTML += `<button style="background: white; border: 2px solid #2ecc71; color: #0a2540; padding: 0.6rem 0.8rem; border-radius: 5px; cursor: pointer; font-weight: bold;" onclick="applyModalPriceFilterWithPage(${i})">${i}</button>`;
-            }
-        }
-        
-        if (page < totalPages) {
-            paginationHTML += `<button style="background: white; border: 2px solid #2ecc71; color: #0a2540; padding: 0.6rem 0.8rem; border-radius: 5px; cursor: pointer; font-weight: bold;" onclick="applyModalPriceFilterWithPage(${page + 1})">→</button>`;
-        }
-        
-        paginationHTML += '</div>';
-        grid.innerHTML += paginationHTML;
-    }
-    
-    window.scrollTo(0, 0);
+    renderPriceFilteredPage(page);
 }
 
 function resetModalPriceFilter() {
@@ -7623,9 +8392,11 @@ async function loadSiteDataFromFirestore() {
         });
 
         console.log('✅ Firestore verisi yüklendi:', proizvodi.length, 'ürün,', categoriesData.length, 'kategori,', brandsData.length, 'marka,', adsData.length, 'reklam');
+                syncCartWithProducts();
 
-        renderCategoryMenus();
+                renderCategoryMenus();
         renderBrandMenus();
+        renderMobileCategoryChips();
         renderHeroSlider();
         prikaziIzbraniNaDomPull();
         initCarousel();
@@ -7638,6 +8409,1887 @@ async function loadSiteDataFromFirestore() {
 window.addEventListener('firebaseReady', () => {
     loadSiteDataFromFirestore();
 });
+
+// ============================================================
+// 🔎 ПАМЕТНО ПРЕБАРУВАЊЕ (pametno prebaruvanje) — motor
+// ============================================================
+const SEARCH_CYR = {
+    'а':'a','б':'b','в':'v','г':'g','ѓ':'gj','д':'d','е':'e','ж':'zh','з':'z','ѕ':'dz','и':'i','ј':'j','к':'k',
+    'л':'l','љ':'lj','м':'m','н':'n','њ':'nj','о':'o','п':'p','р':'r','с':'s','т':'t','ќ':'kj','у':'u','ф':'f',
+    'х':'h','ц':'c','ч':'ch','џ':'dz','ш':'sh','ы':'y','э':'e','ю':'yu','я':'ya','ё':'yo','й':'j','щ':'sht','ъ':'a','ь':''
+};
+const SEARCH_STOP = new Set(['btu', 'za', 'na', 'so', 'od', 'den', 'denari', 'ili']);
+
+// ----- ЗБОРОВИ СО ИСТО ЗНАЧЕЊЕ (eş anlamlı kelimeler) -----
+// Her satır bir grup: gruptaki kelimelerden herhangi biri yazılınca diğerleri de aranır.
+// Buraya istediğin kelimeyi ekleyebilirsin (Latin ya da Kiril, fark etmez, tek kelime olmalı).
+const SEARCH_SYNONYM_GROUPS = [
+    ['bojler', 'boiler', 'vodogrejac'],
+    ['klima', 'klimatik', 'klimatizer', 'kondicioner', 'airco', 'split'],
+    ['frizider', 'fridge', 'frigorifer', 'ladilnik', 'hladilnik'],
+    ['tv', 'televizor', 'televizija'],
+    ['toplinska', 'toplotna', 'termo'],
+    ['solar', 'solaren', 'solarni', 'solarna'],
+    ['masina', 'makine'],
+    ['perenje', 'larese', 'larje'],
+    ['susenje', 'susara', 'tharese', 'tharje']
+];
+
+// Ovie zborovi go pogoduvaat sekoja klima (po BTU / "split" / "klima" vo imeto ili kategorijata)
+const SEARCH_AC_WORDS = new Set(['klima', 'klimatik', 'klimatizer', 'kondicioner', 'airco', 'split']);
+
+let searchIndex = null;
+let searchIndexCount = -1;
+let searchActiveQuery = '';
+let searchLastQuery = '';
+let searchFilter = null;
+let searchDebounce = null;
+
+function searchEsc(s) {
+    return String(s == null ? '' : s)
+        .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+}
+
+// Kiril -> Latinica, bez dijakritici, x -> ks, i "mekki" bukvi (sh/ch/zh/gj/kj/lj/nj/dz -> s/c/z/g/k/l/n/z)
+// Ista forma za proizvodite i za baranjeto, pa "masina" = "машина", "perenje" = "перење"
+function searchNorm(s) {
+    s = String(s == null ? '' : s).toLowerCase();
+    let out = '';
+    for (const ch of s) out += (SEARCH_CYR[ch] !== undefined ? SEARCH_CYR[ch] : ch);
+    out = out.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+    out = out.replace(/đ/g, 'dj').replace(/x/g, 'ks');
+    return out.replace(/sht/g, 's').replace(/sh/g, 's').replace(/ch/g, 'c').replace(/zh/g, 'z')
+             .replace(/gj/g, 'g').replace(/kj/g, 'k').replace(/lj/g, 'l').replace(/nj/g, 'n').replace(/dz/g, 'z');
+}
+
+// "klimi" / "klima" -> "klim", "masina" -> "masin" (mnozina / padezi)
+function searchStem(t) {
+    const s = t.replace(/[aeiou]+$/, '');
+    return s.length >= 4 ? s : t;
+}
+
+// Recnik na sinonimi: zbor (i negovata osnova) -> drugi zborovi od istata grupa
+const SEARCH_SYN = {};
+SEARCH_SYNONYM_GROUPS.forEach(group => {
+    const words = Array.from(new Set(group.map(w => searchNorm(w).replace(/[^a-z0-9]/g, '')).filter(Boolean)));
+    words.forEach(w => {
+        const others = words.filter(x => x !== w);
+        SEARCH_SYN[w] = others;
+        const st = searchStem(w);
+        if (st !== w && !SEARCH_SYN[st]) SEARCH_SYN[st] = others;
+    });
+});
+
+function searchAlts(t) {
+    return [t].concat(SEARCH_SYN[t] || SEARCH_SYN[searchStem(t)] || []);
+}
+
+function searchTokens(q) {
+    let s = String(q == null ? '' : q);
+    s = s.replace(/(\d)[.,](?=\d{3}(?!\d))/g, '$1');   // 12.000 -> 12000
+    s = searchNorm(s);
+    const out = [];
+    s.split(/[^a-z0-9]+/).forEach(raw => {
+        if (!raw) return;
+        const t = raw.replace(/^(\d+)btu$/, '$1');
+        if (SEARCH_STOP.has(t)) return;
+        if (t.length === 1 && !/\d/.test(t)) return;
+        if (out.indexOf(t) === -1) out.push(t);
+    });
+    return out;
+}
+
+function searchLev(a, b) {
+    const m = a.length, n = b.length;
+    if (!m) return n;
+    if (!n) return m;
+    let prev = new Array(n + 1), cur = new Array(n + 1);
+    for (let j = 0; j <= n; j++) prev[j] = j;
+    for (let i = 1; i <= m; i++) {
+        cur[0] = i;
+        for (let j = 1; j <= n; j++) {
+            const cost = a.charCodeAt(i - 1) === b.charCodeAt(j - 1) ? 0 : 1;
+            cur[j] = Math.min(prev[j] + 1, cur[j - 1] + 1, prev[j - 1] + cost);
+        }
+        const tmp = prev; prev = cur; cur = tmp;
+    }
+    return prev[n];
+}
+
+function searchFuzzyMatch(t, w, maxD) {
+    if (Math.abs(t.length - w.length) <= maxD && searchLev(t, w) <= maxD) return true;
+    if (t.length >= 6 && w.length > t.length) return searchLev(t, w.slice(0, t.length)) <= maxD;
+    return false;
+}
+
+// BTU: iz teksta ("12000 BTU") ili iz model-kod (ACP-12CH35 -> 12000)
+function searchDeriveBtu(p, catN) {
+    const parts = [p.naziv || '', p.opis || ''];
+    if (Array.isArray(p.karakteristiki)) parts.push(p.karakteristiki.join(' '));
+    const text = parts.join(' ');
+
+    const toNum = (raw, k) => {
+        const s = String(raw).replace(/\s/g, '');
+        let n = /^\d{1,3}([.,]\d{3})+$/.test(s) ? parseInt(s.replace(/[.,]/g, ''), 10) : parseFloat(s.replace(',', '.'));
+        if (isNaN(n)) return null;
+        if (k || n < 100) n = Math.round(n * 1000);
+        return (n >= 3000 && n <= 100000) ? n : null;
+    };
+
+    const NUM = '(\\d{1,3}(?:[.,]\\d{3})+|\\d+(?:[.,]\\d+)?)';
+    let m = text.match(new RegExp(NUM + '\\s*(k|к)?\\s*-?\\s*(?:btu|бту)', 'i'));
+    if (m) { const n = toNum(m[1], m[2]); if (n) return n; }
+
+    const looksAc = /klima|split|inverter|invertor|condition/.test(catN + ' ' + searchNorm(p.naziv));
+    if (looksAc) {
+        const naziv = p.naziv || '';
+        m = naziv.match(/[A-Za-zА-Яа-я]-?(07|09|12|18|24|30|36|48|60|7|9)(?!\d)/);
+        if (m) return parseInt(m[1], 10) * 1000;
+        m = naziv.match(/(?:^|[\s(\-\/])(07|09|12|18|24|30|36|48|60)(?=[\s)\/,\-]|$)/);
+        if (m) return parseInt(m[1], 10) * 1000;
+    }
+    return null;
+}
+
+function buildSearchIndex() {
+    if (searchIndex && searchIndexCount === proizvodi.length) return;
+    const comp = s => s.replace(/[^a-z0-9]/g, '');
+    const words = s => s.split(/[^a-z0-9]+/).filter(Boolean);
+
+    searchIndex = proizvodi.map(p => {
+        const cat = categoriesData.find(c => c.id === p.kategorija);
+        const sub = subcategoriesData.find(s => s.id === p.tip);
+        const micro = subsubcategoriesData.find(m => m.id === p.subsubcategoryId);
+        const nameN = searchNorm(p.naziv);
+        const brandN = searchNorm(p.brend);
+        const catN = searchNorm([cat ? cat.name : '', sub ? sub.name : '', micro ? micro.name : ''].join(' '));
+        const descN = searchNorm((p.opis || '') + ' ' + (Array.isArray(p.karakteristiki) ? p.karakteristiki.join(' ') : ''));
+                const btu = searchDeriveBtu(p, catN);
+        const allN = nameN + ' ' + catN;
+        // Klima = ima BTU ili "klima/split/kondicioner" vo imeto ili kategorijata, a ne e toplinska pumpa ili bojler
+        const isAc = !/pump|bojler|boiler/.test(allN) && (btu !== null || /klima|split|kondicioner|airco/.test(allN));
+        return {
+            p: p,
+            nameC: comp(nameN), nameWords: words(nameN),
+            brandC: comp(brandN), brandWords: words(brandN),
+            catC: comp(catN), catWords: words(catN),
+            descWords: Array.from(new Set(words(descN))),
+            btu: btu,
+            isAc: isAc
+        };
+    });
+    searchIndexCount = proizvodi.length;
+}
+
+function searchScoreToken(item, t) {
+    // --- Brojki: 09, 12, 9000, 12000, 35 ...
+    if (/^\d+$/.test(t)) {
+        const n = parseInt(t, 10);
+        let btuVal = null;
+        if (t.length <= 2) btuVal = n * 1000;
+        else if (t.length >= 4 && n % 1000 === 0 && n >= 7000 && n <= 60000) btuVal = n;
+        if (btuVal && item.btu === btuVal) return 9;
+        if (t.length <= 2) {
+            return item.nameWords.some(w => /^\d+$/.test(w) && parseInt(w, 10) === n) ? 7 : 0;
+        }
+        if (item.nameC.includes(t)) return 8;
+        if (item.catC.includes(t)) return 3;
+        if (item.descWords.indexOf(t) !== -1) return 2;
+        return 0;
+    }
+
+    // --- Zborovi / model-kodovi
+    // Ako zborot e TIP na proizvodot (ime na kategorija / podkategorija / serija), ima najgolem prioritet.
+    let best = 0;
+    const isBrandTok = item.brandWords.some(w => w.startsWith(t));
+    if (t.length >= 4) {
+        const ts = searchStem(t);
+        const pref = w => w.startsWith(t) || (ts !== t && w.startsWith(ts));
+        if (item.nameWords.some(pref)) best = 12;
+        else if (item.nameC.includes(t)) best = 10;
+        if (item.brandC.includes(t)) best = Math.max(best, 8);
+        if (item.catWords.some(pref)) best = Math.max(best, isBrandTok ? 6 : 15);
+        else if (item.catC.includes(t)) best = Math.max(best, 6);
+        if (best === 0 && item.descWords.some(w => w.startsWith(t))) best = 2;
+    } else {
+        if (item.catWords.some(w => w.startsWith(t))) best = isBrandTok ? 6 : 11;
+        if (item.nameWords.some(w => w.startsWith(t))) best = Math.max(best, 10);
+        else if (item.brandWords.some(w => w.startsWith(t))) best = Math.max(best, 8);
+    }
+
+        // --- Klima: zborot "klima" (i sinonimite) ja pogoduva sekoja klima, duri i bez zborot vo imeto
+    if (item.isAc && SEARCH_AC_WORDS.has(t)) best = Math.max(best, 15);
+
+    // --- Mala greska vo pisuvanje
+    if (best === 0 && t.length >= 5) {
+        const maxD = t.length >= 9 ? 2 : 1;
+        const pools = [item.nameWords, item.brandWords, item.catWords];
+        for (let i = 0; i < pools.length && best === 0; i++) {
+            if (pools[i].some(w => w.length >= 3 && searchFuzzyMatch(t, w, maxD))) best = 4;
+        }
+    }
+    return best;
+}
+
+// Zborot ili nekoj od negovite sinonimi - se zema najdobriot rezultat
+function searchScoreAny(item, t) {
+    const alts = searchAlts(t);
+    let best = 0;
+    for (let i = 0; i < alts.length; i++) {
+        const s = searchScoreToken(item, alts[i]);
+        if (s > best) best = s;
+    }
+    return best;
+}
+
+// Vrakja lista na proizvodi (najrelevantni prvo). Sekoj zbor mora da se pronajde.
+function runSmartSearch(query) {
+    buildSearchIndex();
+    const tokens = searchTokens(query);
+    if (tokens.length === 0) return [];
+    const scored = [];
+    searchIndex.forEach(item => {
+        let total = 0;
+        for (let i = 0; i < tokens.length; i++) {
+            const s = searchScoreAny(item, tokens[i]);
+            if (s === 0) return;
+            total += s;
+        }
+        scored.push({ p: item.p, score: total });
+    });
+    scored.sort((a, b) => b.score - a.score || String(a.p.naziv).localeCompare(String(b.p.naziv)));
+    return scored.map(x => x.p);
+}
+
+// ----- Podkategorii (ako proizvodot nema podkategorija, se koristi glavnata kategorija) -----
+function searchFacetKeyOf(p) {
+    if (p.tip && subcategoriesData.some(s => s.id === p.tip)) return { kind: 'sub', id: p.tip };
+    if (p.kategorija) return { kind: 'cat', id: p.kategorija };
+    return null;
+}
+
+function searchFacetInfo(kind, id) {
+    const src = kind === 'sub' ? subcategoriesData : categoriesData;
+    const x = src.find(i => i.id === id);
+    return x ? { name: x.name, icon: x.icon || '' } : null;
+}
+
+function searchFacetsFromProducts(list) {
+    const map = {};
+    list.forEach(p => {
+        const k = searchFacetKeyOf(p);
+        if (!k) return;
+        const key = k.kind + ':' + k.id;
+        if (!map[key]) map[key] = { kind: k.kind, id: k.id, catId: p.kategorija || '', count: 0 };
+        map[key].count++;
+    });
+    return Object.keys(map).map(key => {
+        const e = map[key];
+        const info = searchFacetInfo(e.kind, e.id);
+        return info ? { kind: e.kind, id: e.id, catId: e.catId, name: info.name, icon: info.icon, count: e.count } : null;
+    }).filter(Boolean).sort((a, b) => b.count - a.count);
+}
+
+// Kategorii cie ime se poklopuva so baranoto se prvi; ostanatite spored brojot na proizvodi
+function searchSortFacets(facets, tokens) {
+    const toks = tokens.filter(t => !/^\d+$/.test(t));
+    const matches = f => {
+        const words = searchNorm(f.name).split(/[^a-z0-9]+/).filter(Boolean);
+        return toks.some(t => searchAlts(t).some(a => {
+            const as = searchStem(a);
+            return words.some(w => w.startsWith(a) || (as !== a && w.startsWith(as)));
+        }));
+    };
+    return facets.map(f => ({ f: f, m: matches(f) }))
+        .sort((a, b) => (b.m - a.m) || (b.f.count - a.f.count))
+        .map(x => x.f);
+}
+
+function buildBrandSubFacets(brandId) {
+    return searchFacetsFromProducts(proizvodi.filter(p => p.brandId === brandId));
+}
+
+function findSearchBrands(tokens) {
+    const out = [];
+    brandsData.forEach(b => {
+        const bn = searchNorm(b.name);
+        const bc = bn.replace(/[^a-z0-9]/g, '');
+        if (!bc) return;
+        const words = bn.split(/[^a-z0-9]+/).filter(Boolean);
+        const isHit = t => {
+            if (/^\d+$/.test(t) || t.length < 2) return false;
+            if (bc.startsWith(t) || words.some(w => w.startsWith(t))) return true;
+            if (t.length >= 5) return searchFuzzyMatch(t, bc, 1) || words.some(w => searchFuzzyMatch(t, w, 1));
+            return false;
+        };
+        const hits = tokens.filter(isHit).length;
+        if (!hits) return;
+        const count = proizvodi.filter(p => p.brandId === b.id).length;
+        if (count > 0) out.push({ id: b.id, name: b.name, logo: b.logo || '', count: count, brandOnly: hits === tokens.length });
+    });
+    out.sort((a, b) => (b.brandOnly - a.brandOnly) || (b.count - a.count));
+    return out.slice(0, 3);
+}
+
+function findSearchMicro(tokens) {
+    const out = [];
+    const toks = tokens.filter(t => !/^\d+$/.test(t));
+    if (toks.length === 0 || !toks.every(t => t.length >= 3)) return out;
+    const matches = name => {
+        const c = searchNorm(name).replace(/[^a-z0-9]/g, '');
+        return c && toks.every(t => searchAlts(t).some(a => c.includes(a)));
+    };
+    subsubcategoriesData.forEach(m => {
+        if (!matches(m.name)) return;
+        const count = proizvodi.filter(p => p.subsubcategoryId === m.id).length;
+        if (count > 0) out.push({ type: 'micro', id: m.id, parentId: m.parentId, name: m.name, count: count });
+    });
+    subcategoriesData.forEach(s => {
+        if (!matches(s.name)) return;
+        const count = proizvodi.filter(p => p.tip === s.id).length;
+        if (count > 0) out.push({ type: 'sub', id: s.id, parentId: s.parentId, name: s.name, count: count });
+    });
+    return out.slice(0, 4);
+}
+
+// ============================================================
+// 🔎 ПАМЕТНО ПРЕБАРУВАЊЕ — панел додека пишуваш + страница со резултати
+// ============================================================
+function ensureSearchUi() {
+    if (!document.getElementById('search-suggest-backdrop')) {
+        const b = document.createElement('div');
+        b.id = 'search-suggest-backdrop';
+        b.className = 'search-suggest-backdrop';
+        document.body.appendChild(b);
+    }
+    if (!document.getElementById('search-suggest-panel')) {
+        const p = document.createElement('div');
+        p.id = 'search-suggest-panel';
+        p.className = 'search-suggest-panel';
+        document.body.appendChild(p);
+    }
+}
+
+function positionSearchPanel() {
+    const panel = document.getElementById('search-suggest-panel');
+    const header = document.querySelector('.header');
+    if (!panel || !header) return;
+    const top = Math.max(0, Math.round(header.getBoundingClientRect().bottom));
+    const reserve = window.innerWidth <= 768 ? 82 : 16;
+    panel.style.top = top + 'px';
+    panel.style.maxHeight = Math.max(200, window.innerHeight - top - reserve) + 'px';
+}
+
+function openSearchPanel() {
+    ensureSearchUi();
+    positionSearchPanel();
+    document.getElementById('search-suggest-panel').classList.add('open');
+    document.getElementById('search-suggest-backdrop').classList.add('open');
+    document.body.classList.add('search-open');
+}
+
+function closeSearchPanel() {
+    clearTimeout(searchDebounce);
+    const panel = document.getElementById('search-suggest-panel');
+    const backdrop = document.getElementById('search-suggest-backdrop');
+    if (panel) panel.classList.remove('open');
+    if (backdrop) backdrop.classList.remove('open');
+    if (document.body) document.body.classList.remove('search-open');
+}
+
+function onSearchInput(inputEl) {
+    clearTimeout(searchDebounce);
+    searchDebounce = setTimeout(() => updateSearchPanel(inputEl.value), 130);
+}
+
+// ----- Pomosni funkcii za crtanje na panelot -----
+function searchRowHTML(onclick, label, count, logo) {
+    return `<div class="ssp-row" onclick="${onclick}">` +
+        `<span class="ssp-row-label">${logo ? `<img class="ssp-row-logo" src="${searchEsc(logo)}" alt="">` : ''}${label}</span>` +
+        `<span class="ssp-row-count">${count === null ? '›' : count}</span></div>`;
+}
+
+function searchSectionHTML(title, rowsHTML) {
+    return `<div class="ssp-section"><div class="ssp-title">${title}</div><div class="ssp-rows">${rowsHTML}</div></div>`;
+}
+
+function searchProductRowHTML(p) {
+    return `
+        <div class="ssp-product" onclick="searchPanelProduct('${p.id}')">
+            <div class="ssp-thumb">${renderProductImage(p)}</div>
+            <div class="ssp-info">
+                <div class="ssp-brand">${searchEsc(p.brend)}</div>
+                <div class="ssp-name">${searchEsc(p.naziv)}</div>
+            </div>
+            <div class="ssp-price">${renderPriceHTML(p.cena, p.indirim)}</div>
+        </div>`;
+}
+
+function searchSetPanel(leftHTML, rightTitle, rightHTML) {
+    const panel = document.getElementById('search-suggest-panel');
+    panel.innerHTML =
+        `<div class="ssp-inner${leftHTML ? '' : ' ssp-single'}">` +
+        (leftHTML ? `<div class="ssp-left">${leftHTML}</div>` : '') +
+        `<div class="ssp-right"><div class="ssp-title">${rightTitle}</div>${rightHTML}</div>` +
+        `</div>`;
+    panel.scrollTop = 0;
+    openSearchPanel();
+}
+
+// ----- Prazno pole: marki, kategorii i MESANI proizvodi od razlicni kategorii (kako Neptun) -----
+let searchMixedCache = null;
+let searchMixedCount = -1;
+
+function searchPickMixedProducts(limit) {
+    if (searchMixedCache && searchMixedCount === proizvodi.length) return searchMixedCache.slice(0, limit);
+
+    const hasImg = p => {
+        const i = (p.slike && p.slike[0]) || p.slika;
+        return (typeof i === 'string' && i.startsWith('http')) ? 0 : 1;
+    };
+    const groups = {};
+    proizvodi.forEach(p => {
+        const k = searchFacetKeyOf(p);
+        const key = k ? k.kind + ':' + k.id : 'none';
+        (groups[key] = groups[key] || []).push(p);
+    });
+    const lists = Object.keys(groups).map(key => groups[key].sort((a, b) =>
+        hasImg(a) - hasImg(b) || (b.indirim || 0) - (a.indirim || 0) || String(a.naziv).localeCompare(String(b.naziv))));
+    lists.sort((a, b) => (b[0].indirim || 0) - (a[0].indirim || 0));
+
+    const out = [];
+    for (let round = 0; out.length < 12; round++) {
+        let added = false;
+        for (let i = 0; i < lists.length && out.length < 12; i++) {
+            if (lists[i][round]) { out.push(lists[i][round]); added = true; }
+        }
+        if (!added) break;
+    }
+    searchMixedCache = out;
+    searchMixedCount = proizvodi.length;
+    return out.slice(0, limit);
+}
+
+function renderBrowsePanel() {
+    searchActiveQuery = '';
+    const brands = brandsData
+        .map(b => ({ b: b, n: proizvodi.filter(p => p.brandId === b.id).length }))
+        .filter(x => x.n > 0).sort((a, b) => b.n - a.n).slice(0, 6);
+    const cats = categoriesData
+        .map(c => ({ c: c, n: proizvodi.filter(p => p.kategorija === c.id).length }))
+        .filter(x => x.n > 0).sort((a, b) => b.n - a.n).slice(0, 8);
+    const prods = searchPickMixedProducts(6);
+
+    if (!brands.length && !cats.length && !prods.length) { closeSearchPanel(); return; }
+
+    let leftHTML = '';
+    if (brands.length) {
+        leftHTML += searchSectionHTML('Брендови', brands.map(x =>
+            searchRowHTML(`searchPanelBrand('${x.b.id}')`, searchEsc(x.b.name), x.n, x.b.logo || '')).join(''));
+    }
+    if (cats.length) {
+        leftHTML += searchSectionHTML('Категории', cats.map(x =>
+            searchRowHTML(`searchPanelCategoryOnly('${x.c.id}')`, searchEsc((x.c.icon ? x.c.icon + ' ' : '') + x.c.name), x.n, '')).join(''));
+    }
+
+    const rightHTML = prods.map(searchProductRowHTML).join('') +
+        `<button type="button" class="ssp-all" onclick="closeSearchPanel(); prikaziSiProizvodi()">Погледни ги сите производи</button>`;
+    searchSetPanel(leftHTML, 'Производи', rightHTML);
+}
+
+// ----- Edna bukva: marki, kategorii i proizvodi koi pocnuvaat so taa bukva -----
+function renderLetterPanel(letter) {
+    searchActiveQuery = '';
+    const wordsOf = name => searchNorm(name).split(/[^a-z0-9]+/).filter(w => w && !SEARCH_STOP.has(w));
+    const startsWith = name => wordsOf(name).some(w => w.startsWith(letter));
+
+    const brands = brandsData
+        .filter(b => startsWith(b.name))
+        .map(b => ({ b: b, n: proizvodi.filter(p => p.brandId === b.id).length }))
+        .filter(x => x.n > 0).sort((a, b) => b.n - a.n).slice(0, 4);
+
+    const cats = [];
+    categoriesData.forEach(c => {
+        if (!startsWith(c.name)) return;
+        const n = proizvodi.filter(p => p.kategorija === c.id).length;
+        if (n) cats.push({ type: 'cat', id: c.id, parentId: '', name: (c.icon ? c.icon + ' ' : '') + c.name, n: n });
+    });
+    subcategoriesData.forEach(s => {
+        if (!startsWith(s.name)) return;
+        const n = proizvodi.filter(p => p.tip === s.id).length;
+        if (n) cats.push({ type: 'sub', id: s.id, parentId: s.parentId, name: s.name, n: n });
+    });
+    subsubcategoriesData.forEach(m => {
+        if (!startsWith(m.name)) return;
+        const n = proizvodi.filter(p => p.subsubcategoryId === m.id).length;
+        if (n) cats.push({ type: 'micro', id: m.id, parentId: m.parentId, name: m.name, n: n });
+    });
+    cats.sort((a, b) => b.n - a.n);
+
+    const firstWordMatch = p => {
+        const w = wordsOf(p.naziv)[0] || '';
+        return w.startsWith(letter) ? 0 : 1;
+    };
+    const prods = proizvodi.filter(p => startsWith(p.naziv))
+        .sort((a, b) => firstWordMatch(a) - firstWordMatch(b) || String(a.naziv).localeCompare(String(b.naziv)))
+        .slice(0, 6);
+
+    let leftHTML = '';
+    if (brands.length) {
+        leftHTML += searchSectionHTML('Брендови', brands.map(x => searchRowHTML(`searchPanelBrand('${x.b.id}')`, searchEsc(x.b.name), x.n, x.b.logo || '')).join(''));
+    }
+    if (cats.length) {
+        leftHTML += searchSectionHTML('Категории', cats.slice(0, 6).map(x => {
+            const onclick = x.type === 'cat' ? `searchPanelCategoryOnly('${x.id}')`
+                : x.type === 'sub' ? `searchPanelSub('${x.id}', '${x.parentId}')`
+                : `searchPanelMicro('${x.id}', '${x.parentId}')`;
+            return searchRowHTML(onclick, searchEsc(x.name), x.n, '');
+        }).join(''));
+    }
+
+    if (!leftHTML && !prods.length) { closeSearchPanel(); return; }
+    searchSetPanel(leftHTML, 'Производи', prods.map(searchProductRowHTML).join(''));
+}
+
+function updateSearchPanel(q) {
+    ensureSearchUi();
+    const trimmed = String(q == null ? '' : q).trim();
+    if (proizvodi.length === 0) { closeSearchPanel(); return; }
+
+    if (trimmed.length === 0) { renderBrowsePanel(); return; }
+
+    const tokens = searchTokens(trimmed);
+    if (tokens.length === 0) {
+        const letter = searchNorm(trimmed).replace(/[^a-z0-9]/g, '');
+        if (trimmed.length === 1 && letter) renderLetterPanel(letter);
+        else closeSearchPanel();
+        return;
+    }
+    searchActiveQuery = trimmed;
+
+    const results = runSmartSearch(trimmed);
+    const brands = findSearchBrands(tokens);
+    const micros = findSearchMicro(tokens);
+    const brandOnly = (brands.length && brands[0].brandOnly) ? brands[0] : null;
+
+    // Istata podkategorija da ne se pojavuva dvapati (vo "Серии и подкатегории" i vo "Категории")
+    const shownSubIds = new Set(micros.filter(m => m.type === 'sub').map(m => m.id));
+
+    // Samo marka (npr. "vivax"): podkategorii od SITE proizvodi na markata.
+    // Inaku: podkategorii od rezultatite na baranjeto (prvo onie sto se poklopuvaat so baranoto).
+    let facetRows = [];
+    if (brandOnly) {
+        facetRows = buildBrandSubFacets(brandOnly.id)
+            .filter(f => !(f.kind === 'sub' && shownSubIds.has(f.id))).slice(0, 6)
+            .map(f => ({ f: f, onclick: `searchPanelBrandSub('${brandOnly.id}', '${f.kind}', '${f.id}', '${f.catId}')` }));
+    } else {
+        facetRows = searchSortFacets(searchFacetsFromProducts(results), tokens)
+            .filter(f => !(f.kind === 'sub' && shownSubIds.has(f.id))).slice(0, 6)
+            .map(f => ({ f: f, onclick: `searchPanelFacet('${f.kind}', '${f.id}')` }));
+    }
+
+    let leftHTML = '';
+    if (brands.length) {
+        leftHTML += searchSectionHTML('Брендови', brands.map(b => searchRowHTML(`searchPanelBrand('${b.id}')`, searchEsc(b.name), b.count, b.logo)).join(''));
+    }
+    if (micros.length) {
+        leftHTML += searchSectionHTML('Серии и подкатегории', micros.map(m => m.type === 'micro'
+            ? searchRowHTML(`searchPanelMicro('${m.id}', '${m.parentId}')`, searchEsc(m.name), m.count, '')
+            : searchRowHTML(`searchPanelSub('${m.id}', '${m.parentId}')`, searchEsc(m.name), m.count, '')
+        ).join(''));
+    }
+    if (facetRows.length) {
+        leftHTML += searchSectionHTML('Категории', facetRows.map(r =>
+            searchRowHTML(r.onclick, searchEsc((r.f.icon ? r.f.icon + ' ' : '') + r.f.name), r.f.count, '')).join(''));
+    }
+
+    let rightHTML = '';
+    if (results.length === 0) {
+        rightHTML = `<div class="ssp-empty">Нема пронајдени производи за „${searchEsc(trimmed)}“</div>`;
+        if (!leftHTML && categoriesData.length) {
+            leftHTML = searchSectionHTML('Категории', categoriesData.slice(0, 8).map(c =>
+                searchRowHTML(`searchPanelCategoryOnly('${c.id}')`, searchEsc((c.icon ? c.icon + ' ' : '') + c.name), null, '')).join(''));
+        }
+    } else {
+        rightHTML = results.slice(0, 6).map(searchProductRowHTML).join('') +
+            `<button type="button" class="ssp-all" onclick="searchPanelSubmit()">Погледни ги сите резултати (${results.length})</button>`;
+    }
+
+    searchSetPanel(leftHTML, 'Производи', rightHTML);
+}
+
+// ----- Klikovi vo panelot -----
+function searchPanelProduct(id) { closeSearchPanel(); prikaziDetalje(id); }
+function searchPanelBrand(id) { closeSearchPanel(); filtrirajPoBrend(id); }
+function searchPanelMicro(id, subId) { closeSearchPanel(); filtrirajPoMikroKategorija(id, subId); }
+function searchPanelSub(id, catId) { closeSearchPanel(); filtrirajPoPodkategorija(id, catId); }
+function searchPanelCategoryOnly(catId) { closeSearchPanel(); filtrirajPoKategorija(catId); }
+function searchPanelBrandSub(brandId, kind, id, catId) {
+    closeSearchPanel();
+    filtrirajPoBrendIPodkategorija(brandId, kind === 'sub' ? id : '', catId);
+}
+function searchPanelFacet(kind, id) { izvrsiPrebaruvanje(searchActiveQuery, { kind: kind, id: id }); }
+function searchPanelSubmit() { izvrsiPrebaruvanje(searchActiveQuery); }
+function searchFacetClick(kind, id) { izvrsiPrebaruvanje(searchLastQuery, kind ? { kind: kind, id: id } : null); }
+
+// ----- Lista: marka + podkategorija (od panelot) -----
+function filtrirajPoBrendIPodkategorija(brandId, subId, catId) {
+    skrij();
+    document.getElementById('products-page').classList.remove('hidden');
+    document.getElementById('product-detailed-section').classList.add('hidden');
+
+    const b = brandsData.find(x => x.id === brandId);
+    const sub = subId ? subcategoriesData.find(s => s.id === subId) : null;
+    const cat = categoriesData.find(c => c.id === (sub ? sub.parentId : catId));
+    const bName = b ? b.name : '';
+    const what = sub ? sub.name : (cat ? cat.name : '');
+    document.getElementById('products-page-title').textContent = bName + (what ? ' — ' + what : '');
+    document.getElementById('products-page-subtitle').textContent = 'Разгледајте ги производите' + (bName ? ' од брендот ' + bName : '');
+
+    filtri.kategorija = sub ? sub.parentId : (catId || 'all');
+    filtri.brend = brandId;
+    currentApplianceType = subId || null;
+    currentPage = 1;
+    prikaziProizvodiSaFiltromISayfalama(1);
+
+    const key = 'brandsub|' + brandId + '|' + (subId || '') + '|' + (catId || '');
+    if (pageHistory[pageHistory.length - 1] !== key) pageHistory.push(key);
+    if (!isPoppingState) history.pushState({ pageHistory: [...pageHistory] }, '');
+    updateBackButtonVisibility();
+    window.scrollTo(0, 0);
+}
+
+// ----- Strana so rezultati -----
+function searchProductCardHTML(p) {
+    return `
+    <article class="product-card" onclick="prikaziDetalje('${p.id}')">
+        ${p.indirim > 0 ? `<div class="indirim-badge">-${Math.round(p.indirim)}%</div>` : ''}
+        <div class="product-image">${renderProductImage(p)}</div>
+        <div class="product-content">
+            <p class="product-brand">${p.brend}</p>
+            <h3 class="product-title">${p.naziv}</h3>
+            <div class="product-price">${renderPriceHTML(p.cena, p.indirim)}</div>
+            ${getInstallmentBadgeText(p.cena, p.id) ? `<div class="installment-badge">${getInstallmentBadgeText(p.cena, p.id)}</div>` : ''}
+            <div style="display: flex; gap: 0.5rem;">
+                <button class="btn btn-outline" style="flex: 1;" onclick="event.stopPropagation(); event.preventDefault(); dodajUKorpu('${p.id}')">Додај во Кошничка</button>
+                <button class="favorite-btn" data-product-id="${p.id}" onclick="toggleFavorit('${p.id}', event)">
+                    ${isFavorit(p.id) ? '❤️' : '🤍'}
+                </button>
+            </div>
+        </div>
+    </article>`;
+}
+
+function renderSearchResultFacets(facets, total) {
+    const sub = document.getElementById('search-results-subtitle');
+    if (!sub) return;
+    let box = document.getElementById('search-results-facets');
+    if (!box) {
+        box = document.createElement('div');
+        box.id = 'search-results-facets';
+        box.className = 'search-facets';
+        sub.insertAdjacentElement('afterend', box);
+    }
+    if (facets.length < 2 && !searchFilter) {
+        box.innerHTML = '';
+        return;
+    }
+    box.innerHTML =
+        `<div class="search-facet-chip${!searchFilter ? ' active' : ''}" onclick="searchFacetClick('', '')">Сите (${total})</div>` +
+        facets.map(f => {
+            const active = searchFilter && searchFilter.kind === f.kind && searchFilter.id === f.id;
+            return `<div class="search-facet-chip${active ? ' active' : ''}" onclick="searchFacetClick('${f.kind}', '${f.id}')">${searchEsc((f.icon ? f.icon + ' ' : '') + f.name)} (${f.count})</div>`;
+        }).join('');
+}
+
+function izvrsiPrebaruvanje(queryOverride, filter) {
+    const input = document.getElementById('search-input');
+    const mobileInput = document.getElementById('mobile-search-input');
+    const query = String(typeof queryOverride === 'string' ? queryOverride : (input ? input.value : '')).trim();
+
+    closeSearchPanel();
+    if (input) input.blur();
+    if (mobileInput) mobileInput.blur();
+
+    if (!query) return;
+
+    if (input) input.value = query;
+    if (mobileInput) mobileInput.value = query;
+
+    searchLastQuery = query;
+    searchFilter = (filter && filter.id) ? filter : null;
+
+    const all = runSmartSearch(query);
+    const list = searchFilter
+        ? all.filter(p => { const k = searchFacetKeyOf(p); return k && k.kind === searchFilter.kind && k.id === searchFilter.id; })
+        : all;
+    const facets = searchSortFacets(searchFacetsFromProducts(all), searchTokens(query));
+
+    const wasSearch = pageHistory[pageHistory.length - 1] === 'search';
+
+    skrij();
+    document.getElementById('search-results-page').classList.remove('hidden');
+    document.getElementById('product-detailed-section').classList.add('hidden');
+    document.getElementById('search-results-title').textContent = 'Резултати од пребарување';
+    const info = searchFilter ? searchFacetInfo(searchFilter.kind, searchFilter.id) : null;
+    document.getElementById('search-results-subtitle').textContent =
+        `Пронајдени ${list.length} производи за „${query}“` + (info ? ` во „${info.name}“` : '');
+
+    renderSearchResultFacets(facets, all.length);
+
+    const grid = document.getElementById('search-results-grid');
+    if (list.length === 0) {
+        grid.innerHTML = `
+            <div style="grid-column: 1 / -1; text-align: center; padding: 3rem 1rem;">
+                <h3 style="color: #999;">Нема пронајдени производи за „${searchEsc(query)}“</h3>
+                <p style="color: #bbb; margin: 0.6rem 0 1.2rem;">Обидете се со друг збор или изберете категорија:</p>
+                <div class="search-facets search-facets-wrap">
+                    ${categoriesData.map(c => `<div class="search-facet-chip" onclick="filtrirajPoKategorija('${c.id}')">${searchEsc((c.icon ? c.icon + ' ' : '') + c.name)}</div>`).join('')}
+                </div>
+            </div>`;
+    } else {
+        grid.innerHTML = list.map(searchProductCardHTML).join('');
+    }
+
+    if (!wasSearch) pageHistory.push('search');
+    if (!isPoppingState) {
+        if (wasSearch) history.replaceState({ pageHistory: [...pageHistory] }, '');
+        else history.pushState({ pageHistory: [...pageHistory] }, '');
+    }
+    updateBackButtonVisibility();
+    window.scrollTo(0, 0);
+}
+
+// ----- Povrzuvanje so poleta za baranje -----
+function initSmartSearchUi() {
+    ensureSearchUi();
+
+    ['search-input', 'mobile-search-input'].forEach(id => {
+        const el = document.getElementById(id);
+        if (!el) return;
+        el.setAttribute('autocomplete', 'off');
+        el.addEventListener('input', () => onSearchInput(el));
+        el.addEventListener('focus', () => updateSearchPanel(el.value));
+        el.addEventListener('keydown', e => { if (e.key === 'Escape') closeSearchPanel(); });
+    });
+
+    document.addEventListener('click', function (e) {
+        const panel = document.getElementById('search-suggest-panel');
+        if (!panel || !panel.classList.contains('open')) return;
+        if (e.target.closest('#search-suggest-panel') || e.target.closest('#search-input') || e.target.closest('#mobile-search-input')) return;
+        closeSearchPanel();
+    });
+
+    window.addEventListener('resize', function () {
+        const panel = document.getElementById('search-suggest-panel');
+        if (panel && panel.classList.contains('open')) positionSearchPanel();
+    });
+}
+
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initSmartSearchUi);
+} else {
+    initSmartSearchUi();
+}
+</script>
+
+<!-- ============================================================ -->
+<!-- 🎛️ ЕДЕН ФИЛТЕР ПАНЕЛ v2 (марка, категорија, цена, BTU/kW, спецификации) -->
+<!-- ============================================================ -->
+<style>
+.fp-backdrop{display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:2600}
+.fp-backdrop.open{display:block}
+.fp-panel{position:fixed;top:0;right:0;height:100%;width:380px;max-width:100%;background:#fff;z-index:2700;transform:translateX(105%);transition:transform .3s ease;display:flex;flex-direction:column;box-shadow:-6px 0 24px rgba(0,0,0,.18)}
+.fp-panel.open{transform:translateX(0)}
+.fp-head{display:flex;align-items:center;justify-content:space-between;padding:1rem 1.2rem;border-bottom:1px solid #eee}
+.fp-head h3{font-size:1.15rem;color:#1a1a1a}
+.fp-close{background:#f4f6f5;border:none;width:36px;height:36px;border-radius:50%;font-size:1.1rem;color:#555;cursor:pointer}
+.fp-body{flex:1;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;padding:.4rem 1.2rem 1rem}
+.fp-section{padding:1rem 0;border-bottom:1px solid #f0f0f0}
+.fp-section:last-child{border-bottom:none}
+.fp-title{font-weight:700;color:#1a1a1a;font-size:.95rem;margin-bottom:.6rem}
+.fp-subtitle{font-size:.8rem;font-weight:700;color:#6b7a72;margin:.6rem 0 .4rem}
+.fp-opts-2{display:grid;grid-template-columns:1fr 1fr;gap:.1rem .8rem}
+.fp-opt{display:flex;align-items:center;gap:.5rem;padding:.35rem 0;cursor:pointer;font-size:.9rem;color:#333}
+.fp-opt input{width:18px;height:18px;accent-color:#0F5132;flex-shrink:0;cursor:pointer}
+.fp-opt-name{flex:1;min-width:0}
+.fp-opt-count{color:#6b7a72;font-size:.8rem}
+.fp-opt-cat{font-weight:700;margin-top:.3rem}
+.fp-opt-sub{padding-left:1.6rem;font-weight:400}
+.fp-dim{opacity:.4;cursor:default}
+.fp-dim input{cursor:default}
+.fp-chips{display:flex;flex-wrap:wrap;gap:.5rem}
+.fp-chip{padding:.45rem .9rem;border-radius:20px;border:1.5px solid #0F5132;background:#fff;color:#0F5132;font-size:.82rem;font-weight:600;cursor:pointer}
+.fp-chip.active{background:#0F5132;color:#fff}
+.fp-chip:disabled{opacity:.4;cursor:default}
+.fp-spec-group + .fp-spec-group{margin-top:1.1rem}
+.fp-price-label{font-weight:700;color:#0F5132;margin-bottom:.2rem;font-size:.95rem}
+.fp-range{position:relative;height:28px;margin:.6rem 0 .2rem}
+.fp-range-track{position:absolute;left:0;right:0;top:12px;height:4px;background:#e0e0e0;border-radius:2px}
+.fp-range-fill{position:absolute;top:12px;height:4px;background:#0F5132;border-radius:2px}
+.fp-range input[type=range]{position:absolute;left:0;top:0;width:100%;height:28px;margin:0;background:transparent;-webkit-appearance:none;appearance:none;pointer-events:none}
+.fp-range input[type=range]::-webkit-slider-runnable-track{background:transparent}
+.fp-range input[type=range]::-moz-range-track{background:transparent}
+.fp-range input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;pointer-events:auto;width:20px;height:20px;border-radius:50%;background:#0F5132;border:2px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,.3);cursor:pointer}
+.fp-range input[type=range]::-moz-range-thumb{pointer-events:auto;width:20px;height:20px;border-radius:50%;background:#0F5132;border:2px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,.3);cursor:pointer}
+.fp-foot{display:flex;gap:.7rem;padding:.9rem 1.2rem calc(.9rem + env(safe-area-inset-bottom,0px));border-top:1px solid #eee;background:#fff}
+.fp-reset{flex:0 0 auto;padding:.8rem 1.1rem;border-radius:12px;border:2px solid #0F5132;background:#fff;color:#0F5132;font-weight:700;cursor:pointer}
+.fp-apply{flex:1;padding:.8rem 1rem;border-radius:12px;border:none;background:linear-gradient(135deg,#15803d 0%,#0F5132 100%);color:#fff;font-weight:700;font-size:.95rem;cursor:pointer}
+@media (max-width:768px){
+    .fp-panel{width:100%;top:auto;bottom:0;height:92%;border-radius:20px 20px 0 0;transform:translateY(105%);box-shadow:0 -6px 24px rgba(0,0,0,.2)}
+    .fp-panel.open{transform:translateY(0)}
+}
+</style>
+
+<script>
+// ---------- Најниските ознаки без "до" ----------
+BTU_OPTIONS[0].label = '9000 BTU';
+KW_OPTIONS[0].label = '6 kW';
+
+// ---------- Страницата останува на истото место по освежување (F5) ----------
+// (мора да се прочита ПРЕД да го пребрише старата DOMContentLoaded логика)
+let pfInitialState = (history.state && history.state.pageHistory) ? history.state : null;
+
+// ---------- Состојба на филтерот ----------
+function newPF() {
+    return { brands: new Set(), cats: new Set(), subs: new Set(), btu: new Set(), kw: new Set(), specs: {}, min: null, max: null };
+}
+let pf = newPF();
+let listMode = 'normal';          // 'normal' | 'micro' | 'favorites' | 'search'
+let listPage = 1;
+let pfBase = [];
+let pfBounds = null;
+let pfRenderTimer = null;
+let pfPendingRestore = null;
+let pfSearchCache = { q: null, n: -1, list: [] };
+const pfCapCache = new WeakMap();
+const pfSpecCache = new WeakMap();
+
+// Кога сме на страница на бренд, брендот е однапред штиклиран во филтерот
+function pfFreshPF() {
+    const f = newPF();
+    if (listMode === 'normal' && filtri.brend !== 'all') f.brands.add(filtri.brend);
+    return f;
+}
+
+function pfCapOf(p) {
+    let c = pfCapCache.get(p);
+    if (!c) { c = {}; pfCapCache.set(p, c); }
+    if (c.btu === undefined) c.btu = getProductBtu(p);
+    if (c.kw === undefined) c.kw = getProductKw(p);
+    return c;
+}
+
+function pfInRange(options, set, v) {
+    return options.some(o => set.has(o.key) && v >= o.min && v <= o.max);
+}
+
+function pfToggle(set, id) {
+    if (set.has(id)) set.delete(id); else set.add(id);
+}
+
+function pfToggleSpec(key, val) {
+    let s = pf.specs[key];
+    if (!s) { s = new Set(); pf.specs[key] = s; }
+    if (s.has(val)) s.delete(val); else s.add(val);
+    if (s.size === 0) delete pf.specs[key];
+}
+
+// ---------- Спецификации (литри, kg, инчи, вртежи, W, енергетска класа ...) ----------
+function pfRe(body) {
+    return new RegExp('(?:^|[^a-zа-я0-9.,])' + body, 'i');
+}
+
+function pfEnergyRank(v) {
+    const plus = (v.match(/\+/g) || []).length;
+    return v.charCodeAt(0) * 10 - plus;
+}
+
+// type: num = број од името/карактеристиките, str = текст, bool = Да, enum = листа на опции
+// src: 'lines' = име + карактеристики што го содржат lineRe, 'chars' = име + сите карактеристики, 'all' = и опис
+const SPEC_DEFS = [
+    { key: 'lit', label: 'Зафатнина', type: 'num', src: 'lines', min: 15, max: 1500, fmt: v => v + ' l',
+      re: pfRe('(\\d{2,4})\\s*(?:l|л|lit\\w*|литр\\w*)(?![a-zа-я0-9/])'),
+      lineRe: /капацитет|зафатнина|волумен|volume|capacity|литр/i },
+    { key: 'kg', label: 'Капацитет (kg)', type: 'num', src: 'lines', min: 1, max: 30, fmt: v => v + ' kg',
+      re: pfRe('(\\d{1,2}(?:[.,]\\d)?)\\s*(?:kg|кг)(?![a-zа-я0-9])'),
+      lineRe: /капацитет|capacity|перење|washing|сушење|drying/i },
+    { key: 'inch', label: 'Дијагонала', type: 'num', src: 'lines', min: 19, max: 120, fmt: v => v + '"',
+      re: pfRe('(\\d{2,3})\\s*(?:"|”|″|\'\'|inch\\w*|инч\\w*|цол)'),
+      lineRe: /дијагонала|diagonal|екран|screen|големина/i },
+    { key: 'rpm', label: 'Вртежи (rpm)', type: 'num', src: 'lines', min: 400, max: 2200, fmt: v => v + ' rpm',
+      re: pfRe('(\\d{3,4})\\s*(?:rpm|вртежи|вртеж|об/мин)(?![a-zа-я0-9])'),
+      lineRe: /вртеж|rpm|центрифуг|centrifug/i },
+    { key: 'watt', label: 'Моќност (W)', type: 'num', src: 'lines', min: 50, max: 30000, fmt: v => v + ' W',
+      re: pfRe('(\\d{2,5})\\s*(?:w|вт)(?![a-zа-я0-9])'),
+      lineRe: /моќност|power/i },
+    { key: 'energy', label: 'Енергетска класа', type: 'str', src: 'all', sort: (a, b) => pfEnergyRank(a) - pfEnergyRank(b),
+      re: /(?:енергетск\S*\s+(?:класа|клас|разред|ефикасност)|energy\s+(?:class|rating|efficiency))\s*[:\-]?\s*(A\+{1,3}|[A-G])(?![a-z0-9+])/i },
+    { key: 'wifi', label: 'Wi-Fi', type: 'bool', src: 'all',
+      re: /wi-?\s?fi|вај-?\s?фај/i },
+    { key: 'inv', label: 'Inverter', type: 'bool', src: 'all',
+      re: /inverter|инвертер/i,
+      appliesTo: p => { const c = pfCapOf(p); return c.btu !== null || c.kw !== null; } },
+    { key: 'mount', label: 'Монтажа', type: 'enum', src: 'chars',
+      opts: [['Вертикално', /вертикал|vertical/i], ['Хоризонтално', /хоризонт|horizontal/i]] }
+];
+
+function pfSpecParts(p, d) {
+    const ch = Array.isArray(p.karakteristiki) ? p.karakteristiki : [];
+    const parts = [p.naziv || ''];
+    if (d.src === 'all') {
+        parts.push(ch.join(' | '));
+        parts.push(p.opis || '');
+    } else if (d.src === 'chars') {
+        parts.push(ch.join(' | '));
+    } else if (d.lineRe) {
+        ch.forEach(line => { if (d.lineRe.test(line)) parts.push(line); });
+    }
+    return parts;
+}
+
+function pfSpecOf(p) {
+    let c = pfSpecCache.get(p);
+    if (c) return c;
+    c = {};
+    SPEC_DEFS.forEach(d => {
+        if (d.appliesTo && !d.appliesTo(p)) return;
+        const parts = pfSpecParts(p, d);
+        let v;
+        if (d.type === 'num') {
+            for (let i = 0; i < parts.length && v === undefined; i++) {
+                const m = d.re.exec(parts[i]);
+                if (m) {
+                    const n = parseFloat(String(m[1]).replace(',', '.'));
+                    if (!isNaN(n) && n >= d.min && n <= d.max) v = String(n);
+                }
+            }
+        } else {
+            const text = parts.join(' | ');
+            if (d.type === 'str') {
+                const m = d.re.exec(text);
+                if (m) v = m[1].toUpperCase();
+            } else if (d.type === 'bool') {
+                if (d.re.test(text)) v = 'Да';
+            } else if (d.type === 'enum') {
+                const o = d.opts.find(x => x[1].test(text));
+                if (o) v = o[0];
+            }
+        }
+        if (v !== undefined) c[d.key] = v;
+    });
+    pfSpecCache.set(p, c);
+    return c;
+}
+
+function pfSpecInfo(d) {
+    const vals = {};
+    let appl = 0, withV = 0;
+    pfBase.forEach(p => {
+        if (d.appliesTo && !d.appliesTo(p)) return;
+        appl++;
+        const v = pfSpecOf(p)[d.key];
+        if (v !== undefined) { withV++; vals[v] = (vals[v] || 0) + 1; }
+    });
+    const keys = Object.keys(vals);
+    const selected = pf.specs[d.key] && pf.specs[d.key].size > 0;
+    let show;
+    if (d.type === 'bool') show = withV >= 1 && withV < appl;
+    else show = keys.length >= 2 && withV >= 2 && keys.length <= 14;
+    if (selected && keys.length >= 1) show = true;
+    return { show: show, keys: keys };
+}
+
+function pfSortKeys(d, keys) {
+    if (d.type === 'num') return keys.sort((a, b) => parseFloat(a) - parseFloat(b));
+    if (d.sort) return keys.sort(d.sort);
+    if (d.type === 'enum') {
+        const order = d.opts.map(o => o[0]);
+        return keys.sort((a, b) => order.indexOf(a) - order.indexOf(b));
+    }
+    return keys.sort();
+}
+
+// Дали производот ги исполнува избраните филтри (skip = групата што се игнорира при броење)
+function pfMatch(p, skip) {
+    if (skip !== 'brand' && pf.brands.size && !pf.brands.has(p.brandId)) return false;
+    if (skip !== 'cat' && (pf.cats.size || pf.subs.size)) {
+        if (!(pf.cats.has(p.kategorija) || (p.tip && pf.subs.has(p.tip)))) return false;
+    }
+    if (skip !== 'cap' && (pf.btu.size || pf.kw.size)) {
+        const c = pfCapOf(p);
+        let ok = false;
+        if (pf.btu.size && c.btu !== null && pfInRange(BTU_OPTIONS, pf.btu, c.btu)) ok = true;
+        if (!ok && pf.kw.size && c.kw !== null && pfInRange(KW_OPTIONS, pf.kw, c.kw)) ok = true;
+        if (!ok) return false;
+    }
+    if (skip !== 'price' && (pf.min !== null || pf.max !== null)) {
+        const pr = priceOf(p);
+        if (pr === null) return false;
+        if (pf.min !== null && pr < pf.min) return false;
+        if (pf.max !== null && pr > pf.max) return false;
+    }
+    for (const k in pf.specs) {
+        if (skip === 'spec:' + k) continue;
+        const set = pf.specs[k];
+        if (!set || !set.size) continue;
+        const v = pfSpecOf(p)[k];
+        if (v === undefined || !set.has(String(v))) return false;
+    }
+    return true;
+}
+
+function pfActiveCount() {
+    let n = pf.brands.size + pf.cats.size + pf.subs.size + pf.btu.size + pf.kw.size + ((pf.min !== null || pf.max !== null) ? 1 : 0);
+    for (const k in pf.specs) n += pf.specs[k].size;
+    return n;
+}
+
+function updateFilterButtons() {
+    const n = pfActiveCount();
+    document.querySelectorAll('.fp-btn-label').forEach(el => {
+        el.textContent = n > 0 ? 'Филтер · ' + n : 'Филтер';
+    });
+}
+
+// ---------- Основна листа (пред филтрите од панелот) ----------
+// Кај страница на бренд, брендот НЕ го ограничува основот (за да се гледаат и другите брендови)
+function getBaseList() {
+    if (listMode === 'favorites') return proizvodi.filter(p => favoriti.includes(p.id));
+    if (listMode === 'micro') return proizvodi.filter(p => p.subsubcategoryId === microCurrentId);
+    if (listMode === 'search') {
+        if (pfSearchCache.q !== searchLastQuery || pfSearchCache.n !== proizvodi.length) {
+            pfSearchCache = { q: searchLastQuery, n: proizvodi.length, list: runSmartSearch(searchLastQuery) };
+        }
+        return pfSearchCache.list;
+    }
+    return proizvodi.filter(p => {
+        const k = filtri.kategorija === 'all' || p.kategorija === filtri.kategorija;
+        const s = !currentApplianceType || currentApplianceType === 'all' || p.tip === currentApplianceType;
+        return k && s;
+    });
+}
+
+// ---------- Цртање на листата ----------
+function goToListPage(n) {
+    window.scrollTo(0, 0);
+    renderFilteredList(n);
+}
+
+function renderFilteredList(page) {
+    const base = getBaseList();
+    const filtered = base.filter(p => pfMatch(p));
+    const isSearch = listMode === 'search';
+    const grid = document.getElementById(isSearch ? 'search-results-grid' : 'products-grid');
+    if (!grid) return;
+
+    if (isSearch) {
+        const sub = document.getElementById('search-results-subtitle');
+        if (sub) sub.textContent = 'Пронајдени ' + filtered.length + ' производи за „' + searchLastQuery + '“';
+    }
+
+    updateFilterButtons();
+
+    if (filtered.length === 0) {
+        listPage = 1;
+        currentPage = 1;
+        let html;
+        if (base.length === 0 && listMode === 'favorites') {
+            html = '<div style="grid-column: 1 / -1; text-align: center; padding: 3rem;"><h3 style="color: #999;">Нема производи во омилената листа</h3><p style="color: #bbb;">Додајте производи со клик на ❤️ иконата</p></div>';
+        } else if (base.length === 0 && isSearch) {
+            html = '<div style="grid-column: 1 / -1; text-align: center; padding: 3rem 1rem;">' +
+                '<h3 style="color: #999;">Нема пронајдени производи за „' + searchEsc(searchLastQuery) + '“</h3>' +
+                '<p style="color: #bbb; margin: 0.6rem 0 1.2rem;">Обидете се со друг збор или изберете категорија:</p>' +
+                '<div class="search-facets search-facets-wrap">' +
+                categoriesData.map(c => '<div class="search-facet-chip" onclick="filtrirajPoKategorija(\'' + c.id + '\')">' + searchEsc((c.icon ? c.icon + ' ' : '') + c.name) + '</div>').join('') +
+                '</div></div>';
+        } else if (base.length === 0) {
+            html = '<div style="grid-column: 1 / -1; text-align: center; padding: 3rem;"><h3 style="color: #999;">Нема производи</h3></div>';
+        } else {
+            html = '<div style="grid-column: 1 / -1; text-align: center; padding: 3rem 1rem;">' +
+                '<h3 style="color: #999;">Нема производи за избраните филтри</h3>' +
+                '<button type="button" class="btn btn-primary" style="margin-top:1rem;" onclick="resetFilterPanel()">Ресетирај ги филтрите</button></div>';
+        }
+        grid.innerHTML = html;
+        return;
+    }
+
+    const totalPages = Math.ceil(filtered.length / ITEMS_PER_PAGE);
+    page = Math.min(Math.max(1, page || 1), totalPages);
+    listPage = page;
+    currentPage = page;
+
+    const start = (page - 1) * ITEMS_PER_PAGE;
+    let html = filtered.slice(start, start + ITEMS_PER_PAGE).map(searchProductCardHTML).join('');
+
+    if (totalPages > 1) {
+        const btnStyle = 'background: white; border: 2px solid #2ecc71; color: #0a2540; padding: 0.6rem 0.8rem; border-radius: 5px; cursor: pointer; font-weight: bold;';
+        const activeStyle = 'background: #2ecc71; color: white; padding: 0.6rem 0.8rem; border-radius: 5px; font-weight: bold; border: 2px solid #2ecc71; min-width: 40px;';
+        html += '<div style="display: flex; justify-content: center; align-items: center; gap: 0.3rem; margin: 2rem 0; flex-wrap: wrap; grid-column: 1 / -1;">';
+        if (page > 1) html += '<button style="' + btnStyle + '" onclick="goToListPage(' + (page - 1) + ')">←</button>';
+        let startPage = Math.max(1, page - 2);
+        let endPage = Math.min(totalPages, startPage + 4);
+        if (endPage - startPage < 4) startPage = Math.max(1, endPage - 4);
+        for (let i = startPage; i <= endPage; i++) {
+            html += i === page
+                ? '<button style="' + activeStyle + '">' + i + '</button>'
+                : '<button style="' + btnStyle + '" onclick="goToListPage(' + i + ')">' + i + '</button>';
+        }
+        if (page < totalPages) html += '<button style="' + btnStyle + '" onclick="goToListPage(' + (page + 1) + ')">→</button>';
+        html += '</div>';
+    }
+
+    grid.innerHTML = html;
+}
+
+// ---------- Замена на старите функции што ја цртаат листата ----------
+function prikaziProizvodiSaFiltromISayfalama(page, applianceType = null) {
+    listMode = 'normal';
+    if (applianceType !== null) currentApplianceType = applianceType;
+    if (page === 1) pf = pfFreshPF();
+    renderFilteredList(page);
+}
+
+function renderMicroList(subsubcatId, page = 1) {
+    microCurrentId = subsubcatId;
+    listMode = 'micro';
+    renderFilteredList(page);
+}
+
+function openPriceFilterModal() {
+    openFilterPanel();
+}
+
+function skrij() {
+    if (typeof closeSearchPanel === 'function') closeSearchPanel();
+    closeFilterPanel();
+    btuFilter = null;
+    kwFilter = null;
+    listSnapshot = null;
+    pf = newPF();
+    updateFilterButtons();
+    document.getElementById('home-page').classList.add('hidden');
+    document.getElementById('products-page').classList.add('hidden');
+    document.getElementById('product-detail-page').classList.add('hidden');
+    document.getElementById('selected-page').classList.add('hidden');
+    document.getElementById('search-results-page').classList.add('hidden');
+    document.getElementById('dopolnitelna-oprema-section').classList.add('hidden');
+}
+
+function prikaziFavorite() {
+    setActiveNavTab('favorites');
+
+    const lastKey = pageHistory[pageHistory.length - 1];
+    const productsVisible = !document.getElementById('products-page').classList.contains('hidden');
+    const isRefresh = (lastKey === 'favorites' && productsVisible);
+    let keep = isRefresh ? pf : null;
+    if (!keep && pfPendingRestore) keep = pfPendingRestore;
+    pfPendingRestore = null;
+
+    skrij();
+    if (keep) pf = keep;
+    listMode = 'favorites';
+
+    const btuBar = document.getElementById('btu-filter-bar');
+    if (btuBar) { btuBar.classList.add('hidden'); btuBar.innerHTML = ''; }
+    document.getElementById('products-page').classList.remove('hidden');
+    document.getElementById('product-detailed-section').classList.add('hidden');
+
+    document.getElementById('products-page-title').textContent = 'Мои Омилени Производи';
+    document.getElementById('products-page-subtitle').textContent = favoriti.length + ' производи во вашата листа';
+
+    renderFilteredList(1);
+
+    if (pageHistory[pageHistory.length - 1] !== 'favorites') pageHistory.push('favorites');
+    if (!isPoppingState && !isRefresh) history.pushState({ pageHistory: [...pageHistory] }, '');
+    updateBackButtonVisibility();
+    if (!isRefresh) window.scrollTo(0, 0);
+}
+
+function izvrsiPrebaruvanje(queryOverride, filter) {
+    const input = document.getElementById('search-input');
+    const mobileInput = document.getElementById('mobile-search-input');
+    const query = String(typeof queryOverride === 'string' ? queryOverride : (input ? input.value : '')).trim();
+
+    closeSearchPanel();
+    if (input) input.blur();
+    if (mobileInput) mobileInput.blur();
+
+    if (!query) return;
+
+    if (input) input.value = query;
+    if (mobileInput) mobileInput.value = query;
+
+    searchLastQuery = query;
+    searchFilter = null;
+    try { sessionStorage.setItem('nkh_last_search', query); } catch (e) {}
+
+    const wasSearch = pageHistory[pageHistory.length - 1] === 'search';
+
+    skrij();
+    listMode = 'search';
+    if (filter && filter.id) {
+        if (filter.kind === 'sub') pf.subs.add(filter.id); else pf.cats.add(filter.id);
+    }
+
+    document.getElementById('search-results-page').classList.remove('hidden');
+    document.getElementById('product-detailed-section').classList.add('hidden');
+    document.getElementById('search-results-title').textContent = 'Резултати од пребарување';
+
+    renderFilteredList(1);
+
+    if (!wasSearch) pageHistory.push('search');
+    if (!isPoppingState) {
+        if (wasSearch) history.replaceState({ pageHistory: [...pageHistory] }, '');
+        else history.pushState({ pageHistory: [...pageHistory] }, '');
+    }
+    updateBackButtonVisibility();
+    window.scrollTo(0, 0);
+}
+
+// ---------- Враќање назад од производ: филтрите се чуваат ----------
+function captureListSnapshot() {
+    const listIds = ['home-page', 'products-page', 'selected-page', 'search-results-page'];
+    const visibleId = listIds.find(id => {
+        const el = document.getElementById(id);
+        return el && !el.classList.contains('hidden');
+    });
+    if (!visibleId) return null;
+
+    const key = pageHistory[pageHistory.length - 1];
+    if (!key || key.startsWith('product-')) return null;
+
+    return {
+        key: key,
+        pageId: visibleId,
+        scrollY: window.scrollY,
+        btu: btuFilter,
+        kw: kwFilter,
+        pf: pf,
+        listMode: listMode,
+        listPage: listPage,
+        microId: microCurrentId,
+        appType: currentApplianceType
+    };
+}
+
+function restoreListFromSnapshot(key) {
+    const snap = listSnapshot;
+    if (!snap || snap.key !== key) return false;
+
+    if (key === 'favorites') {
+        pfPendingRestore = snap.pf || null;
+        return false;
+    }
+
+    const page = document.getElementById(snap.pageId);
+    if (!page) return false;
+
+    skrij();
+    page.classList.remove('hidden');
+    document.getElementById('product-detailed-section').classList.add('hidden');
+
+    btuFilter = snap.btu;
+    kwFilter = snap.kw;
+    pf = snap.pf || newPF();
+    listMode = snap.listMode || 'normal';
+    listPage = snap.listPage || 1;
+    microCurrentId = snap.microId;
+    currentApplianceType = snap.appType;
+    listSnapshot = snap;
+    updateFilterButtons();
+
+    if (key === 'home') setActiveNavTab('home');
+    window.scrollTo(0, snap.scrollY);
+    return true;
+}
+
+// ---------- Освежување (F5): останува на истата страница ----------
+function pfNavigateByKey(key) {
+    const p = key.split('|');
+    if (key === 'home') prikaziDom();
+    else if (key === 'products') prikaziSiProizvodi();
+    else if (key === 'selected') prikaziIzbraniPuni();
+    else if (key === 'favorites') prikaziFavorite();
+    else if (key.startsWith('subcat|')) filtrirajPoPodkategorija(p[1], p[2]);
+    else if (key.startsWith('micro|')) filtrirajPoMikroKategorija(p[1], p[2]);
+    else if (key.startsWith('brandsub|')) filtrirajPoBrendIPodkategorija(p[1], p[2], p[3]);
+    else if (key.startsWith('category-')) filtrirajPoKategorija(key.slice(9));
+    else if (key.startsWith('brand-')) filtrirajPoBrend(key.slice(6));
+    else if (key.startsWith('product-')) prikaziDetalje(key.slice(8));
+}
+
+function pfRestoreAfterLoad() {
+    const st = pfInitialState;
+    pfInitialState = null;
+    if (!st || !Array.isArray(st.pageHistory) || proizvodi.length === 0) return;
+
+    const ph = st.pageHistory.slice();
+    const last = ph[ph.length - 1];
+    if (!last || last === 'home') return;
+
+    if (last.startsWith('product-') && !proizvodi.some(p => p.id === last.slice(8))) return;
+
+    let q = '';
+    if (last === 'search') {
+        try { q = sessionStorage.getItem('nkh_last_search') || ''; } catch (e) {}
+        if (!q) return;
+    }
+
+    pageHistory = ph;
+    if (last.startsWith('product-')) pageHistory.pop();
+
+    isPoppingState = true;
+    try {
+        if (last === 'search') izvrsiPrebaruvanje(q);
+        else pfNavigateByKey(last);
+    } finally {
+        isPoppingState = false;
+    }
+    history.replaceState({ pageHistory: [...pageHistory] }, '');
+
+    let y = 0;
+    try { y = parseInt(sessionStorage.getItem('nkh_scroll') || '0', 10) || 0; } catch (e) {}
+    if (y > 0) setTimeout(() => window.scrollTo(0, y), 150);
+}
+
+window.addEventListener('pagehide', function () {
+    try { sessionStorage.setItem('nkh_scroll', String(window.scrollY)); } catch (e) {}
+});
+
+// По вчитување на производите од Firestore, врати ја претходната страница
+const pfOrigLoadSite = loadSiteDataFromFirestore;
+loadSiteDataFromFirestore = async function () {
+    await pfOrigLoadSite();
+    try { pfRestoreAfterLoad(); } catch (e) { console.error('Restore error:', e); }
+};
+
+// ---------- Панелот ----------
+function ensureFilterUi() {
+    if (document.getElementById('fp-panel')) return;
+
+    const bd = document.createElement('div');
+    bd.id = 'fp-backdrop';
+    bd.className = 'fp-backdrop';
+    bd.addEventListener('click', closeFilterPanel);
+
+    const panel = document.createElement('aside');
+    panel.id = 'fp-panel';
+    panel.className = 'fp-panel';
+    panel.innerHTML =
+        '<div class="fp-head"><h3><i class="fas fa-filter"></i> Филтер</h3>' +
+        '<button type="button" class="fp-close" onclick="closeFilterPanel()">✕</button></div>' +
+        '<div class="fp-body" id="fp-body">' +
+            '<div class="fp-section" id="fp-brand-box"></div>' +
+            '<div class="fp-section" id="fp-cat-box"></div>' +
+            '<div class="fp-section" id="fp-price-box"></div>' +
+            '<div class="fp-section" id="fp-cap-box"></div>' +
+            '<div class="fp-section" id="fp-spec-box"></div>' +
+        '</div>' +
+        '<div class="fp-foot">' +
+            '<button type="button" class="fp-reset" onclick="resetFilterPanel()">Ресетирај</button>' +
+            '<button type="button" class="fp-apply" id="fp-apply-btn" onclick="closeFilterPanel()">Прикажи</button>' +
+        '</div>';
+
+    document.body.appendChild(bd);
+    document.body.appendChild(panel);
+
+    const body = document.getElementById('fp-body');
+
+    body.addEventListener('change', function (e) {
+        const t = e.target;
+        if (!t || !t.matches || !t.matches('input[type=checkbox][data-g]')) return;
+        const g = t.dataset.g;
+        const id = t.dataset.id;
+        if (g === 'brand') pfToggle(pf.brands, id);
+        else if (g === 'cat') pfToggle(pf.cats, id);
+        else if (g === 'sub') pfToggle(pf.subs, id);
+        pfChanged();
+    });
+
+    body.addEventListener('click', function (e) {
+        const chip = e.target.closest ? e.target.closest('.fp-chip') : null;
+        if (!chip || chip.disabled) return;
+        const g = chip.dataset.g;
+        if (g === 'btu') pfToggle(pf.btu, chip.dataset.id);
+        else if (g === 'kw') pfToggle(pf.kw, chip.dataset.id);
+        else if (g === 'spec') pfToggleSpec(chip.dataset.k, chip.dataset.id);
+        pfChanged();
+    });
+
+    document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape') closeFilterPanel();
+    });
+}
+
+function openFilterPanel() {
+    ensureFilterUi();
+    pfBase = getBaseList();
+    pfBuildPrice();
+    pfRenderFacets();
+    pfUpdateApplyBtn();
+    document.getElementById('fp-body').scrollTop = 0;
+    document.getElementById('fp-backdrop').classList.add('open');
+    document.getElementById('fp-panel').classList.add('open');
+    document.body.style.overflow = 'hidden';
+}
+
+function closeFilterPanel() {
+    const panel = document.getElementById('fp-panel');
+    const bd = document.getElementById('fp-backdrop');
+    const wasOpen = panel && panel.classList.contains('open');
+    if (panel) panel.classList.remove('open');
+    if (bd) bd.classList.remove('open');
+    if (wasOpen) document.body.style.overflow = 'auto';
+}
+
+function resetFilterPanel() {
+    pf = pfFreshPF();
+    const panel = document.getElementById('fp-panel');
+    if (panel && panel.classList.contains('open')) {
+        pfBuildPrice();
+        pfRenderFacets();
+        pfUpdateApplyBtn();
+    }
+    updateFilterButtons();
+    renderFilteredList(1);
+}
+
+function pfChanged() {
+    pfRenderFacets();
+    pfUpdateApplyBtn();
+    updateFilterButtons();
+    clearTimeout(pfRenderTimer);
+    pfRenderTimer = setTimeout(() => renderFilteredList(1), 120);
+}
+
+function pfUpdateApplyBtn() {
+    const btn = document.getElementById('fp-apply-btn');
+    if (!btn) return;
+    const n = pfBase.filter(p => pfMatch(p)).length;
+    btn.textContent = 'Прикажи ' + n + ' производи';
+}
+
+function pfOption(group, id, labelHtml, count, checked, extraClass) {
+    const dim = count === 0 && !checked;
+    return '<label class="fp-opt' + (dim ? ' fp-dim' : '') + (extraClass || '') + '">' +
+        '<input type="checkbox" data-g="' + group + '" data-id="' + searchEsc(id) + '"' + (checked ? ' checked' : '') + (dim ? ' disabled' : '') + '>' +
+        '<span class="fp-opt-name">' + labelHtml + '</span>' +
+        '<span class="fp-opt-count">' + count + '</span></label>';
+}
+
+function pfRenderFacets() {
+    pfRenderBrandBox();
+    pfRenderCatBox();
+    pfRenderCapBox();
+    pfRenderSpecBox();
+}
+
+function pfRenderBrandBox() {
+    const box = document.getElementById('fp-brand-box');
+    if (!box) return;
+    const pool = pfBase.filter(p => pfMatch(p, 'brand'));
+    const baseCnt = {}, poolCnt = {}, names = {};
+    pfBase.forEach(p => {
+        if (!p.brandId) return;
+        baseCnt[p.brandId] = (baseCnt[p.brandId] || 0) + 1;
+        if (!names[p.brandId]) names[p.brandId] = p.brend;
+    });
+    pool.forEach(p => {
+        if (p.brandId) poolCnt[p.brandId] = (poolCnt[p.brandId] || 0) + 1;
+    });
+    const ids = Object.keys(baseCnt).sort((a, b) => baseCnt[b] - baseCnt[a]);
+
+    if (ids.length < 2 && pf.brands.size === 0) {
+        box.style.display = 'none';
+        box.innerHTML = '';
+        return;
+    }
+    box.style.display = '';
+    box.innerHTML = '<div class="fp-title">Бренд</div><div class="fp-opts-2">' +
+        ids.map(id => {
+            const b = brandsData.find(x => x.id === id);
+            const name = (b && b.name) || names[id] || id;
+            return pfOption('brand', id, searchEsc(name), poolCnt[id] || 0, pf.brands.has(id), '');
+        }).join('') + '</div>';
+}
+
+function pfRenderCatBox() {
+    const box = document.getElementById('fp-cat-box');
+    if (!box) return;
+    const pool = pfBase.filter(p => pfMatch(p, 'cat'));
+    const baseCat = {}, baseSub = {}, poolCat = {}, poolSub = {};
+    pfBase.forEach(p => {
+        baseCat[p.kategorija] = (baseCat[p.kategorija] || 0) + 1;
+        if (p.tip) baseSub[p.tip] = (baseSub[p.tip] || 0) + 1;
+    });
+    pool.forEach(p => {
+        poolCat[p.kategorija] = (poolCat[p.kategorija] || 0) + 1;
+        if (p.tip) poolSub[p.tip] = (poolSub[p.tip] || 0) + 1;
+    });
+
+    const cats = categoriesData.filter(c => baseCat[c.id] > 0);
+    const subsAll = subcategoriesData.filter(s => baseSub[s.id] > 0);
+
+    if (cats.length < 2 && subsAll.length < 2 && pf.cats.size === 0 && pf.subs.size === 0) {
+        box.style.display = 'none';
+        box.innerHTML = '';
+        return;
+    }
+    box.style.display = '';
+    box.innerHTML = '<div class="fp-title">Категорија</div>' + cats.map(c => {
+        let h = pfOption('cat', c.id, searchEsc((c.icon ? c.icon + ' ' : '') + c.name), poolCat[c.id] || 0, pf.cats.has(c.id), ' fp-opt-cat');
+        h += subsAll.filter(s => s.parentId === c.id).map(s =>
+            pfOption('sub', s.id, searchEsc(s.name), poolSub[s.id] || 0, pf.subs.has(s.id), ' fp-opt-sub')
+        ).join('');
+        return h;
+    }).join('');
+}
+
+function pfRenderCapBox() {
+    const box = document.getElementById('fp-cap-box');
+    if (!box) return;
+
+    const baseBtu = {}, baseKw = {}, poolBtu = {}, poolKw = {};
+    let hasBtu = false, hasKw = false;
+
+    pfBase.forEach(p => {
+        const c = pfCapOf(p);
+        if (c.btu !== null) {
+            hasBtu = true;
+            BTU_OPTIONS.forEach(o => { if (c.btu >= o.min && c.btu <= o.max) baseBtu[o.key] = (baseBtu[o.key] || 0) + 1; });
+        }
+        if (c.kw !== null) {
+            hasKw = true;
+            KW_OPTIONS.forEach(o => { if (c.kw >= o.min && c.kw <= o.max) baseKw[o.key] = (baseKw[o.key] || 0) + 1; });
+        }
+    });
+
+    if (!hasBtu && !hasKw) {
+        box.style.display = 'none';
+        box.innerHTML = '';
+        return;
+    }
+
+    pfBase.filter(p => pfMatch(p, 'cap')).forEach(p => {
+        const c = pfCapOf(p);
+        if (c.btu !== null) BTU_OPTIONS.forEach(o => { if (c.btu >= o.min && c.btu <= o.max) poolBtu[o.key] = (poolBtu[o.key] || 0) + 1; });
+        if (c.kw !== null) KW_OPTIONS.forEach(o => { if (c.kw >= o.min && c.kw <= o.max) poolKw[o.key] = (poolKw[o.key] || 0) + 1; });
+    });
+
+    const chip = (g, o, set, poolMap) => {
+        const active = set.has(o.key);
+        const cnt = poolMap[o.key] || 0;
+        const dim = cnt === 0 && !active;
+        return '<button type="button" class="fp-chip' + (active ? ' active' : '') + '" data-g="' + g + '" data-id="' + o.key + '"' + (dim ? ' disabled' : '') + '>' +
+            searchEsc(o.label) + ' (' + cnt + ')</button>';
+    };
+
+    let html = '<div class="fp-title">BTU / kW</div>';
+    if (hasBtu) {
+        html += '<div class="fp-subtitle">BTU</div><div class="fp-chips">' +
+            BTU_OPTIONS.filter(o => baseBtu[o.key] > 0).map(o => chip('btu', o, pf.btu, poolBtu)).join('') + '</div>';
+    }
+    if (hasKw) {
+        html += '<div class="fp-subtitle">kW</div><div class="fp-chips">' +
+            KW_OPTIONS.filter(o => baseKw[o.key] > 0).map(o => chip('kw', o, pf.kw, poolKw)).join('') + '</div>';
+    }
+    box.style.display = '';
+    box.innerHTML = html;
+}
+
+function pfRenderSpecBox() {
+    const box = document.getElementById('fp-spec-box');
+    if (!box) return;
+
+    let html = '';
+    SPEC_DEFS.forEach(d => {
+        const info = pfSpecInfo(d);
+        if (!info.show) return;
+
+        const cnt = {};
+        pfBase.filter(p => pfMatch(p, 'spec:' + d.key)).forEach(p => {
+            const v = pfSpecOf(p)[d.key];
+            if (v !== undefined) cnt[v] = (cnt[v] || 0) + 1;
+        });
+
+        const set = pf.specs[d.key];
+        html += '<div class="fp-spec-group"><div class="fp-title">' + searchEsc(d.label) + '</div><div class="fp-chips">' +
+            pfSortKeys(d, info.keys).map(v => {
+                const active = !!(set && set.has(v));
+                const c = cnt[v] || 0;
+                const dim = c === 0 && !active;
+                const label = (d.type === 'num' && d.fmt) ? d.fmt(parseFloat(v)) : v;
+                return '<button type="button" class="fp-chip' + (active ? ' active' : '') + '" data-g="spec" data-k="' + d.key + '" data-id="' + searchEsc(v) + '"' + (dim ? ' disabled' : '') + '>' +
+                    searchEsc(label) + ' (' + c + ')</button>';
+            }).join('') + '</div></div>';
+    });
+
+    if (!html) {
+        box.style.display = 'none';
+        box.innerHTML = '';
+        return;
+    }
+    box.style.display = '';
+    box.innerHTML = html;
+}
+
+// ---------- Цена (двоен слајдер) ----------
+function pfBuildPrice() {
+    const box = document.getElementById('fp-price-box');
+    if (!box) return;
+
+    const prices = pfBase.map(priceOf).filter(v => v !== null);
+    if (prices.length === 0) {
+        pfBounds = null;
+        box.style.display = 'none';
+        box.innerHTML = '';
+        return;
+    }
+    let lo = prices[0], hi = prices[0];
+    prices.forEach(v => { if (v < lo) lo = v; if (v > hi) hi = v; });
+    lo = Math.floor(lo);
+    hi = Math.ceil(hi);
+    if (lo === hi) {
+        pfBounds = null;
+        box.style.display = 'none';
+        box.innerHTML = '';
+        return;
+    }
+
+    pfBounds = { min: lo, max: hi };
+    const curMin = pf.min !== null ? Math.max(pf.min, lo) : lo;
+    const curMax = pf.max !== null ? Math.min(pf.max, hi) : hi;
+
+    box.style.display = '';
+    box.innerHTML =
+        '<div class="fp-title">Цена</div>' +
+        '<div class="fp-price-label" id="fp-price-label"></div>' +
+        '<div class="fp-range"><div class="fp-range-track"></div><div class="fp-range-fill" id="fp-range-fill"></div>' +
+        '<input type="range" id="fp-range-min" min="' + lo + '" max="' + hi + '" step="1" value="' + curMin + '">' +
+        '<input type="range" id="fp-range-max" min="' + lo + '" max="' + hi + '" step="1" value="' + curMax + '">' +
+        '</div>';
+
+    document.getElementById('fp-range-min').addEventListener('input', () => pfOnPrice('min'));
+    document.getElementById('fp-range-max').addEventListener('input', () => pfOnPrice('max'));
+    pfUpdatePriceUi();
+}
+
+function pfOnPrice(which) {
+    const minEl = document.getElementById('fp-range-min');
+    const maxEl = document.getElementById('fp-range-max');
+    if (!minEl || !maxEl || !pfBounds) return;
+
+    let a = +minEl.value, b = +maxEl.value;
+    if (a > b) {
+        if (which === 'min') { a = b; minEl.value = a; }
+        else { b = a; maxEl.value = b; }
+    }
+    pf.min = a <= pfBounds.min ? null : a;
+    pf.max = b >= pfBounds.max ? null : b;
+
+    pfUpdatePriceUi();
+    pfChanged();
+}
+
+function pfUpdatePriceUi() {
+    const minEl = document.getElementById('fp-range-min');
+    const maxEl = document.getElementById('fp-range-max');
+    const label = document.getElementById('fp-price-label');
+    const fill = document.getElementById('fp-range-fill');
+    if (!minEl || !maxEl || !label || !fill || !pfBounds) return;
+
+    const a = +minEl.value, b = +maxEl.value;
+    const span = (pfBounds.max - pfBounds.min) || 1;
+    label.textContent = a.toLocaleString('mk-MK') + ' – ' + b.toLocaleString('mk-MK') + ' ден.';
+    fill.style.left = ((a - pfBounds.min) / span * 100) + '%';
+    fill.style.width = ((b - a) / span * 100) + '%';
+    minEl.style.zIndex = a > (pfBounds.min + pfBounds.max) / 2 ? 3 : 2;
+    maxEl.style.zIndex = 2;
+}
+</script>
+
+<!-- ============================================================ -->
+<!-- 🏷️ БРЕНДОВИ — лого слајдер (почетна страница, близу до footer)  -->
+<!-- ============================================================ -->
+<style>
+.brand-strip{margin:0 0 3rem;padding-top:.5rem}
+.brand-strip-head{text-align:center;margin-bottom:1.4rem}
+.brand-strip-title{font-size:1.7rem;font-weight:700;color:#1a1a1a}
+.brand-strip-sub{color:#6b7a72;font-size:.95rem;margin-top:.3rem}
+.brand-strip-wrap{position:relative}
+.brand-strip-track{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;scroll-behavior:smooth;-webkit-overflow-scrolling:touch;scrollbar-width:none;padding:8px 0 12px}
+.brand-strip-track::-webkit-scrollbar{display:none}
+.brand-strip-track.fits{justify-content:center}
+.brand-strip-item{flex:0 0 calc(100% / 6);padding:0 8px;scroll-snap-align:start}
+.brand-strip-card{height:92px;display:flex;align-items:center;justify-content:center;background:#fff;border:1.5px solid #e8eeeb;border-radius:16px;padding:12px 16px;cursor:pointer;transition:transform .25s ease,box-shadow .25s ease,border-color .25s ease}
+.brand-strip-card:hover{border-color:#0F5132;box-shadow:0 8px 20px rgba(15,81,50,.12);transform:translateY(-3px)}
+.brand-strip-card img{max-width:100%;max-height:100%;object-fit:contain;display:block}
+.brand-strip-name{font-weight:700;color:#1a1a1a;font-size:1rem;text-align:center}
+.brand-strip-btn{position:absolute;top:50%;transform:translateY(-50%);width:42px;height:42px;border-radius:50%;border:none;background:#fff;color:#0F5132;box-shadow:0 4px 14px rgba(0,0,0,.18);cursor:pointer;font-size:1rem;z-index:3;display:flex;align-items:center;justify-content:center;transition:background .2s ease,color .2s ease}
+.brand-strip-btn:hover{background:#0F5132;color:#fff}
+.brand-strip-prev{left:-6px}
+.brand-strip-next{right:-6px}
+.brand-strip-wrap.no-arrows .brand-strip-btn{display:none}
+@media (max-width:1100px){
+    .brand-strip-item{flex-basis:25%}
+}
+@media (max-width:768px){
+    .brand-strip{margin-bottom:1.4rem}
+    .brand-strip-head{text-align:left;margin-bottom:.6rem}
+    .brand-strip-title{font-size:1.1rem}
+    .brand-strip-sub{display:none}
+    .brand-strip-item{flex-basis:30%;padding:0 5px}
+    .brand-strip-card{height:78px;border-radius:14px;padding:8px 10px}
+    .brand-strip-btn{display:none !important}
+}
+@media (hover:none){
+    .brand-strip-btn{display:none !important}
+}
+</style>
+
+<script>
+let brandStripTimer = null;
+let brandStripPaused = false;
+let brandStripResumeTimer = null;
+
+function ensureBrandStrip() {
+    let sec = document.getElementById('brand-strip');
+    if (sec) return sec;
+
+    const anchor = document.querySelector('.category-sections-wrapper');
+    if (!anchor) return null;
+
+    sec = document.createElement('section');
+    sec.id = 'brand-strip';
+    sec.className = 'brand-strip';
+    sec.style.display = 'none';
+    sec.innerHTML =
+        '<div class="brand-strip-head">' +
+            '<h2 class="brand-strip-title">Брендови</h2>' +
+            '<p class="brand-strip-sub">Технологија што ја знаете, брендови на кои им верувате</p>' +
+        '</div>' +
+        '<div class="brand-strip-wrap" id="brand-strip-wrap">' +
+            '<button type="button" class="brand-strip-btn brand-strip-prev" id="brand-strip-prev" aria-label="Претходно"><i class="fas fa-chevron-left"></i></button>' +
+            '<div class="brand-strip-track" id="brand-strip-track"></div>' +
+            '<button type="button" class="brand-strip-btn brand-strip-next" id="brand-strip-next" aria-label="Следно"><i class="fas fa-chevron-right"></i></button>' +
+        '</div>';
+    anchor.insertAdjacentElement('afterend', sec);
+
+    const track = document.getElementById('brand-strip-track');
+    const wrap = document.getElementById('brand-strip-wrap');
+
+    track.addEventListener('click', function (e) {
+        const card = e.target.closest ? e.target.closest('.brand-strip-card') : null;
+        if (card && card.dataset.brand) filtrirajPoBrend(card.dataset.brand);
+    });
+
+    document.getElementById('brand-strip-prev').addEventListener('click', () => brandStripMove(-1));
+    document.getElementById('brand-strip-next').addEventListener('click', () => brandStripMove(1));
+
+    // Маус над слајдерот: паузирај; кога ќе излезе, продолжи
+    wrap.addEventListener('mouseenter', () => { brandStripPaused = true; });
+    wrap.addEventListener('mouseleave', () => { brandStripPaused = false; });
+
+    // Прст на екранот: паузирај; по пуштање, продолжи по кратко време
+    wrap.addEventListener('touchstart', () => {
+        brandStripPaused = true;
+        clearTimeout(brandStripResumeTimer);
+    }, { passive: true });
+    wrap.addEventListener('touchend', () => {
+        clearTimeout(brandStripResumeTimer);
+        brandStripResumeTimer = setTimeout(() => { brandStripPaused = false; }, 3500);
+    }, { passive: true });
+
+    window.addEventListener('resize', brandStripCheckFit);
+
+    return sec;
+}
+
+function brandStripCheckFit() {
+    const track = document.getElementById('brand-strip-track');
+    const wrap = document.getElementById('brand-strip-wrap');
+    if (!track || !wrap) return;
+    const fits = track.scrollWidth <= track.clientWidth + 2;
+    track.classList.toggle('fits', fits);
+    wrap.classList.toggle('no-arrows', fits);
+}
+
+function brandStripMove(dir) {
+    const track = document.getElementById('brand-strip-track');
+    if (!track) return;
+    const first = track.querySelector('.brand-strip-item');
+    if (!first) return;
+
+    const step = first.offsetWidth;
+    const max = track.scrollWidth - track.clientWidth;
+    if (max <= 2) return;
+
+    if (dir > 0) {
+        if (track.scrollLeft >= max - 4) track.scrollTo({ left: 0, behavior: 'smooth' });
+        else track.scrollBy({ left: step, behavior: 'smooth' });
+    } else {
+        if (track.scrollLeft <= 4) track.scrollTo({ left: max, behavior: 'smooth' });
+        else track.scrollBy({ left: -step, behavior: 'smooth' });
+    }
+}
+
+function stopBrandStrip() {
+    clearInterval(brandStripTimer);
+    brandStripTimer = null;
+}
+
+function startBrandStrip() {
+    stopBrandStrip();
+    brandStripTimer = setInterval(() => {
+        if (brandStripPaused || document.hidden) return;
+        const track = document.getElementById('brand-strip-track');
+        if (!track || track.offsetParent === null) return;   // почетната не е прикажана
+        brandStripMove(1);
+    }, 2600);
+}
+
+function renderBrandStrip() {
+    const sec = ensureBrandStrip();
+    if (!sec) return;
+    const track = document.getElementById('brand-strip-track');
+
+    // Само брендови што имаат барем еден производ; позаситените први
+    const counts = {};
+    proizvodi.forEach(p => { if (p.brandId) counts[p.brandId] = (counts[p.brandId] || 0) + 1; });
+    const list = brandsData
+        .filter(b => counts[b.id] > 0)
+        .sort((a, b) => counts[b.id] - counts[a.id]);
+
+    if (list.length === 0) {
+        sec.style.display = 'none';
+        stopBrandStrip();
+        return;
+    }
+
+    track.innerHTML = list.map(b =>
+        '<div class="brand-strip-item">' +
+            '<div class="brand-strip-card" data-brand="' + searchEsc(b.id) + '" title="' + searchEsc(b.name) + '">' +
+                (b.logo
+                    ? '<img src="' + searchEsc(b.logo) + '" alt="' + searchEsc(b.name) + '" loading="lazy">'
+                    : '<span class="brand-strip-name">' + searchEsc(b.name) + '</span>') +
+            '</div>' +
+        '</div>'
+    ).join('');
+
+    sec.style.display = '';
+    track.scrollLeft = 0;
+    brandStripCheckFit();
+    startBrandStrip();
+}
+
+// По вчитување на брендовите од Firestore, нацртај го слајдерот
+const brandStripOrigRenderMenus = renderBrandMenus;
+renderBrandMenus = function () {
+    brandStripOrigRenderMenus();
+    try { renderBrandStrip(); } catch (e) { console.error('Brand strip error:', e); }
+};
 </script>
 </body>
 </html>
