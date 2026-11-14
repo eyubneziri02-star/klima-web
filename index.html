@@ -10291,5 +10291,112 @@ renderBrandMenus = function () {
     try { renderBrandStrip(); } catch (e) { console.error('Brand strip error:', e); }
 };
 </script>
+
+<!-- ============================================================ -->
+<!-- 🔗 ЛИНКОВИ ЗА ПРОИЗВОДИ  (nkhtech.mk/proizvod/име-на-производ-КОД) -->
+<!-- ============================================================ -->
+<script>
+// Адресите се менуваат САМО на вистинскиот домен (nkhtech.mk).
+// Локално (Live Server) и на github.io ништо не се менува — безбедно за тестирање.
+const PF_LIVE = /(^|\.)nkhtech\.mk$/.test(location.hostname);
+
+let pfBootKeepUrl = PF_LIVE && /^\/proizvod\//.test(location.pathname);
+let pfDirectLanding = false;
+
+// Истата логика како во Worker-от (за да се исти слаговите)
+function pfSlug(s) {
+    let out = '';
+    for (const ch of String(s == null ? '' : s).toLowerCase()) out += (SEARCH_CYR[ch] !== undefined ? SEARCH_CYR[ch] : ch);
+    out = out.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+    return out.replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 60).replace(/-+$/, '');
+}
+
+function pfProductPath(p) {
+    const slug = pfSlug(p.naziv);
+    return '/proizvod/' + (slug ? slug + '-' : '') + p.id;
+}
+
+// Од состојбата на историјата одреди каква адреса треба да се прикаже
+function pfUrlFromState(state) {
+    const ph = state && state.pageHistory;
+    const last = ph && ph[ph.length - 1];
+    if (last && last.startsWith('product-')) {
+        const p = proizvodi.find(x => x.id === last.slice(8));
+        if (p) return pfProductPath(p);
+    }
+    return '/';
+}
+
+if (PF_LIVE) {
+    const origPush = history.pushState.bind(history);
+    const origReplace = history.replaceState.bind(history);
+    const pick = (state, url) => (url !== undefined ? url : (pfBootKeepUrl ? undefined : pfUrlFromState(state)));
+
+    history.pushState = function (state, title, url) {
+        pfDirectLanding = false;
+        const u = pick(state, url);
+        return u === undefined ? origPush(state, title) : origPush(state, title, u);
+    };
+    history.replaceState = function (state, title, url) {
+        const u = pick(state, url);
+        return u === undefined ? origReplace(state, title) : origReplace(state, title, u);
+    };
+
+    // Безбедносна мрежа: ако нешто не се вчита, по 20 сек. прекини го чувањето на адресата
+    setTimeout(() => { pfBootKeepUrl = false; }, 20000);
+}
+
+// Некој дошол директно преку споделен линк: отвори го тој производ
+function pfHandleProductUrl() {
+    pfBootKeepUrl = false;
+
+    const m = location.pathname.match(/^\/proizvod\/([^\/]+)\/?$/);
+    if (!m) return;
+
+    let id = '';
+    try { id = decodeURIComponent(m[1]).split('-').pop(); } catch (e) { return; }
+
+    const p = proizvodi.find(x => x.id === id);
+    if (!p) {
+        history.replaceState({ pageHistory: ['home'] }, '', '/');
+        return;
+    }
+
+    // Веќе е прикажан (на пр. по освежување F5)
+    if (pageHistory[pageHistory.length - 1] === 'product-' + id) return;
+
+    pageHistory = ['home'];
+    isPoppingState = true;
+    try {
+        prikaziDetalje(id);
+    } finally {
+        isPoppingState = false;
+    }
+    pfDirectLanding = true;
+    history.replaceState({ pageHistory: [...pageHistory] }, '');
+}
+
+// Копчето „Назад“: ако некој дошол директно преку линк, нека оди на почетна
+vratiSePrev = function () {
+    if (pfDirectLanding) {
+        pfDirectLanding = false;
+        prikaziDom();
+        return;
+    }
+    history.back();
+};
+
+// По вчитување на производите од Firestore, провери дали адресата е линк на производ
+const pfOrigLoadSite2 = loadSiteDataFromFirestore;
+loadSiteDataFromFirestore = async function () {
+    await pfOrigLoadSite2();
+    try {
+        pfHandleProductUrl();
+    } catch (e) {
+        console.error('Product URL error:', e);
+        pfBootKeepUrl = false;
+    }
+};
+</script>
 </body>
 </html>
