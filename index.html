@@ -10398,5 +10398,242 @@ loadSiteDataFromFirestore = async function () {
     }
 };
 </script>
+
+<!-- ============================================================ -->
+<!-- 📤 СПОДЕЛИ (копче на производот) + линк на картичките          -->
+<!-- ============================================================ -->
+<style>
+/* ----- Линк преку целата картичка (десен клик / долг притисок: „Копирај линк“) ----- */
+.pf-card-link{position:absolute;top:0;left:0;right:0;bottom:0;z-index:1;display:block;border-radius:inherit;-webkit-tap-highlight-color:transparent}
+.product-card .product-content > div[style*="display: flex"],
+.carousel-product-card .carousel-product-content > div[style*="display: flex"]{position:relative;z-index:2}
+
+/* ----- Копче „Сподели“ на страницата на производот ----- */
+.pf-share-btn{position:absolute;top:0;right:80px;width:50px;height:50px;border-radius:50%;background:#fff;border:2px solid #ddd;color:#0F5132;font-size:1.2rem;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.15);z-index:50;transition:all .3s ease}
+.pf-share-btn:hover{border-color:#0F5132;transform:scale(1.1)}
+@media (max-width:768px){
+    .pf-share-btn{top:0;right:60px;width:42px;height:42px;font-size:1.05rem}
+}
+
+/* ----- Прозорец за споделување ----- */
+.pf-share-backdrop{display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:2900}
+.pf-share-backdrop.open{display:block}
+.pf-share-sheet{position:fixed;left:50%;top:50%;transform:translate(-50%,-46%);opacity:0;pointer-events:none;width:360px;max-width:92%;background:#fff;border-radius:18px;padding:1.2rem;z-index:3000;transition:opacity .2s ease,transform .2s ease;box-shadow:0 12px 40px rgba(0,0,0,.25)}
+.pf-share-sheet.open{opacity:1;pointer-events:auto;transform:translate(-50%,-50%)}
+.pf-share-handle{display:none;width:40px;height:4px;background:#ddd;border-radius:3px;margin:0 auto .9rem}
+.pf-share-title{font-size:1.1rem;font-weight:700;color:#1a1a1a}
+.pf-share-name{font-size:.85rem;color:#6b7a72;margin:.25rem 0 .8rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pf-share-item{display:flex;align-items:center;gap:.9rem;width:100%;padding:.65rem .3rem;background:none;border:none;border-bottom:1px solid #f3f3f3;cursor:pointer;font-size:.95rem;font-weight:600;color:#1a1a1a;text-align:left}
+.pf-share-item:last-child{border-bottom:none}
+.pf-share-item:hover{background:#f6faf8}
+.pf-share-icon{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:1.1rem;flex-shrink:0}
+@media (max-width:768px){
+    .pf-share-sheet{left:0;right:0;top:auto;bottom:0;width:100%;max-width:100%;border-radius:20px 20px 0 0;opacity:1;transform:translateY(100%);padding-bottom:calc(1.2rem + env(safe-area-inset-bottom,0px))}
+    .pf-share-sheet.open{transform:translateY(0)}
+    .pf-share-handle{display:block}
+}
+.pf-toast{position:fixed;left:50%;bottom:90px;transform:translateX(-50%) translateY(20px);background:#1a1a1a;color:#fff;padding:.7rem 1.2rem;border-radius:12px;font-size:.9rem;z-index:3100;opacity:0;pointer-events:none;transition:opacity .25s ease,transform .25s ease}
+.pf-toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+</style>
+
+<script>
+// ============================================================
+// 1) Картичките стануваат вистински линкови
+// ============================================================
+function pfDecorateCards() {
+    document.querySelectorAll('.product-card, .carousel-product-card').forEach(card => {
+        if (card.dataset.pfLink) return;
+        const oc = card.getAttribute('onclick') || '';
+        const m = oc.match(/prikaziDetalje\('([^']+)'\)/);
+        if (!m) return;
+        const p = proizvodi.find(x => x.id === m[1]);
+        if (!p) return;
+        card.dataset.pfLink = '1';
+        const a = document.createElement('a');
+        a.className = 'pf-card-link';
+        a.href = pfProductPath(p);
+        a.setAttribute('aria-label', p.naziv);
+        card.appendChild(a);
+    });
+}
+
+let pfDecoFrame = null;
+new MutationObserver(function () {
+    if (pfDecoFrame) return;
+    pfDecoFrame = requestAnimationFrame(function () {
+        pfDecoFrame = null;
+        try { pfDecorateCards(); } catch (e) { console.error('Card link error:', e); }
+    });
+}).observe(document.body, { childList: true, subtree: true });
+
+// Обичен клик: остани на сајтот (картичката си го отвора производот).
+// Ctrl/Cmd + клик: природно отворање во нов таб.
+document.addEventListener('click', function (e) {
+    const link = e.target.closest ? e.target.closest('a.pf-card-link') : null;
+    if (!link) return;
+    if (e.ctrlKey || e.metaKey || e.shiftKey || e.altKey) {
+        e.stopPropagation();
+        return;
+    }
+    e.preventDefault();
+}, true);
+
+// ============================================================
+// 2) Копче „Сподели“
+// ============================================================
+const PF_SHARE_ITEMS = [
+    { act: 'wa',    icon: 'fab fa-whatsapp',   label: 'WhatsApp',     color: '#25d366' },
+    { act: 'viber', icon: 'fab fa-viber',      label: 'Viber',        color: '#7d3c98' },
+    { act: 'mail',  icon: 'fas fa-envelope',   label: 'Е-пошта',      color: '#0F5132' },
+    { act: 'fb',    icon: 'fab fa-facebook-f', label: 'Facebook',     color: '#1877f2' },
+    { act: 'copy',  icon: 'fas fa-link',       label: 'Копирај линк', color: '#555555' }
+];
+
+function pfShareUrl() {
+    return trenutniProizvod ? 'https://nkhtech.mk' + pfProductPath(trenutniProizvod) : 'https://nkhtech.mk';
+}
+
+function pfShareText() {
+    const p = trenutniProizvod;
+    if (!p) return '';
+    const price = isPriceValid(p.cena) ? ' — ' + formatPriceDisplay(getDiscountedPrice(p.cena, p.indirim)) : '';
+    return p.naziv + price;
+}
+
+function pfOpenLink(href, sameTab) {
+    if (sameTab) {
+        window.location.href = href;
+        return;
+    }
+    const a = document.createElement('a');
+    a.href = href;
+    a.target = '_blank';
+    a.rel = 'noopener';
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+}
+
+function pfToast(msg) {
+    let t = document.getElementById('pf-toast');
+    if (!t) {
+        t = document.createElement('div');
+        t.id = 'pf-toast';
+        t.className = 'pf-toast';
+        document.body.appendChild(t);
+    }
+    t.textContent = msg;
+    t.classList.add('show');
+    clearTimeout(t._tm);
+    t._tm = setTimeout(() => t.classList.remove('show'), 2200);
+}
+
+async function pfCopyLink() {
+    const url = pfShareUrl();
+    try {
+        if (navigator.clipboard && window.isSecureContext) {
+            await navigator.clipboard.writeText(url);
+        } else {
+            throw new Error('no clipboard');
+        }
+    } catch (e) {
+        const ta = document.createElement('textarea');
+        ta.value = url;
+        ta.style.position = 'fixed';
+        ta.style.opacity = '0';
+        document.body.appendChild(ta);
+        ta.select();
+        try { document.execCommand('copy'); } catch (e2) {}
+        ta.remove();
+    }
+    pfToast('Линкот е копиран ✓');
+}
+
+function pfShareAct(act) {
+    const text = pfShareText();
+    const url = pfShareUrl();
+    const full = 'Погледнете го овој производ на NKH TECH:\n' + text + '\n' + url;
+
+    if (act === 'wa') pfOpenLink('https://wa.me/?text=' + encodeURIComponent(full), false);
+    else if (act === 'viber') pfOpenLink('viber://forward?text=' + encodeURIComponent(full), true);
+    else if (act === 'mail') pfOpenLink('mailto:?subject=' + encodeURIComponent(text) + '&body=' + encodeURIComponent(full), true);
+    else if (act === 'fb') pfOpenLink('https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(url), false);
+    else if (act === 'copy') pfCopyLink();
+    else if (act === 'more' && navigator.share) navigator.share({ title: text, text: text, url: url }).catch(() => {});
+
+    pfCloseShare();
+}
+
+function ensureShareUi() {
+    if (document.getElementById('pf-share-sheet')) return;
+
+    const items = PF_SHARE_ITEMS.slice();
+    if (navigator.share) items.push({ act: 'more', icon: 'fas fa-share-nodes', label: 'Повеќе опции…', color: '#0F5132' });
+
+    const bd = document.createElement('div');
+    bd.id = 'pf-share-backdrop';
+    bd.className = 'pf-share-backdrop';
+    bd.addEventListener('click', pfCloseShare);
+
+    const sheet = document.createElement('div');
+    sheet.id = 'pf-share-sheet';
+    sheet.className = 'pf-share-sheet';
+    sheet.innerHTML =
+        '<div class="pf-share-handle"></div>' +
+        '<div class="pf-share-title">Сподели производ</div>' +
+        '<div class="pf-share-name" id="pf-share-name"></div>' +
+        items.map(it =>
+            '<button type="button" class="pf-share-item" data-act="' + it.act + '">' +
+                '<span class="pf-share-icon" style="background:' + it.color + ';"><i class="' + it.icon + '"></i></span>' +
+                '<span>' + it.label + '</span>' +
+            '</button>'
+        ).join('');
+
+    sheet.addEventListener('click', function (e) {
+        const btn = e.target.closest ? e.target.closest('.pf-share-item') : null;
+        if (btn) pfShareAct(btn.dataset.act);
+    });
+
+    document.body.appendChild(bd);
+    document.body.appendChild(sheet);
+
+    document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape') pfCloseShare();
+    });
+}
+
+function pfOpenShare(e) {
+    if (e) { e.preventDefault(); e.stopPropagation(); }
+    if (!trenutniProizvod) return;
+    ensureShareUi();
+    document.getElementById('pf-share-name').textContent = trenutniProizvod.naziv;
+    document.getElementById('pf-share-backdrop').classList.add('open');
+    document.getElementById('pf-share-sheet').classList.add('open');
+}
+
+function pfCloseShare() {
+    const bd = document.getElementById('pf-share-backdrop');
+    const sheet = document.getElementById('pf-share-sheet');
+    if (bd) bd.classList.remove('open');
+    if (sheet) sheet.classList.remove('open');
+}
+
+// Копчето се става еднаш, во страницата на производот (до срцето)
+(function () {
+    const page = document.getElementById('product-detail-page');
+    if (!page || document.getElementById('pf-share-btn')) return;
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.id = 'pf-share-btn';
+    btn.className = 'pf-share-btn';
+    btn.setAttribute('aria-label', 'Сподели');
+    btn.innerHTML = '<i class="fas fa-share-nodes"></i>';
+    btn.addEventListener('click', pfOpenShare);
+    page.appendChild(btn);
+})();
+
+// Картичките што веќе се на екранот
+try { pfDecorateCards(); } catch (e) { console.error('Card link error:', e); }
+</script>
 </body>
 </html>
