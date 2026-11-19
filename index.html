@@ -8387,6 +8387,7 @@ async function loadSiteDataFromFirestore() {
                 izbran: data.isSelected || false,
                 indirim: data.discount || 0,
                 tags: [],
+                dostava: (typeof data.shippingCost === 'number') ? data.shippingCost : null,
                 taksitSecenekleri: (data.installments || []).map(i => ({ ay: i.months, monthlyPrice: i.monthlyPayment }))
             });
         });
@@ -10634,6 +10635,135 @@ function pfCloseShare() {
 
 // Картичките што веќе се на екранот
 try { pfDecorateCards(); } catch (e) { console.error('Card link error:', e); }
+</script>
+
+<!-- ============================================================ -->
+<!-- 🖼️ МОБИЛНА ГАЛЕРИЈА (прелистување со прст) + 🚚 ДОСТАВА под цената -->
+<!-- ============================================================ -->
+<style>
+/* ----- Достава под цената ----- */
+.pf-shipping{display:flex;align-items:center;gap:.55rem;font-size:.95rem;font-weight:600;color:#444;margin:-.3rem 0 1.2rem}
+.pf-shipping i{color:#0F5132}
+.pf-shipping.free{color:#0F5132}
+
+/* ----- Галерија: на компјутер се крие (останува старата), на мобилен се користи ----- */
+.pf-gallery{display:none}
+
+@media (max-width:768px){
+    .product-detail-main-image,
+    .product-detail-thumbnails{display:none !important}
+
+    .pf-gallery{display:block;position:relative}
+    .pf-gallery-track{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;overscroll-behavior-x:contain;scrollbar-width:none;border-radius:16px;background:#fff;border:1px solid #eee}
+    .pf-gallery-track::-webkit-scrollbar{display:none}
+    .pf-gallery-slide{flex:0 0 100%;scroll-snap-align:center;height:min(78vw,360px);display:flex;align-items:center;justify-content:center;padding:16px}
+    .pf-gallery-slide img{max-width:100%;max-height:100%;object-fit:contain;display:block}
+    .pf-gallery-count{position:absolute;right:12px;top:12px;background:rgba(0,0,0,.55);color:#fff;font-size:.75rem;padding:3px 9px;border-radius:12px}
+    .pf-gallery-dots{display:flex;justify-content:center;gap:7px;margin-top:10px}
+    .pf-gallery-dot{width:8px;height:8px;border-radius:50%;background:#d5dcd8;transition:all .2s ease}
+    .pf-gallery-dot.active{background:#0F5132;width:20px;border-radius:6px}
+}
+</style>
+
+<script>
+// ============================================================
+// 1) Мобилна галерија
+// ============================================================
+function pfGalleryUpdate(track) {
+    const g = document.getElementById('pf-gallery');
+    if (!g) return;
+    const w = track.clientWidth || 1;
+    const i = Math.round(track.scrollLeft / w);
+    g.querySelectorAll('.pf-gallery-dot').forEach((d, k) => d.classList.toggle('active', k === i));
+    const c = document.getElementById('pf-gallery-count');
+    if (c) c.textContent = (i + 1) + ' / ' + g.querySelectorAll('.pf-gallery-slide').length;
+}
+
+function pfBuildGallery() {
+    const p = trenutniProizvod;
+    const gallery = document.querySelector('.product-detail-gallery');
+    if (!gallery || !p) return;
+
+    let g = document.getElementById('pf-gallery');
+    if (!g) {
+        g = document.createElement('div');
+        g.id = 'pf-gallery';
+        g.className = 'pf-gallery';
+        gallery.insertBefore(g, gallery.firstChild);
+    }
+
+    const slike = (p.slike && p.slike.length) ? p.slike : ['📦'];
+
+    g.innerHTML =
+        '<div class="pf-gallery-track" id="pf-gallery-track">' +
+            slike.map((img, i) =>
+                '<div class="pf-gallery-slide">' +
+                    ((typeof img === 'string' && img.startsWith('http'))
+                        ? '<img src="' + searchEsc(img) + '" alt="' + searchEsc(p.naziv) + '"' + (i > 0 ? ' loading="lazy"' : '') + '>'
+                        : '<span style="font-size:4rem;">' + searchEsc(img) + '</span>') +
+                '</div>'
+            ).join('') +
+        '</div>' +
+        (slike.length > 1
+            ? '<div class="pf-gallery-count" id="pf-gallery-count">1 / ' + slike.length + '</div>' +
+              '<div class="pf-gallery-dots">' + slike.map((_, i) => '<span class="pf-gallery-dot' + (i === 0 ? ' active' : '') + '"></span>').join('') + '</div>'
+            : '');
+
+    const track = document.getElementById('pf-gallery-track');
+    let ticking = false;
+    track.addEventListener('scroll', function () {
+        if (ticking) return;
+        ticking = true;
+        requestAnimationFrame(function () {
+            ticking = false;
+            pfGalleryUpdate(track);
+        });
+    }, { passive: true });
+}
+
+// ============================================================
+// 2) Достава под цената
+// ============================================================
+function pfRenderShipping() {
+    const price = document.getElementById('detail-price');
+    if (!price) return;
+
+    let el = document.getElementById('pf-shipping');
+    if (!el) {
+        el = document.createElement('div');
+        el.id = 'pf-shipping';
+        price.insertAdjacentElement('afterend', el);
+    }
+
+    const p = trenutniProizvod;
+    const c = p ? p.dostava : null;
+
+    if (c === null || c === undefined || isNaN(c)) {
+        el.style.display = 'none';
+        return;
+    }
+
+    el.style.display = 'flex';
+    if (c <= 0) {
+        el.className = 'pf-shipping free';
+        el.innerHTML = '<i class="fas fa-truck-fast"></i><span>Бесплатна достава</span>';
+    } else {
+        el.className = 'pf-shipping';
+        el.innerHTML = '<i class="fas fa-truck-fast"></i><span>Достава: ' + Number(c).toLocaleString('mk-MK') + ' ден.</span>';
+    }
+}
+
+// Секогаш кога се отвора производ, обнови ги и двете
+const pfOrigPrikaziDetalje = prikaziDetalje;
+prikaziDetalje = function (id) {
+    pfOrigPrikaziDetalje(id);
+    try {
+        pfBuildGallery();
+        pfRenderShipping();
+    } catch (e) {
+        console.error('Detail extras error:', e);
+    }
+};
 </script>
 </body>
 </html>
