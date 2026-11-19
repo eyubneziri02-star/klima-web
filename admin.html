@@ -456,6 +456,11 @@
                             <small style="display: block; color: #666; margin-top: 0.3rem;">💡 Само внесете ја новата цена. Процентот се пресметува автоматски.</small>
                         </div>
 
+                        <div class="form-group">
+                            <label for="prodShipping">Цена на достава (ден.) - опционално</label>
+                            <input type="number" id="prodShipping" min="0" step="any" placeholder="пр. 200 (0 = бесплатна достава, празно = не се прикажува)">
+                        </div>
+
                         <!-- ⭐ TAKSIT BÖLÜMÜ -->
                         <div class="form-group">
                             <label>📅 Taksit Seçenekleri</label>
@@ -664,6 +669,36 @@
     <div id="bulkImagesPreview" style="max-height:450px; overflow-y:auto; margin-bottom:1rem;"></div>
 
     <button type="button" class="btn btn-success" id="bulkImagesConfirmBtn" style="display:none;" onclick="confirmImagesImport()">✅ Примени ги сликите</button>
+</div>
+
+<!-- BULK SHIPPING -->
+<div class="admin-section">
+    <h3>🚚 Групно Поставување на Достава</h3>
+    <div class="success-msg" id="bulkShippingSuccessMsg"></div>
+    <p style="color:#666; margin-bottom:1rem; font-size:0.9rem;">
+        💡 Ги користи филтрите погоре. Информацијата се прикажува на страницата на производот, под цената. 0 = „Бесплатна достава“. Ако внесете и „Бесплатна достава над“, производите со цена над тој износ добиваат бесплатна достава, а останатите ја добиваат цената на достава.
+    </p>
+
+    <div class="form-group">
+        <label for="bulkShippingMode">Акција</label>
+        <select id="bulkShippingMode">
+            <option value="set">Постави достава</option>
+            <option value="remove">Отстрани ја информацијата за достава</option>
+        </select>
+    </div>
+
+    <div class="form-row">
+        <div class="form-group">
+            <label for="bulkShippingCost">Цена на достава (ден.)</label>
+            <input type="number" id="bulkShippingCost" min="0" step="any" placeholder="пр. 200 (0 = бесплатна)">
+        </div>
+        <div class="form-group">
+            <label for="bulkShippingFreeOver">Бесплатна достава над (ден.) — опционално</label>
+            <input type="number" id="bulkShippingFreeOver" min="0" step="any" placeholder="пр. 20000">
+        </div>
+    </div>
+
+    <button type="button" class="btn btn-success" onclick="applyBulkShipping()">✅ Примени на сите пронајдени производи</button>
 </div>
 
 <!-- BULK CHARACTERISTIC ADD -->
@@ -1656,7 +1691,8 @@ function downloadBulkTemplate() {
         'Микро-категорија (опционално)', 'Цена', 'Цена со попуст (ден.)', 'Опис',
         'Карактеристики (одделени со |)', 'Слики URL (одделени со |)',
         'Препорачан (да/не)', 'Попуст листа (да/не)',
-        'Рати (месеци, одделени со |)'
+        'Рати (месеци, одделени со |)',
+        'Достава (ден., 0 = бесплатна)'
     ];
     const example = [
         'Сплит АС Единица 18000 BTU', 'Daikin', 'Климатизација', '', '',
@@ -1664,7 +1700,8 @@ function downloadBulkTemplate() {
         'Енергетска ефикасност A++|Тивок режим на работа|Гаранција: 24 месеци',
         'https://example.com/slika1.jpg|https://example.com/slika2.jpg',
         'да', 'не',
-        '3|6|12|18|24'
+        '3|6|12|18|24',
+        200
     ];
     const ws = XLSX.utils.aoa_to_sheet([headers, example]);
     const wb = XLSX.utils.book_new();
@@ -1763,6 +1800,19 @@ function processBulkRow(row) {
     const isPopular = ['да', 'yes', 'true'].includes(norm(row['Препорачан (да/не)']));
     const showInDiscounted = discount > 0 || ['да', 'yes', 'true'].includes(norm(row['Попуст листа (да/не)']));
 
+    // ===== ДОСТАВА =====
+    const shippingRaw = String(row['Достава (ден., 0 = бесплатна)'] ?? '').trim();
+    let shippingCost = null;
+    if (shippingRaw !== '') {
+        if (/бесплат|besplat|free|gratis|ücretsiz/i.test(shippingRaw)) {
+            shippingCost = 0;
+        } else {
+            const sc = parseFloat(shippingRaw.replace(',', '.'));
+            if (isNaN(sc) || sc < 0) errors.push('Достава: внесете број (0 = бесплатна)');
+            else shippingCost = sc;
+        }
+    }
+
     // ===== РАТИ (TAKSIT) =====
     const installmentsRaw = String(row['Рати (месеци, одделени со |)'] ?? '').trim();
     let installmentMonths = [];
@@ -1813,7 +1863,8 @@ function processBulkRow(row) {
             subsubcategoryId: subsubcategoryId || null,
             price, discount, discountedPrice, description, characteristics, images,
             isPopular, isSelected: false, showInDiscounted,
-            installments
+            installments,
+            shippingCost
         }
     };
 }
@@ -1828,7 +1879,7 @@ function renderBulkImportPreview() {
     document.getElementById('bulkImportSummaryText').textContent =
         `Вкупно ${bulkImportRows.length} редови: ${validCount} валидни ✅, ${invalidCount} со грешки ❌`;
 
-    let html = `<table class="table"><thead><tr><th>Статус</th><th>Име</th><th>Категорија</th><th>Марка</th><th>Цена</th><th>Рати</th><th>Слики</th><th>Грешки</th></tr></thead><tbody>`;
+    let html = `<table class="table"><thead><tr><th>Статус</th><th>Име</th><th>Категорија</th><th>Марка</th><th>Цена</th><th>Рати</th><th>Достава</th><th>Слики</th><th>Грешки</th></tr></thead><tbody>`;
     bulkImportRows.forEach(r => {
         const ratiText = (r.data.installments && r.data.installments.length > 0)
             ? r.data.installments.map(i => i.months).join(', ') + ' мес.'
@@ -1840,6 +1891,7 @@ function renderBulkImportPreview() {
             <td>${r.data.brandName || '-'}</td>
             <td>${r.data.price || '-'}</td>
             <td>${ratiText}</td>
+                        <td>${r.data.shippingCost === null ? '-' : (r.data.shippingCost === 0 ? 'бесплатна' : r.data.shippingCost + ' ден.')}</td>
             <td>${r.data.images.length}</td>
             <td style="color:#e74c3c; font-size:0.8rem;">${r.errors.join(', ')}</td>
         </tr>`;
@@ -2168,7 +2220,56 @@ async function confirmImagesImport() {
     await loadProducts();
 }
 
-        // ==================== BULK TOOLS: SHARED FILTER ====================
+        // ==================== BULK SHIPPING ====================
+async function applyBulkShipping() {
+    const mode = document.getElementById('bulkShippingMode').value;
+    const costRaw = document.getElementById('bulkShippingCost').value.trim();
+    const freeOverRaw = document.getElementById('bulkShippingFreeOver').value.trim();
+
+    const matched = getBulkFilteredProducts();
+    if (matched.length === 0) { alert('Нема пронајдени производи за избраниот опсег!'); return; }
+
+    let cost = null, freeOver = null;
+    if (mode === 'set') {
+        cost = parseFloat(costRaw.replace(',', '.'));
+        if (isNaN(cost) || cost < 0) { alert('Внесете цена на достава (0 = бесплатна достава)!'); return; }
+        if (freeOverRaw !== '') {
+            freeOver = parseFloat(freeOverRaw.replace(',', '.'));
+            if (isNaN(freeOver) || freeOver <= 0) { alert('Неважечки износ за „Бесплатна достава над“!'); return; }
+        }
+    }
+
+    if (!hasBulkFilterSelected() && !confirm('Не е избран ниту еден филтер — промената ќе важи за СИТЕ производи. Дали сте сигурни?')) return;
+
+    const what = mode === 'remove' ? 'ќе се отстрани информацијата за достава од' : 'ќе се постави достава на';
+    if (!confirm('Дали сте сигурни? Се ' + what + ' ' + matched.length + ' производи.')) return;
+
+    let successCount = 0, failCount = 0;
+
+    for (const product of matched) {
+        let value = null;
+        if (mode === 'set') {
+            value = cost;
+            if (freeOver !== null && typeof product.price === 'number') {
+                const effective = (product.discount > 0) ? product.price * (1 - product.discount / 100) : product.price;
+                if (effective >= freeOver) value = 0;
+            }
+        }
+        try {
+            await window.fbUpdateDoc(window.fbDoc(window.firebaseDb, 'products', product.id), { shippingCost: value });
+            successCount++;
+        } catch (err) {
+            console.error('Грешка при ажурирање на', product.name, err);
+            failCount++;
+        }
+    }
+
+    showSuccessMsg('bulkShippingSuccessMsg', '✅ Успешно: ' + successCount + '. ❌ Неуспешни: ' + failCount + '.');
+    await loadProducts();
+    updateBulkFilterMatchCount();
+}
+
+// ==================== BULK TOOLS: SHARED FILTER ====================
 function getBulkFilteredProducts() {
     const catId = document.getElementById('bulkFilterCategory').value;
     const subId = document.getElementById('bulkFilterSubcategory').value;
@@ -2523,6 +2624,7 @@ const data = {
     isPopular: document.getElementById('prodPopular').checked,
     isSelected: document.getElementById('prodSelected').checked,
     showInDiscounted: document.getElementById('prodShowDiscount').checked,
+    shippingCost: document.getElementById('prodShipping').value.trim() === '' ? null : (parseFloat(document.getElementById('prodShipping').value) || 0),
     installments: installmentOptions
 };
 
@@ -2579,6 +2681,7 @@ const data = {
         document.getElementById('prodPopular').checked = product.isPopular;
         document.getElementById('prodSelected').checked = product.isSelected;
         document.getElementById('prodShowDiscount').checked = product.showInDiscounted || false;
+        document.getElementById('prodShipping').value = (typeof product.shippingCost === 'number') ? product.shippingCost : '';
 
         uploadedImages = product.images || [];
         const previewContainer = document.getElementById('prodImagePreviewContainer');
